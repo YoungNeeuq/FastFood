@@ -108,7 +108,7 @@
                     </ul>
                 </nav><!-- .navbar -->
                 <div> 
-                    <a href="login.jsp" id="logout"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
+                    <a class="btn-book-a-table" href="login.jsp" id="logout"><i class="fa-regular fa-user fa-2xl"></i></a>
                 </div>
                 <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
                 <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>

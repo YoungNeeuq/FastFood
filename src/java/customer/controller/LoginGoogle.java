@@ -43,7 +43,6 @@ public class LoginGoogle extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
 
     }
 
@@ -88,14 +87,14 @@ public class LoginGoogle extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-        
+            String user = "";
+            HttpSession session = request.getSession();
             CustomerDAO customerDAO = new CustomerDAO();
             String email = request.getParameter("email");
             String verified_email = request.getParameter("verified_email");
             // Sử dụng giá trị verified_email theo cách bạn muốn ở đây
             if ("true".equals(verified_email)) {
                 // Xử lý khi verified_email là "true"
-                String username = request.getParameter("id");
 
                 String password = "";
 
@@ -103,10 +102,10 @@ public class LoginGoogle extends HttpServlet {
                 String role = "c";
 
                 try {
-                    Customer customer = new Customer(username, password, email, phoneNumber, role);
+                    Customer customer = new Customer(email, password, email, phoneNumber, role);
 
                     if (customerDAO.getCustomerEmail(email) == null) {
-                        customerDAO.add(username, password, email, phoneNumber, role);
+                        customerDAO.add(email, password, email, phoneNumber, role);
                         int customer_id = customerDAO.getCustomerEmail(email).getCustomer_id();
 
                         // Tạo một cookie với tên "customer_id" và giá trị là customer_id
@@ -116,22 +115,24 @@ public class LoginGoogle extends HttpServlet {
                         customerIdCookie.setMaxAge(30 * 24 * 60 * 60);
 
                         // Thêm cookie vào HTTP response
-                       response.addCookie(customerIdCookie);
+                        response.addCookie(customerIdCookie);
+                        user = customerDAO.getCustomer(customer_id).getUsername();
 
-                    } else 
-                    {
-                         int customer_id = customerDAO.getCustomerEmail(email).getCustomer_id();
+                    } else {
+                        int customer_id = customerDAO.getCustomerEmail(email).getCustomer_id();
+                        Customer c = customerDAO.getCustomer(customer_id);
 
                         // Tạo một cookie với tên "customer_id" và giá trị là customer_id
                         Cookie customerIdCookie = new Cookie("customer_idd", String.valueOf(customer_id));
-
+                        user = customerDAO.getCustomer(customer_id).getUsername();
                         // Đặt thời gian sống của cookie, ví dụ: 30 ngày
                         customerIdCookie.setMaxAge(30 * 24 * 60 * 60);
 
                         // Thêm cookie vào HTTP response
-                       response.addCookie(customerIdCookie);
+                        response.addCookie(customerIdCookie);
                     }
-// add person
+// add person 
+                    session.setAttribute("account", user);
 
 //response.sendRedirect("ListController");
                 } catch (Exception ex) {
@@ -140,9 +141,8 @@ public class LoginGoogle extends HttpServlet {
                             ex);
                 }
                 request.setAttribute("role", role);
-               response.sendRedirect("ListProductCustomer");
-               HttpSession session = request.getSession();
-               session.setAttribute("account", email);
+                response.sendRedirect("ListProductCustomer");
+
             } else {
                 request.setAttribute("tbsubmit", "tài khoan email khong hop le");
                 // Trả về trang login.jsp bằng cách chuyển hướng Servlet (phương thức GET)
