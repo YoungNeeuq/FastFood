@@ -193,7 +193,7 @@
 
             <div class="modal" id="modaldelete">
                 <div class="modal-content" style="width: 30%;">
-                    <h5 style=" margin-bottom: 20px;">Are you sure you want to delete?</h5>
+                    <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn từ chối ?</h5>
                     <div class="d-flex btnlogout">
                         <button onclick="yes2(<%=order_id%>,<%=value%>)" type="button" class="btn btn-warning">Yes</button>
                         <button onclick="no2(${loop.index})" type="button" class="btn btn-success">No</button>
@@ -203,7 +203,7 @@
             </div>
             <div class="modal" id="modalconfirm">
                 <div class="modal-content" style="width: 30%;">
-                    <h5 style=" margin-bottom: 20px;">Are you sure you want to confirm?</h5>
+                    <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn xác nhận ?</h5>
                     <div class="d-flex btnlogout">
                         <button onclick="yes1(<%=order_id%>,<%=value1%>)" type="button" class="btn btn-warning">Yes</button>
                         <button onclick="no1(${loop.index})" type="button" class="btn btn-success">No</button>

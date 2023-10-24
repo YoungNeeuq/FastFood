@@ -136,12 +136,12 @@
         <table  class="table mt-4" style="text-align: center;">
             <thead class="thead-dark">
                 <tr>
-                    <th scope="col">Mã cửa hàng</th>
-                    <th scope="col">Tên cửa hàng</th>
-                    <th scope="col">Giờ đóng, mở cửa</th>
-                    <th scope="col">Địa chỉ</th><!-- comment -->
-                    <th scope="col">Số điện thoại</th>
-                    <th scope="col">Hoạt động</th>
+                    <th scope="col" style=" vertical-align: middle;">Mã cửa hàng</th>
+                    <th scope="col" style=" vertical-align: middle;">Tên cửa hàng</th>
+                    <th scope="col" style=" vertical-align: middle;">Giờ đóng, mở cửa</th>
+                    <th scope="col" style=" vertical-align: middle;">Địa chỉ</th><!-- comment -->
+                    <th scope="col" style=" vertical-align: middle;">Số điện thoại</th>
+                    <th scope="col" style=" vertical-align: middle;">Hoạt động</th>
                 </tr>
             </thead>
             <tbody>

@@ -323,6 +323,7 @@
                                             var modal = document.getElementById("modaldelete" + index);
                                             modal.style.display = "none";
                                         }
+  
         </script>
     </body>
 </html>

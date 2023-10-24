@@ -100,7 +100,7 @@
             </div>
             <div class="modal" id="myModal">
                 <div class="modal-content" style="width: 30%;">
-                    <h5 style=" margin-bottom: 20px;">Are you sure you want to log out?</h5>
+                    <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn bạn muốn thoát?</h5>
                     <div class="d-flex btnlogout">
                         <button onclick="yes()" type="button" class="btn btn-warning">Yes</button>
                         <button onclick="no()" type="button" class="btn btn-success">No</button>
