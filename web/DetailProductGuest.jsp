@@ -93,10 +93,10 @@
 
                 <nav id="navbar" class="navbar">
                     <ul>
-                        <li><a href="ListProductCustomer#hero">Home</a></li>
-                        <li><a href="ListProductCustomer#about">About</a></li>
-                        <li><a href="ListProductCustomer#menu">Menu</a></li>
-                        <li><a href="ListProductCustomer#contact">Contact</a></li>
+                        <li><a href="ListProductGuest#hero">Home</a></li>
+                        <li><a href="ListProductGuest#about">About</a></li>
+                        <li><a href="ListProductGuest#menu">Menu</a></li>
+                        <li><a href="ListProductGuest#contact">Contact</a></li>
                     </ul>
                 </nav><!-- .navbar -->
                 <div> 
@@ -183,13 +183,13 @@
                                 </div>
                             </div>
                             <div class="d-flex" style="gap: 15px;">
-                                <button class="btn btn-success"> <a href="ListProductCustomer#Menu"  shadow-0" style="color: white; /* Màu chữ */
-                                                                    text-decoration: none;"> Home </a></button>
+                                <button class="btn btn-success"> <a href="ListProductGuest#Menu"  shadow-0" style="color: white; /* Màu chữ */
+                                                                    text-decoration: none;"> Trở về </a></button>
                                 <input type="hidden" name="cus_id" value="<%= session.getAttribute("customer_id")%>" >
                                
                                   
                                     <button type="submit" class="btn btn-lg btn-outline-primary text-uppercase dmmay">
-                                        <a class="dmmay" style=" text-decoration: none;" href="login.jsp">  <i class="fas fa-shopping-cart"></i>Add to Cart</a> 
+                                        <a class="dmmay" style=" text-decoration: none;" href="login.jsp">  <i class="fas fa-shopping-cart mr-2"></i>Thêm vào giỏ hàng</a> 
                                     </button>
                                
 
