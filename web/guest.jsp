@@ -108,12 +108,7 @@
                     </ul>
                 </nav><!-- .navbar -->
                 <div> 
-                    <a href="Cart.jsp"><i class="fa-solid fa-cart-shopping fa-bounce fa-2xl" style="color: #ff0000;"></i></a>
-                    <a class="btn-book-a-table" href="Profile?acc=<%=session.getAttribute("account")%>">
-                        <span> <%=session.getAttribute("account")%></span>
-
-                    </a>
-                    <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
+                    <a href="login.jsp" id="logout"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
                 </div>
                 <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
                 <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
@@ -355,7 +350,7 @@
                                 <c:forEach var="dish" items="${listss}" >
                                     <div class="col-lg-4 menu-item" >
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                         <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
+                                         <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
 
                                         <p class="ingredients">
                                             ${dish.getInfor()}
@@ -385,7 +380,7 @@
 
                                     <div class="col-lg-4 menu-item" >
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
                                         <p class="ingredients">
                                             ${dish.getInfor()}
                                         </p>
@@ -413,7 +408,7 @@
 
                                     <div class="col-lg-4 menu-item" >
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
                                         <p class="ingredients">
                                             ${dish.getInfor()}
                                         </p>
@@ -442,7 +437,7 @@
 
                                     <div class="col-lg-4 menu-item" >
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
                                         <p class="ingredients">
                                             ${dish.getInfor()}
                                         </p>
@@ -471,7 +466,7 @@
                                     <div class="col-lg-4 menu-item"  >
                                         
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
                                         <p class="ingredients">
                                             ${dish.getInfor()}
                                         </p>
