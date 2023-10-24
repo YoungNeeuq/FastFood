@@ -146,15 +146,15 @@
 
                     <div class="col-lg-8" style=" margin-top: -40px;">
                         <div style="display:flex; gap:10px; margin-bottom: 15px;justify-content: end;">
-                                <form action="OrderTracking" method="GET">
-                <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
-                <button class="btn btn-primary" type="submit">Theo dõi đơn hàng </button>
-            </form>
-            <form action="OrderHistoryServlet" method="GET">
-                <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
-                <button class="btn btn-success" type="submit">Lịch sử mua hàng </button>
-            </form>     
-                            </div>
+                            <form action="OrderTracking" method="GET">
+                                <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
+                                <button class="btn btn-primary" type="submit">Theo dõi đơn hàng </button>
+                            </form>
+                            <form action="OrderHistoryServlet" method="GET">
+                                <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
+                                <button class="btn btn-success" type="submit">Lịch sử mua hàng </button>
+                            </form>     
+                        </div>
                         <form action="UpdateProfileServlet" method="POST" id="profileForm">
 
 
@@ -227,8 +227,8 @@
                 </div>
 
             </div>
-                            
-               
+
+
         </section>
         <footer id="footer" class="footer">
 
