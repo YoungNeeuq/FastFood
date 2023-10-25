@@ -7,6 +7,8 @@
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/guest/controller/RegisterServlet.java</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/viewDetailOrderByStore.jsp</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/confirmOrder.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/customer.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/profile.jsp</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/Cart/CartServlet.java</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/customer/controller/NewPassword.java</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/admin/controller/ShowConfirmOrder.java</file>
@@ -23,6 +25,7 @@
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/admin/controller/ConfirmOrderServlet.java</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/guest/controller/ListProductGuest.java</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/checkout.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/Store.jsp</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/customer/controller/CheckOutServlet.java</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/statisticByMonth.jsp</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/customer/controller/UpdateProfileServlet.java</file>
@@ -34,6 +37,7 @@
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/detailProduct.jsp</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/Product/DetailProduct.java</file>
             <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/connectDB/DBContext.java</file>
+            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/Cart.jsp</file>
         </group>
     </open-files>
 </project-private>

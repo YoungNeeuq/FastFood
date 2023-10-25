@@ -187,7 +187,7 @@
         </div>
         <!-- chinh sua thong tin cua hang -->
 
-        <form accept-charset="UTF-8" action="UpdateStoreServlet" method="POST"id="myModaledit" class="modal"  >
+        <form accept-charset="UTF-8" action="UpdateStoreServlet" method="POST" id="myModaledit" class="modal"  >
 
             <div class="modal-content" id="modaledit" style="width:35%;">
                 <h2 id="header-modaledit">Chỉnh sửa </h2>

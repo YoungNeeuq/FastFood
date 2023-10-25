@@ -37,6 +37,45 @@
         <title>JSP Page</title>
         <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+            .totall{
+                margin-bottom: 30px;
+    text-align: center;
+    font-weight: 500;
+    font-family: revert;
+    color: maroon;
+            }
+             .modal{
+                position: fixed;
+                z-index: 1;
+                top:0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0,0,0,0.4);
+                background-clip: padding-box;
+            }
+            .modal-content{
+                text-align: center;
+                padding: 40px;
+                position: absolute;
+                top: 30% !important;
+                left: 35% !important;
+                background-color: #fefefe;
+                margin: 2% auto;
+                border: 1px solid #888;
+                width: 30%;
+                width: 480px;
+                height: auto;
+                border-radius: 4px;
+                animation: slideDown 0.5s forwards;
+            }
+            .btnlogout{
+                margin: auto;
+                gap: 20px;
+            }
+        </style>
     </head>
     <body>
         <header id="header" class="header fixed-top d-flex align-items-center">
@@ -61,6 +100,7 @@
                     <a class="btn-book-a-table" href="Profile?acc=<%=session.getAttribute("account")%>">
                         <span> <%=session.getAttribute("account")%></span>
                     </a>
+                     <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
                 </div>
                 <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
                 <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
@@ -80,6 +120,17 @@
 
             %>
         </header><!-- End Header -->
+          <div class="modal" id="myModal">
+            <div class="modal-content" style="width: 30%;">
+                <h5 style=" margin-bottom: 20px;">
+Bạn có chắc chắn bạn muốn thoát?</h5>
+                <div class="d-flex btnlogout">
+                    <button onclick="yes()" type="button" class="btn btn-warning">Yes</button>
+                    <button onclick="no()" type="button" class="btn btn-success">No</button>
+                </div>
+            </div>
+
+        </div>
         <section class="py-5 mt-5">
             <div class="container">
                 <div class="row gx-5">
@@ -149,7 +200,7 @@
                     <div class="comment">
                         <h3 style="font-weight: bold;">ĐÁNH GIÁ SẢN PHẨM</h3>
                         <c:forEach var="comment" items="${listComment}">
-                            <label style="font-weight: bold;">${comment.getUsername()}</label><br>
+                            <label style="font-weight: bold;"><i class="fa-solid fa-circle-user mr-2"></i>${comment.getUsername()}</label><br>
                             <label>${comment.getComment_content()}</label><br><!-- comment -->
                             <fmt:formatDate value="${comment.getComment_date()}" pattern="yyyy-MM-dd HH:mm" var="formattedDateTime" />
                             <p style="border-bottom: 1px solid #D6D6D6; padding-bottom: 20px; font-size: 10px; " class="comment-date-faded" style="color: #888; font-size: 0.8em;">${formattedDateTime}</p>
@@ -224,5 +275,15 @@
             </div>
 
         </footer><!-- End Footer -->
+         <script> function logout() {
+            document.getElementById("myModal").style.display = "block";
+        }
+        function no() {
+            document.getElementById("myModal").style.display = "none";
+        }
+        function yes() {
+
+            window.location.href = "ListProductGuest";
+        }</script>
     </body>
 </html>
