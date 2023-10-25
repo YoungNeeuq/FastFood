@@ -199,7 +199,7 @@
                     <div class="comment">
                         <h3 style="font-weight: bold;">ĐÁNH GIÁ SẢN PHẨM</h3>
                         <c:forEach var="comment" items="${listComment}">
-                            <label style="font-weight: bold;">${comment.getUsername()}</label><br>
+                            <label style="font-weight: bold;"> <i class="fa-solid fa-circle-user mr-2"></i>${comment.getUsername()}</label><br>
                             <label>${comment.getComment_content()}</label><br><!-- comment -->
                             <fmt:formatDate value="${comment.getComment_date()}" pattern="yyyy-MM-dd HH:mm" var="formattedDateTime" />
                             <p style="border-bottom: 1px solid #D6D6D6; padding-bottom: 20px; font-size: 10px; " class="comment-date-faded" style="color: #888; font-size: 0.8em;">${formattedDateTime}</p>

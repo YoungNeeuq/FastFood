@@ -209,7 +209,7 @@
                             </tr>
                         <div class="modal" id="modaldelete${loop.index}">
                             <div class="modal-content" style="width: 30%;">
-                                <h5 style=" margin-bottom: 20px;">Are you sure you want to delete?</h5>
+                                <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn bạn muốn xóa?</h5>
                                 <div class="d-flex btnlogout">
                                     <button onclick="yes2(${order.getOrder_id()},<%= customer_id%>)" type="button" class="btn btn-warning">Yes</button>
                                     <button onclick="no2(${loop.index})" type="button" class="btn btn-success">No</button>

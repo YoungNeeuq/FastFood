@@ -126,15 +126,13 @@ public class ConfirmOrderServlet extends HttpServlet {
                     emailContent += "<p>Chúng tôi xin trân trọng thông báo rằng đơn đặt hàng của bạn đã được xác nhận thành công. Chúng tôi đang xử lý đơn hàng của bạn và sẽ gửi thông tin cập nhật về tình trạng đơn hàng của bạn trong thời gian sớm nhất.</p>";
 
 // Bắt đầu bảng thông tin đơn hàng
-                    
-                    emailContent += "<p>Chào " + username + ",</p>";
                     for (OrderDetail item : list) {
                         emailContent += "<p>Sản phẩm :" + item.getName() + "</p>";
                         emailContent += "<p>Số lượng :" + item.getQuantity() + " </p>";
                         emailContent += "<p>Giá tiền :" + item.getPrice() + " đ </p>";
                         emailContent += "<br>";
                     }
-                    emailContent += "<br>";
+                    emailContent += "<p>-------------------------</p>";
                     emailContent += "<p>Tổng tiền :" + total + " đ </p>";
                     
                     
