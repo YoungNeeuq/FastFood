@@ -104,15 +104,17 @@ public class UpdateProfileServlet extends HttpServlet {
                 encodedPassword = encoder.encodeToString(password.getBytes());
                 String phoneNumber = request.getParameter("phone");
                 String address = request.getParameter("address");
+                String cus_name = request.getParameter("cus_namee");
                 // So sánh mật khẩu đã cung cấp với mật khẩu lưu trữ
 
-                customerDAO.editProfile(customer_id, encodedPassword, phoneNumber, address);
+                customerDAO.editProfile(customer_id, encodedPassword, phoneNumber, address, cus_name);
             } else {
                 String phoneNumber = request.getParameter("phone");
+                String cus_name = request.getParameter("cus_name");
                 String address = request.getParameter("address");
                 // So sánh mật khẩu đã cung cấp với mật khẩu lưu trữ
 
-                customerDAO.editProfile(customer_id, password, phoneNumber, address);
+                customerDAO.editProfile(customer_id, password, phoneNumber, address, cus_name);
             }
             
             response.sendRedirect("Profile?acc=" + username);

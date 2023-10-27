@@ -49,7 +49,6 @@ public class ValidateOtpNewAccount extends HttpServlet {
             out.println("</html>");
         }
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -78,44 +77,41 @@ public class ValidateOtpNewAccount extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int value = (request.getParameter("otp1") != null) ? Integer.parseInt(request.getParameter("otp1")) : 0;
-       
-           int otp = Integer.parseInt(request.getParameter("otp"));
-   
-     
+        
+        int otp = Integer.parseInt(request.getParameter("otp"));
+        
         RequestDispatcher dispatcher = null;
-          if(otp != 0)
-          {
-               if (value == otp) {
-                 try {
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            Base64.Encoder encoder = Base64.getEncoder();
-            String encodePass = encoder.encodeToString(password.getBytes());
-            
-            String email = request.getParameter("email");
-            String phoneNumber = "";
-            String role = "c";
-            CustomerDAO customer = new CustomerDAO();
-            customer.add(username, encodePass, email, phoneNumber, role);
-            response.sendRedirect("ListProductCustomer");
-        } catch (Exception ex) {
-            Logger.getLogger(ValidateOtpNewAccount.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (otp != 0) {
+            if (value == otp) {
+                try {
+                    String username = request.getParameter("username");
+                    String password = request.getParameter("password");
+                    Base64.Encoder encoder = Base64.getEncoder();
+                    String encodePass = encoder.encodeToString(password.getBytes());
+                    
+                    String email = request.getParameter("email");
+                    String phoneNumber = "";
+                    String role = "c";
+                    String customer_name = "";
+                    String customer_address= "";
+                    CustomerDAO customer = new CustomerDAO();
+                    customer.add(username, encodePass, email, phoneNumber, role,customer_name,customer_address);
+                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                } catch (Exception ex) {
+                    Logger.getLogger(ValidateOtpNewAccount.class.getName()).log(Level.SEVERE, null, ex);
+                }
             } else {
                 request.setAttribute("message", "Mã OTP sai !");
                 dispatcher = request.getRequestDispatcher("OtpNewAccount.jsp");
                 dispatcher.forward(request, response);
-
+                
             }
-          } else 
-          {
-               request.setAttribute("message", "Mã OTP đã hết hạn!");
-                dispatcher = request.getRequestDispatcher("OtpNewAccount.jsp");
-                dispatcher.forward(request, response);
-          }
-                
-                
-           
+        } else {
+            request.setAttribute("message", "Mã OTP đã hết hạn!");
+            dispatcher = request.getRequestDispatcher("OtpNewAccount.jsp");
+            dispatcher.forward(request, response);
+        }
+        
     }
 
     /**

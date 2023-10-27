@@ -148,12 +148,20 @@
                         <div style="display:flex; gap:10px; margin-bottom: 15px;justify-content: end;">
                             <form action="OrderTracking" method="GET">
                                 <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
-                                <button class="btn btn-primary" type="submit">Theo dõi đơn hàng </button>
+                                <button class="btn btn-primary" type="submit">Chờ xác nhận </button>
+                            </form>
+                            <form action="DeliveringOrderServlet" method="GET">
+                                <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
+                                <button class="btn btn-warning" type="submit">Đang giao hàng </button>
                             </form>
                             <form action="OrderHistoryServlet" method="GET">
                                 <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
-                                <button class="btn btn-success" type="submit">Lịch sử mua hàng </button>
-                            </form>     
+                                <button class="btn btn-success" type="submit">Đơn hàng đã hoàn thành </button>
+                            </form>  
+                            <form action="CancelOrderServlet" method="POST">
+                                <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
+                                <button class="btn btn-danger" type="submit">Đơn hàng đã hủy </button>
+                            </form>
                         </div>
                         <form action="UpdateProfileServlet" method="POST" id="profileForm">
 
@@ -166,6 +174,17 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <p class="text-muted mb-0">${profile.getUsername()}</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                     <div class="row">
+                                        <div class="col-sm-3">
+                                            <p class="mb-0">Tên người dùng</p>
+
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <p class="text-muted mb-0" id="cus_namee">${profile.getCustomer_name()}</p>
+                                            <input type="text" id="cus_name" value="${profile.getCustomer_name().trim()}"  name="cus_name" class=" d-none form-control">
                                         </div>
                                     </div>
                                     <hr>
@@ -200,7 +219,7 @@
                                             <input type="text" id="address" value="${profile.getAddress().trim()}"  name="address" class=" d-none form-control">
                                         </div>
                                     </div>
-                                    <hr>
+
                                     <hr>
                                     <div class="row">
                                         <div class="col-sm-3">
@@ -303,8 +322,10 @@
                 document.getElementById("phone").className = "d-block";
                 document.getElementById("add").className = "d-block";
                 document.getElementById("address").className = "d-block";
+                document.getElementById("cus_name").className = "d-block";
                 document.getElementById("adds").style.display = "none";
                 document.getElementById("addresss").style.display = "none";
+                 document.getElementById("cus_namee").style.display = "none";
                 document.getElementById("phones").style.display = "none";
                 document.getElementById("emails").style.display = "d-none";
                 document.getElementById("btnedit").innerHTML = "Save Your Profile";

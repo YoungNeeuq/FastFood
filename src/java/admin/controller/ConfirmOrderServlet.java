@@ -22,6 +22,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +30,6 @@ import javax.servlet.http.HttpSession;
 import model.Customer;
 import model.Order;
 import model.OrderDetail;
-import static org.apache.tomcat.jni.Buffer.address;
 
 /**
  *
@@ -80,6 +80,9 @@ public class ConfirmOrderServlet extends HttpServlet {
             OrderDAO orderDAO = new OrderDAO();
             int order_id = Integer.parseInt(request.getParameter("order_id"));
             int value = Integer.parseInt(request.getParameter("viewButton"));
+
+            int store_id = Integer.parseInt(request.getParameter("store_id"));
+
             if (value == 1) {
 
                 //----------send bill to email--------------
@@ -134,8 +137,6 @@ public class ConfirmOrderServlet extends HttpServlet {
                     }
                     emailContent += "<p>-------------------------</p>";
                     emailContent += "<p>Tổng tiền :" + total + " đ </p>";
-                    
-                    
 
 // Thêm các phần còn lại của email
                     emailContent += "<p>Nếu bạn có bất kỳ thắc mắc hoặc câu hỏi nào, vui lòng liên hệ với chúng tôi qua địa chỉ email 420fastfood@gmail.com hoặc số điện thoại " + storePhone + ".</p>";
@@ -153,21 +154,37 @@ public class ConfirmOrderServlet extends HttpServlet {
                     String errorMessage = ex.getMessage();
 
                     // Đặt thông báo lỗi vào request
-                    request.setAttribute("errorMessage", errorMessage + "loi2");
+                    request.setAttribute("errorMessage", errorMessage + "loi1");
 
                     // Chuyển hướng người dùng đến trang error.jsp
-                    request.getRequestDispatcher("error.jsp").forward(request, response);
+//                    request.getRequestDispatcher("error.jsp").forward(request, response);
                     throw new RuntimeException(ex);
                 }
-                orderDAO.resetStatus(order_id, "succeed");
+                orderDAO.resetStatus(order_id, "Preparing");
                 //------------------------------------------
+            } else if (value == 2) {
+                orderDAO.resetStatus(order_id, "Delivering");
+//                List<Order> listOrder = orderDAO.getOrderByStoreIdAndStatus(order_id, "Succeed");
+//                request.setAttribute("listOrder", listOrder);
+                response.sendRedirect("ShowConfirmOrder?store_id=" + store_id);
+            } else if (value == 3) {
+                orderDAO.resetStatus(order_id, "Succeed");
+                orderDAO.resetStatusPaymentStatus(order_id, "Paid");
+//                List<Order> listOrder = orderDAO.getOrderByStoreIdAndStatus(order_id, "Succeed");
+//                request.setAttribute("listOrder", listOrder);
+                response.sendRedirect("ShowConfirmOrder?store_id=" + store_id);
+
             } else {
                 orderDAO.resetStatus(order_id, "Canceled");
+                List<Order> listOrder = orderDAO.getOrderByStoreIdAndStatus(order_id, "Succeed");
+                request.setAttribute("listOrder", listOrder);
+                response.sendRedirect("ShowConfirmOrder?store_id=" + store_id);
             }
 
             List<Order> list = orderDAO.getOrderByStatus("Pending");
+            int sum = orderDAO.sumOrderByStore(store_id);
             request.setAttribute("pendingList", list);
-            response.sendRedirect("ShowConfirmOrder");
+            response.sendRedirect("ShowConfirmOrder?store_id=" + store_id);
         } catch (Exception ex) {
             String errorMessage = ex.getMessage();
 
@@ -175,7 +192,7 @@ public class ConfirmOrderServlet extends HttpServlet {
             request.setAttribute("errorMessage", errorMessage + "loi2");
 
             // Chuyển hướng người dùng đến trang error.jsp
-            request.getRequestDispatcher("error.jsp").forward(request, response);
+//            request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(ConfirmOrderServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

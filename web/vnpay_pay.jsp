@@ -39,7 +39,7 @@
                                 }
                             }
                         }
-
+                        String address = String.valueOf(request.getAttribute("address"));
                     %>
                     <div class="form-group">
 
@@ -74,7 +74,7 @@
                         <label for="language">Tiếng việt</label><br>
                         <input type="radio" id="language" name="language" value="en">
                         <label for="language">Tiếng anh</label><br>
-
+                        <input type="hidden" id="address" name="address" value="<%= address%>">
                     </div>
                     <button type="submit" class="btn btn-default" href>Thanh toán</button>
                 </form>

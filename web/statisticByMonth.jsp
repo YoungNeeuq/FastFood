@@ -11,8 +11,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-          <link href="assets/img/favicon.png" rel="icon">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="assets/img/favicon.png" rel="icon">
         <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
         <!-- Google Fonts -->
@@ -41,16 +41,16 @@
             }
         </style>
         <style>
-           tr {
-            margin-bottom: 20px; /* Adjust the value as needed */
-        }
-        .titlee{
-            font-weight: bold;
-        }
- table {
-        text-align: center;
-    }
-     .modal{
+            tr {
+                margin-bottom: 20px; /* Adjust the value as needed */
+            }
+            .titlee{
+                font-weight: bold;
+            }
+            table {
+                text-align: center;
+            }
+            .modal{
                 position: fixed;
                 z-index: 1;
                 top:0;
@@ -81,8 +81,8 @@
                 gap: 20px;
             }
             table {
-        text-align: center;
-    }
+                text-align: center;
+            }
         </style>
     </head>
 
@@ -101,9 +101,10 @@
                     <ul>
                         <li><a href="ListProductServlet">Món ăn</a></li>
                         <li><a href="ListStore">Cửa hàng</a></li>
-                         <li> <a href="ShowConfirmOrder">Xác nhận đơn hàng</a> </li>
+                      
                         <li><a href="Statistic">Xem doanh thu</a></li>
-                        
+                         <li><a href="ListStaffAccountServlet">Nhân viên</a></li>
+
                     </ul>
                 </nav><!-- .navbar -->
                 <div> 
@@ -116,7 +117,7 @@
 
 
         </header><!-- End Header -->
-         <div class="modal" id="myModal">
+        <div class="modal" id="myModal">
             <div class="modal-content" style="width: 30%;">
                 <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn bạn muốn thoát?</h5>
                 <div class="d-flex btnlogout">
@@ -128,62 +129,69 @@
         </div>
         <div style="margin:100px 0 150px 0;">
             <div style="text-align: center;">
-            <h2 style=" font-weight: bold;">Thống kê theo tháng</h2>
-        <button class="btn btn-secondary mb-4">  <a style=" 
-         color: white; text-decoration: none;" href="Statistic">Trở về</a> </button>
-        <%
-            List<Integer> listMonth = (List) request.getAttribute("listMonth");
-            List<Integer> listYear = (List) request.getAttribute("listYear");
-            List<Order> listOrder = (List) request.getAttribute("listOrder");
-            int sum = (int) request.getAttribute("sum");
-           
-        %>
-        <form action="RevenueByDateMonthYear" method="Post" style="display: flex; width: fit-content; gap:10px;
-              margin: auto;">
-            <select name="month" class="form-select" aria-label="Default select example">
-                <c:forEach var="month" items="<%= listMonth%>" >
-                    <option value="${month}">${month}</option>
-                </c:forEach>
-            </select>
-            <select name="year" class="form-select" aria-label="Default select example" style="width:100px;">
-                <c:forEach var="year" items="<%= listYear%>" >
-                    <option value="${year}">${year}</option>
-                </c:forEach>
-            </select>
-            <input type="hidden" name="type" value="2" />
-             <button type="submit" class="btn btn-info">Xem</button>
-        </form>
+                <h2 style=" font-weight: bold;">Thống kê theo tháng</h2>
+                <button class="btn btn-secondary mb-4">  <a style="
+                                                            color: white; text-decoration: none;" href="Statistic">Trở về</a> </button>
+                    <%
+                        List<Integer> listMonth = (List) request.getAttribute("listMonth");
+                        List<Integer> listYear = (List) request.getAttribute("listYear");
+                      
+                        int sum = (int) request.getAttribute("sum");
+                        int month = (int) request.getAttribute("month");
+                        int year = (int) request.getAttribute("year");
+                    %>
+                <form action="RevenueByDateMonthYear" method="Post" style="display: flex; width: fit-content; gap:10px;
+                      margin: auto;">
+                    <select name="month" class="form-select" aria-label="Default select example">
+                        <c:forEach var="month" items="<%= listMonth%>" >
+                            <option value="${month}">${month}</option>
+                        </c:forEach>
+                    </select>
+                    <select name="year" class="form-select" aria-label="Default select example" style="width:100px;">
+                        <c:forEach var="year" items="<%= listYear%>" >
+                            <option value="${year}">${year}</option>
+                        </c:forEach>
+                    </select>
+                    <input type="hidden" name="type" value="2" />
+                    <button type="submit" class="btn btn-info">Xem</button>
+                </form>
             </div>
-        <table class="table mt-4" style="text-align: center;">
-            <thead  class="thead-dark">
-                <tr>
-                    <th scope="col">Mã đơn hàng</th>
-                    <th scope="col">Mã cửa hàng</th>
-                    <th scope="col">Người mua </th>
-                    <th scope="col">Giá tiền</th>
-                    <th scope="col">Trạng thái</th>
-                    <th scope="col">Ngày mua hàng</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <c:forEach var="order" items="<%= listOrder%>" >
+            <table class="table mt-4" style="text-align: center;">
+                <thead  class="thead-dark">
                     <tr>
-                        <td>${order.getOrder_id()}</td>
-                        <td>${order.getStore_id()}</td>
-                        <td>${order.getCustomer_id()}</td>
-                        <td>${order.getTotalmoney()}</td>
-                        <td>${order.getStatus()}</td>
-                        <td>${order.getDate()}</td>
-                        
-                    </tr>
-                </c:forEach>
+                        <th scope="col">Store name</th>
+                        <th scope="col">Store Address</th>
+                        <th scope="col">Revenue </th>
+                        <th scope="col">Action</th>
 
-            </tbody>
-        </table>
-         <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <c:forEach var="store" items="${listStore}" >
+                        <tr>
+<!--                                <td>${store.getStore_id()}</td>-->
+                            <td>${store.getStore_name()}</td>
+                            <td>${store.getAddress()}</td>
+                            <td>${store.getRevenue()}</td>
+                            <td>
+                                <form action="StatisticByMonthDetail" method="get">
+                                    <button type="submit" class="btn btn-primary">
+                                        <input type="hidden" name="store_id" value="${store.getStore_id()}"/>
+                                        <input type="hidden" name="month" value="<%= month%>"/>
+                                        <input type="hidden" name="year" value="<%= year%>"/>
+                                        View Detail
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+
+                </tbody>
+            </table>
+            <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
         </div>
-     <footer id="footer" class="footer">
+        <footer id="footer" class="footer">
 
             <div class="container">
                 <div class="row gy-3">
@@ -247,27 +255,27 @@
             </div>
 
         </footer>
-         <script>
-       function logout() {
-            document.getElementById("myModal").style.display = "block";
-        }
-        function no() {
-            document.getElementById("myModal").style.display = "none";
-        }
-        function yes() {
+        <script>
+            function logout() {
+                document.getElementById("myModal").style.display = "block";
+            }
+            function no() {
+                document.getElementById("myModal").style.display = "none";
+            }
+            function yes() {
 
-            window.location.href = "ListProductGuest";
-        }
-  </script>
-  <!-- Vendor JS Files -->
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="vendor/aos/aos.js"></script>
-  <script src="vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="vendor/php-email-form/validate.js"></script>
+                window.location.href = "ListProductGuest";
+            }
+        </script>
+        <!-- Vendor JS Files -->
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="vendor/aos/aos.js"></script>
+        <script src="vendor/glightbox/js/glightbox.min.js"></script>
+        <script src="vendor/purecounter/purecounter_vanilla.js"></script>
+        <script src="vendor/swiper/swiper-bundle.min.js"></script>
+        <script src="vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="js/main.js"></script>
+        <!-- Template Main JS File -->
+        <script src="js/main.js"></script>
     </body>
 </html>

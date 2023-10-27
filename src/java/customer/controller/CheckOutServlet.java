@@ -69,6 +69,27 @@ public class CheckOutServlet extends HttpServlet {
             HttpSession session = request.getSession();
             int paymentMethod = Integer.parseInt(request.getParameter("cod"));
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
+
+            String phone = request.getParameter("phone");
+
+            String address = request.getParameter("address");
+            // Lấy giá trị phone và address từ request
+
+            Cookie phoneCookie = new Cookie("phonee", phone);
+            phoneCookie.setMaxAge(24 * 60 * 60); // Thời gian sống là 24 giờ
+            response.addCookie(phoneCookie);
+            Cookie addressCookie = new Cookie("addresss", address);
+
+            addressCookie.setMaxAge(24 * 60 * 60);
+
+            response.addCookie(addressCookie);
+            String paymentStatus = request.getParameter("pStatus");
+            String pStatus = "";
+            if (paymentStatus.equals("N")) {
+                pStatus = "Not yet";
+            } else {
+                pStatus = "Paid";
+            }
             Cookie[] cookies = request.getCookies();
             String encodedCartJson = null;
 
@@ -85,6 +106,9 @@ public class CheckOutServlet extends HttpServlet {
             if (encodedCartJson != null) {
                 // 1. Lưu thông tin đơn hàng vào cơ sở dữ liệu
                 if (paymentMethod == 1) {
+                    if (address != null) {
+                        address = address.replace("|", ", ");
+                    }
 
                     CustomerDAO customerDAO = new CustomerDAO();
                     String store_selected = request.getParameter("store_id");
@@ -96,7 +120,7 @@ public class CheckOutServlet extends HttpServlet {
                     } else {
                         try {
                             OrderDAO orderDAO = new OrderDAO();
-                            orderDAO.addOrder(c, cart, store_id);
+                            orderDAO.addOrder(c, cart, store_id, address, phone, pStatus);
                             session.removeAttribute("cart6");
                             Cookie cartCookie = null;
                             for (Cookie cookie : cookies) {
@@ -112,7 +136,7 @@ public class CheckOutServlet extends HttpServlet {
                             }
                             Cart cart1 = new Cart();
                             session.setAttribute("cart_" + customer_id, cart1);
-                            session.setAttribute("cart6",cart1);
+                            session.setAttribute("cart6", cart1);
                             response.sendRedirect("successOder.jsp");
                         } catch (Exception ex) {
                             String errorMessage = ex.getMessage();
@@ -159,76 +183,95 @@ public class CheckOutServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            try {
-                HttpSession session = request.getSession();
-                int paymentMethod = Integer.parseInt(request.getParameter("cod"));
-                int customer_id = Integer.parseInt(request.getParameter("customer_id"));
-                Cookie[] cookies = request.getCookies();
-                String encodedCartJson = null;
+            HttpSession session = request.getSession();
+            int paymentMethod = Integer.parseInt(request.getParameter("cod"));
 
-                for (Cookie cookie : cookies) {
-                    if (("cart123_" + customer_id).equals(cookie.getName())) {
-                        encodedCartJson = cookie.getValue();
-                        break; // Tìm thấy cookie, thoát khỏi vòng lặp
-                    }
+            int customer_id = Integer.parseInt(request.getParameter("customer_id"));
+            String phone = request.getParameter("phone");
+         //   String customer_name = request.getParameter("customer_name");
+            String address = request.getParameter("address");
+            // Lấy giá trị phone và address từ request
+
+            Cookie phoneCookie = new Cookie("phonee", phone);
+            phoneCookie.setMaxAge(24 * 60 * 60); // Thời gian sống là 24 giờ
+            response.addCookie(phoneCookie);
+            Cookie addressCookie = new Cookie("addresss", address);
+
+            addressCookie.setMaxAge(24 * 60 * 60);
+
+            response.addCookie(addressCookie);
+
+            String paymentStatus = request.getParameter("pStatus");
+            String pStatus = "";
+            if (paymentStatus.equals("N")) {
+                pStatus = "Not yet";
+            } else {
+                pStatus = "Paid";
+            }
+            Cookie[] cookies = request.getCookies();
+            String encodedCartJson = null;
+            response.sendRedirect("successOder.jsp");
+            for (Cookie cookie : cookies) {
+                if (("cart123_" + customer_id).equals(cookie.getName())) {
+                    encodedCartJson = cookie.getValue();
+                    break; // Tìm thấy cookie, thoát khỏi vòng lặp
                 }
-                String cartJson = new String(Base64.getDecoder().decode(encodedCartJson), "UTF-8");
-                Gson gson = new Gson();
-                Cart cart = gson.fromJson(cartJson, Cart.class);
+            }
+            String cartJson = new String(Base64.getDecoder().decode(encodedCartJson), "UTF-8");
+            Gson gson = new Gson();
+            Cart cart = gson.fromJson(cartJson, Cart.class);
 
-                if (encodedCartJson != null) {
-                    // 1. Lưu thông tin đơn hàng vào cơ sở dữ liệu
-                    if (paymentMethod == 1) {
+            if (encodedCartJson != null) {
+                // 1. Lưu thông tin đơn hàng vào cơ sở dữ liệu
+                if (paymentMethod == 1) {
 
-                        CustomerDAO customerDAO = new CustomerDAO();
-                        String store_selected = request.getParameter("store_id");
-                        int store_id = Integer.parseInt(store_selected);
-                        session.setAttribute("store_id", store_id);
-                        Customer c = customerDAO.getCustomer(customer_id);
-                        if (c == null) {
-                            response.sendRedirect("login.jsp");
-                        } else {
-                            try {
-                                OrderDAO orderDAO = new OrderDAO();
-                                orderDAO.addOrder(c, cart, store_id);
-                                session.removeAttribute("cart6");
-                                Cookie cartCookie = null;
-                                for (Cookie cookie : cookies) {
-                                    if (("cart123_" + customer_id).equals(cookie.getName())) {
-                                        cartCookie = cookie;
-                                        break;
-                                    }
+                    CustomerDAO customerDAO = new CustomerDAO();
+                    String store_selected = request.getParameter("store_id");
+                    int store_id = Integer.parseInt(store_selected);
+                    session.setAttribute("store_id", store_id);
+                    Customer c = customerDAO.getCustomer(customer_id);
+                    if (c == null) {
+                        response.sendRedirect("login.jsp");
+                    } else {
+                        try {
+                            OrderDAO orderDAO = new OrderDAO();
+                            orderDAO.addOrder(c, cart, store_id, address, phone, pStatus);
+                            session.removeAttribute("cart6");
+                            Cookie cartCookie = null;
+                            for (Cookie cookie : cookies) {
+                                if (("cart123_" + customer_id).equals(cookie.getName())) {
+                                    cartCookie = cookie;
+                                    break;
                                 }
-                                if (cartCookie != null) {
-                                    cartCookie.setMaxAge(0);
-                                    response.addCookie(cartCookie);
-
-                                }
-
-                            } catch (Exception ex) {
-                                String errorMessage = ex.getMessage();
-
-                                // Đặt thông báo lỗi vào request
-                                request.setAttribute("errorMessage", errorMessage);
-
-                                // Chuyển hướng người dùng đến trang error.jsp
-                                request.getRequestDispatcher("error.jsp").forward(request, response);
-                                Logger.getLogger(CheckOutServlet.class.getName()).log(Level.SEVERE, null, ex);
                             }
+                            if (cartCookie != null) {
+                                cartCookie.setMaxAge(0);
+                                response.addCookie(cartCookie);
+
+                            }
+                            Cart cart1 = new Cart();
+                            session.setAttribute("cart_" + customer_id, cart1);
+                            session.setAttribute("cart6", cart1);
+
+                            response.sendRedirect("successOder.jsp");
+                        } catch (Exception ex) {
+                            String errorMessage = ex.getMessage();
+
+                            // Đặt thông báo lỗi vào request
+                            request.setAttribute("errorMessage", errorMessage + "loi1");
+
+                            // Chuyển hướng người dùng đến trang error.jsp
+                            request.getRequestDispatcher("error.jsp").forward(request, response);
+                            Logger.getLogger(CheckOutServlet.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
-
+                } else {
+                    session.setAttribute("address", address);
+                    String store_selected = request.getParameter("store_id");
+                    int store_id = Integer.parseInt(store_selected);
+                    session.setAttribute("store_id", store_id);
+                    request.getRequestDispatcher("vnpay_pay.jsp").forward(request, response);
                 }
-
-            } catch (Exception ex) {
-                String errorMessage = ex.getMessage();
-
-                // Đặt thông báo lỗi vào request
-                request.setAttribute("errorMessage", errorMessage);
-
-                // Chuyển hướng người dùng đến trang error.jsp
-                request.getRequestDispatcher("error.jsp").forward(request, response);
-                Logger.getLogger(CheckOutServlet.class.getName()).log(Level.SEVERE, null, ex);
 
             }
 
@@ -236,11 +279,12 @@ public class CheckOutServlet extends HttpServlet {
             String errorMessage = ex.getMessage();
 
             // Đặt thông báo lỗi vào request
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", errorMessage + "loi2");
 
             // Chuyển hướng người dùng đến trang error.jsp
             request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(CheckOutServlet.class.getName()).log(Level.SEVERE, null, ex);
+
         }
     }
 

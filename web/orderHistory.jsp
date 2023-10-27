@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="dal.StoreDAO"%>
 <%@page import="model.Customer"%>
 <%@page import="dal.CustomerDAO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -16,7 +17,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>FastFood</title>
-         <link href="assets/img/favicon.png" rel="icon">
+        <link href="assets/img/favicon.png" rel="icon">
         <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
         <!-- Google Fonts -->
@@ -41,12 +42,12 @@
         <style>
             .totall{
                 margin-bottom: 30px;
-    text-align: center;
-    font-weight: 500;
-    font-family: revert;
-    color: maroon;
+                text-align: center;
+                font-weight: 500;
+                font-family: revert;
+                color: maroon;
             }
-             .modal{
+            .modal{
                 position: fixed;
                 z-index: 1;
                 top:0;
@@ -91,7 +92,7 @@
                     }
                 }
             }
- CustomerDAO customerDAO = new CustomerDAO();
+            CustomerDAO customerDAO = new CustomerDAO();
             Customer c = customerDAO.getCustomer(customer_id);
             String acc = c.getUsername();
         %>
@@ -106,7 +107,7 @@
 
                 <nav id="navbar" class="navbar">
                     <ul>
-                         <li><a href="ListProductCustomer#hero">Home</a></li>
+                        <li><a href="ListProductCustomer#hero">Home</a></li>
                         <li><a href="ListProductCustomer#about">About</a></li>
                         <li><a href="ListProductCustomer#menu">Menu</a></li>
                         <li><a href="ListProductCustomer#contact">Contact</a></li>
@@ -130,7 +131,7 @@
         <div class="modal" id="myModal">
             <div class="modal-content" style="width: 30%;">
                 <h5 style=" margin-bottom: 20px;">
-Bạn có chắc chắn bạn muốn thoát?</h5>
+                    Bạn có chắc chắn bạn muốn thoát?</h5>
                 <div class="d-flex btnlogout">
                     <button onclick="yes()" type="button" class="btn btn-warning">Yes</button>
                     <button onclick="no()" type="button" class="btn btn-success">No</button>
@@ -141,59 +142,62 @@ Bạn có chắc chắn bạn muốn thoát?</h5>
         <div style="margin:90px 0 130px">
             <div style=" text-align: center; margin-bottom: 30px;">
                 <h1 style="font-weight: bold;">Lịch sử mua hàng</h1>
-      
-                <button type="submit" class="btn btn-secondary mb-4" > <a style=" color: white; text-decoration: none;"  href="OrderHistoryServlet?customer_id=<%=customer_id%>">Trở về </a></button>
-       
-        <form action="OrderHistoryByDMY" method="GET" style="display: flex; width: fit-content; gap:20px;
-              margin: auto;">
-            <select class="form-select" name ="select" aria-label="Default select example">
-                <option value="1">Date</option>
-                <option value="2">Month</option>
-                <option value="3">Year</option>
-            </select>
-            <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
-            <button type="submit" class="btn btn-info">Xem</button>
-        </form>
-       
-        </div>
-        <%
-            List<Order> list = (List) request.getAttribute("list");
-            int total = list.size();
-        %>
-        <h2 class="totall">Tổng số đơn hàng: <%= total%>  </h2>
-        <table class="table" style="text-align: center;">
-            <thead class="thead-dark">
-                <tr>
-                   <th scope="col">Mã đơn hàng</th>
-                        <th scope="col">Mã cửa hàng</th>
+          <button type="submit" class="btn btn-secondary mb-4" > <a style=" color: white; text-decoration: none;"  href="Profile?acc=<%=session.getAttribute("account")%>">Trở về </a></button>
+                <form action="OrderHistoryByDMY" method="GET" style="display: flex; width: fit-content; gap:20px;
+                      margin: auto;">
+                    <select class="form-select" name ="select" aria-label="Default select example">
+                        <option value="1">Date</option>
+                        <option value="2">Month</option>
+                        <option value="3">Year</option>
+                    </select>
+                    <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
+                    <button type="submit" class="btn btn-info">Xem</button>
+                </form>
+
+            </div>
+            <%
+                List<Order> list = (List) request.getAttribute("list");
+                int total = list.size();
+            %>
+            <%
+                StoreDAO storeDAO = new StoreDAO();
+            %>
+            <h2 class="totall">Tổng số đơn hàng: <%= total%>  </h2>
+            <table class="table" style="text-align: center;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Mã đơn hàng</th>
+                        <th scope="col">Cửa hàng</th>
                         <th scope="col">Tổng tiền</th>
                         <th scope="col">Ngày đặt hàng</th>                          
                         <th scope="col">Trạng thái</th>
                         <th scope="col">Hoạt động</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="order" items="<%= list%>">
-                    <tr>
-                        <td> ${order.getOrder_id()}</td>
-                        <td> ${order.getStore_id()}</td>
-                        <td> ${order.getTotalmoney()} đ</td>
-                        <td> ${order.getDate()}</td>
-                        <td> ${order.getStatus()}</td>
-                        <td>
-                            <form action="ViewOrderHistoryDetail" method="GET">
-                                <input type="hidden" name="order_id" value="${order.getOrder_id()}"/>
-                                <button type="submit" class="btn btn-success" > Xem chi tiết </button>
-                            </form>
-                        </td>
                     </tr>
-                </c:forEach>
-            </tbody>
-        </table>
-        
+                </thead>
+                <tbody>
+                    <c:forEach var="order" items="<%= list%>">
+                        <tr>
+                            <td> ${order.getOrder_id()}</td>
+                            <c:set var="store_id" value="${order.getStore_id()}"></c:set>
+                            <td><%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%></td>
+
+                            <td> ${order.getTotalmoney()} đ</td>
+                            <td> ${order.getDate()}</td>
+                            <td> ${order.getStatus()}</td>
+                            <td>
+                                <form action="ViewOrderHistoryDetail" method="GET">
+                                    <input type="hidden" name="order_id" value="${order.getOrder_id()}"/>
+                                    <button type="submit" class="btn btn-success" > Xem chi tiết </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+
         </div>
-           <footer id="footer" class="footer">
+        <footer id="footer" class="footer">
 
             <div class="container">
                 <div class="row gy-3">
@@ -257,7 +261,7 @@ Bạn có chắc chắn bạn muốn thoát?</h5>
             </div>
 
         </footer><!-- End Footer -->
-          <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="vendor/aos/aos.js"></script>
         <script src="vendor/glightbox/js/glightbox.min.js"></script>
         <script src="vendor/purecounter/purecounter_vanilla.js"></script>
@@ -267,14 +271,14 @@ Bạn có chắc chắn bạn muốn thoát?</h5>
         <!-- Template Main JS File -->
         <script src="js/main.js"></script>
         <script> function logout() {
-            document.getElementById("myModal").style.display = "block";
-        }
-        function no() {
-            document.getElementById("myModal").style.display = "none";
-        }
-        function yes() {
+                            document.getElementById("myModal").style.display = "block";
+                        }
+                        function no() {
+                            document.getElementById("myModal").style.display = "none";
+                        }
+                        function yes() {
 
-            window.location.href = "ListProductGuest";
-        }</script>
+                            window.location.href = "ListProductGuest";
+                        }</script>
     </body>
 </html>

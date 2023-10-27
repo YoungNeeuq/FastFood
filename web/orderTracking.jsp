@@ -1,3 +1,4 @@
+<%@page import="dal.StoreDAO"%>
 <%@page import="model.Customer"%>
 <%@page import="dal.CustomerDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -148,17 +149,18 @@
             <div style=" text-align: center; margin-bottom: 30px;">
                 <h1 class="titlee">Theo dõi đơn hàng</h1>
 
-                <button type="submit" class="btn btn-secondary mb-4"><a style=" color: white; text-decoration: none;" href="Profile?acc=<%= acc%>">Trở về</a> </button>
-
+                        <button type="submit" class="btn btn-secondary mb-4" > <a style=" color: white; text-decoration: none;"  href="Profile?acc=<%=session.getAttribute("account")%>">Trở về </a></button>
             </div>
-
+            <%
+            StoreDAO storeDAO = new StoreDAO();
+            %>
 
             <c:if test="${not empty listTracking}">
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Mã đơn hàng</th>
-                            <th scope="col">Mã cửa hàng</th>
+                            <th scope="col">Cửa hàng</th>
                             <th scope="col">Ngày đặt hàng</th>                 
                             <th scope="col">Tổng tiền</th>
                             <th scope="col">Trạng thái</th>
@@ -173,7 +175,9 @@
                             <tr>
 
                                 <td>${order.getOrder_id()}</td>
-                                <td>${order.getStore_id()}</td>
+                                <c:set var="store_id" value="${order.getStore_id()}"></c:set>
+                                <td><%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%></td>
+
                                 <td>${order.getDate()}</td>
                                 <td>${order.getTotalmoney()} đ</td>
                                 <td>${order.getStatus()}</td>
@@ -323,7 +327,7 @@
                                             var modal = document.getElementById("modaldelete" + index);
                                             modal.style.display = "none";
                                         }
-  
+
         </script>
     </body>
 </html>

@@ -5,11 +5,10 @@
 package admin.controller;
 
 import dal.OrderDAO;
+import dal.StoreDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Order;
+import model.Store;
 
 /**
  *
@@ -95,14 +95,20 @@ public class RevenueByDateMonthYear extends HttpServlet {
             } else if (select == 2) {
                 int sum = 0;
                 int total = 0;
+                int month = 0;
+                int year = 0;
                 request.setAttribute("total", total);
                 request.setAttribute("sum", sum);
+                request.setAttribute("month", month);
+                request.setAttribute("year", year);
                 request.setAttribute("listMonth", listMonth);
                 request.setAttribute("listYear", listYear);
                 request.getRequestDispatcher("statisticByMonth.jsp").forward(request, response);
             } else {
                 int sum = 0;
                 int total = 0;
+                int year = 0;
+                request.setAttribute("year", year);
                 request.setAttribute("total", total);
                 request.setAttribute("sum", sum);
                 request.setAttribute("listYear", listYear);
@@ -110,6 +116,13 @@ public class RevenueByDateMonthYear extends HttpServlet {
             }
 
         } catch (Exception ex) {
+            String errorMessage = ex.getMessage();
+
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(RevenueByDateMonthYear.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -153,9 +166,12 @@ public class RevenueByDateMonthYear extends HttpServlet {
                 int total = listOrder.size();
                 request.setAttribute("total", total);
                 int sum = orderDAO.sumOrderByDate(date);
-
-                request.setAttribute("listOrder", listOrder);
+                StoreDAO storeDAO = new StoreDAO();
+                List<Store> listStore = storeDAO.totalPriceOfStoreByDate(date);
+                request.setAttribute("listStore", listStore);
+//                request.setAttribute("listOrder", listOrder);
                 request.setAttribute("listDate", listDate);
+                request.setAttribute("date", date);
                 request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statisticByDate.jsp").forward(request, response);
             } else if (option == 2) {
@@ -166,26 +182,40 @@ public class RevenueByDateMonthYear extends HttpServlet {
                 int sum = orderDAO.sumOrderByMonth(month, year);
                 request.setAttribute("listMonth", listMonth);
                 request.setAttribute("listYear", listYear);
+                request.setAttribute("month", month);
+                request.setAttribute("year", year);
                 int total = listOrder.size();
                 request.setAttribute("total", total);
-                request.setAttribute("listOrder", listOrder);
+//                request.setAttribute("listOrder", listOrder);
+                StoreDAO storeDAO = new StoreDAO();
+                List<Store> listStore = storeDAO.totalPriceOfStoreByMonth(year, month);
+                request.setAttribute("listStore", listStore);
                 request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statisticByMonth.jsp").forward(request, response);
             } else {
                 int year = Integer.parseInt(request.getParameter("year"));
                 OrderDAO orderDAO = new OrderDAO();
-
+                StoreDAO storeDAO = new StoreDAO();
                 List<Order> listOrder = orderDAO.getOrderByYear(year);
+                List<Store> listStore = storeDAO.totalPriceOfStoreByYear(year);
                 int sum = orderDAO.sumOrderByYear(year);
                 request.setAttribute("listYear", listYear);
                 int total = listOrder.size();
+                request.setAttribute("year", year);
                 request.setAttribute("total", total);
-                request.setAttribute("listOrder", listOrder);
+                request.setAttribute("listStore", listStore);
                 request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statisticByYear.jsp").forward(request, response);
             }
 
         } catch (Exception ex) {
+            String errorMessage = ex.getMessage();
+
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(RevenueByDateMonthYear.class.getName()).log(Level.SEVERE, null, ex);
         }
 

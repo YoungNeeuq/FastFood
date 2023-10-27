@@ -34,18 +34,18 @@
 
         <!-- Template Main CSS File -->
         <link href="css/styleguest.css" rel="stylesheet">
-        <title>JSP Page</title>
+        <title> JSP Page</title>
         <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
+        <style>
             .totall{
                 margin-bottom: 30px;
-    text-align: center;
-    font-weight: 500;
-    font-family: revert;
-    color: maroon;
+                text-align: center;
+                font-weight: 500;
+                font-family: revert;
+                color: maroon;
             }
-             .modal{
+            .modal{
                 position: fixed;
                 z-index: 1;
                 top:0;
@@ -100,7 +100,7 @@
                     <a class="btn-book-a-table" href="Profile?acc=<%=session.getAttribute("account")%>">
                         <span> <%=session.getAttribute("account")%></span>
                     </a>
-                     <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
+                    <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
                 </div>
                 <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
                 <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
@@ -120,10 +120,10 @@
 
             %>
         </header><!-- End Header -->
-          <div class="modal" id="myModal">
+        <div class="modal" id="myModal">
             <div class="modal-content" style="width: 30%;">
                 <h5 style=" margin-bottom: 20px;">
-Bạn có chắc chắn bạn muốn thoát?</h5>
+                    Bạn có chắc chắn bạn muốn thoát?</h5>
                 <div class="d-flex btnlogout">
                     <button onclick="yes()" type="button" class="btn btn-warning">Yes</button>
                     <button onclick="no()" type="button" class="btn btn-success">No</button>
@@ -183,7 +183,9 @@ Bạn có chắc chắn bạn muốn thoát?</h5>
                                                                     text-decoration: none;"> Home </a></button>
                                 <input type="hidden" name="cus_id" value="<%= session.getAttribute("customer_id")%>" >
                                 <form action="CookieAddToCart" method="GET" >
+
                                     <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
+
                                     <input type="hidden" name="dish_id" value="${detail.getDish_id()}">
                                     <input type="hidden" name="name" value="${detail.getName()}">
                                     <input type="hidden" name="price" value="${detail.getPrice()}">
@@ -205,7 +207,7 @@ Bạn có chắc chắn bạn muốn thoát?</h5>
                             <fmt:formatDate value="${comment.getComment_date()}" pattern="yyyy-MM-dd HH:mm" var="formattedDateTime" />
                             <p style="border-bottom: 1px solid #D6D6D6; padding-bottom: 20px; font-size: 10px; " class="comment-date-faded" style="color: #888; font-size: 0.8em;">${formattedDateTime}</p>
 
-                            </c:forEach>
+                        </c:forEach>
 
                     </div> 
                 </div>
@@ -275,15 +277,15 @@ Bạn có chắc chắn bạn muốn thoát?</h5>
             </div>
 
         </footer><!-- End Footer -->
-         <script> function logout() {
-            document.getElementById("myModal").style.display = "block";
-        }
-        function no() {
-            document.getElementById("myModal").style.display = "none";
-        }
-        function yes() {
+        <script> function logout() {
+                document.getElementById("myModal").style.display = "block";
+            }
+            function no() {
+                document.getElementById("myModal").style.display = "none";
+            }
+            function yes() {
 
-            window.location.href = "ListProductGuest";
-        }</script>
+                window.location.href = "ListProductGuest";
+            }</script>
     </body>
 </html>

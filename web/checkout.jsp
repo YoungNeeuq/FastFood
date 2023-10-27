@@ -1,3 +1,4 @@
+<%@page import="dal.CustomerDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -106,7 +107,10 @@
                         } else {
                             customer_id = 1;
                         }
-
+                        CustomerDAO customerDAO = new CustomerDAO();
+                        String name = customerDAO.getCustomer(customer_id).getCustomer_name();
+                        String cus_name = customerDAO.getCustomer(customer_id).getCustomer_name();
+                        String phoneNumber = customerDAO.getCustomer(customer_id).getPhoneNumber();
                     %>
                     <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
 
@@ -115,12 +119,12 @@
                         <input type="hidden" name="quantity" value="${dish.getQuantity()}">
                         <input type="hidden" name="total" value="${cart.getTotal()}">
                     </c:forEach>
-                    <label for="name" class="form-label">Họ và tên</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
+                    <label for="name" class="form-label">Họ và tên người nhận</label>
+                    <input type="text" class="form-control" id="name" name="name" value="<%= cus_name%>" required>
                 </div>
                 <div class="mb-3">
-                    <label for="phone" class="form-label">Số điện thoại</label>
-                    <input type="text" class="form-control" id="phone" name="phone" required>
+                    <label for="phone" class="form-label">Số điện thoại người nhận</label>
+                    <input type="text" class="form-control" id="phone" name="phone" value="<%= phoneNumber%>" required>
                 </div>
                 <div class="mb-3">
                     <div class="select-item">
@@ -200,16 +204,10 @@
                         </select>
                     </div>
 
-                    <div class="select-item ward-commune-select">
-                        <label for="ward-commune">Xã/Phường :</label>
-                        <select id="ward-commune" name="address3"class="form-select" aria-label="Default select example">
-                            <option value='0'>&nbsp;Chọn Phường/Xã...</option>
-                            <!-- Xã/phường sẽ được cập nhật thông qua Ajax -->
-                        </select>
-                    </div>
+
                     <div class="address">
-                        <label for="address4">Địa chỉ:</label>
-                        <input type="text" id="address4" name="address4" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"/>
+                        <label for="address3">Địa chỉ:</label>
+                        <input type="text" id="address3" name="address3" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"/>
                     </div>
                 </div>
 

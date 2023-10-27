@@ -315,33 +315,33 @@
                             </a>
                         </li><!-- End tab nav item -->
                         <div style="display:flex;gap:0px; margin-left: 20px;">
-                        <div style="border: var(--bs-border-width) solid var(--bs-border-color);
-    border-radius: var(--bs-border-radius); display: flex; padding: 0 5px;">
-                        <label style="margin: auto 0;
-    height: fit-content;">Giá :</label>
-                         <div style="display:flex; gap:1px;">
-                    <div class="nav-item" style="list-style-type: none;">
-                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-caothap"
-                                style="border-bottom:none;width: 12px;">
-                                <h4> <i style="font-size:22px;" class="fa-solid fa-caret-down"></i></h4>
-                            </a>
-                        </div>
-                             </div>
-                        <div class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-thapcao"
-                               style="border-bottom:none;width: 12px; margin-top: 2px;">
-                                <h4> <i style="font-size:22px;" class="fa-solid fa-caret-up"></i></h4>
-                            </a>
-                        </div>
-                        </div>
-                        <!-- End tab nav item -->
-                        <form action="searchAjax" method="get" style="display:flex; gap:5px; margin-left: 15px; ">
-                            <input class="form-control" aria-label="Text input with segmented dropdown button" type="text" id="searchInput" value="" oninput="searchByName()" name="txt" />
-                            <button class="btn btn-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                        </form>
+                            <div style="border: var(--bs-border-width) solid var(--bs-border-color);
+                                 border-radius: var(--bs-border-radius); display: flex; padding: 0 5px;">
+                                <label style="margin: auto 0;
+                                       height: fit-content;">Giá :</label>
+                                <div style="display:flex; gap:1px;">
+                                    <div class="nav-item" style="list-style-type: none;">
+                                        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-caothap"
+                                           style="border-bottom:none;width: 12px;">
+                                            <h4> <i style="font-size:22px;" class="fa-solid fa-caret-down"></i></h4>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="nav-item">
+                                    <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-thapcao"
+                                       style="border-bottom:none;width: 12px; margin-top: 2px;">
+                                        <h4> <i style="font-size:22px;" class="fa-solid fa-caret-up"></i></h4>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- End tab nav item -->
+                            <form action="searchAjax" method="get" style="display:flex; gap:5px; margin-left: 15px; ">
+                                <input class="form-control" aria-label="Text input with segmented dropdown button" type="text" id="searchInput" value="" oninput="searchByName()" name="txt" />
+                                <button class="btn btn-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </form>
                         </div>
                     </ul>
-                    
+
 
                     <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
 
@@ -355,7 +355,7 @@
                                 <c:forEach var="dish" items="${listss}" >
                                     <div class="col-lg-4 menu-item" >
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                         <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
+                                        <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
 
                                         <p class="ingredients">
                                             ${dish.getInfor()}
@@ -467,9 +467,9 @@
                             <div class="row gy-5" id="content4">
 
                                 <c:forEach var="dish" items="${listPriceA}" >   
-      
+
                                     <div class="col-lg-4 menu-item"  >
-                                        
+
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
                                         <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
                                         <p class="ingredients">

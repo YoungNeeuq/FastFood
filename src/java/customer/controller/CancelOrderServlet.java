@@ -7,12 +7,14 @@ package customer.controller;
 import dal.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Order;
 
 /**
  *
@@ -37,7 +39,7 @@ public class CancelOrderServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CancelOrderServlet</title>");            
+            out.println("<title>Servlet CancelOrderServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet CancelOrderServlet at " + request.getContextPath() + "</h1>");
@@ -62,9 +64,16 @@ public class CancelOrderServlet extends HttpServlet {
             int order_id = Integer.parseInt(request.getParameter("order_id"));
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
             OrderDAO orderDAO = new OrderDAO();
-            orderDAO.cancelOrder(order_id);
-            response.sendRedirect("OrderTracking?customer_id="+customer_id);
+            orderDAO.resetStatus(order_id, "Canceled");
+            response.sendRedirect("OrderTracking?customer_id=" + customer_id);
         } catch (Exception ex) {
+             String errorMessage = ex.getMessage();
+
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(CancelOrderServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -80,7 +89,22 @@ public class CancelOrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            OrderDAO orderDAO = new OrderDAO();
+            int customer_id = Integer.parseInt(request.getParameter("customer_id"));
+            List<Order> canceledList = orderDAO.getOrderByStatusID("Canceled", customer_id);
+            request.setAttribute("canceledList", canceledList);
+            request.getRequestDispatcher("canceledOrderCus.jsp").forward(request, response);
+        } catch (Exception ex) {
+             String errorMessage = ex.getMessage();
+
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            Logger.getLogger(CancelOrderServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -66,9 +66,12 @@ public class ListStoreServlet extends HttpServlet {
             StoreDAO storeDAO = new StoreDAO();
             List<Store> myList = storeDAO.getAll(); // Đây là danh sách bạn muốn truyền
             request.setAttribute("myList", myList);
+            int customer_id = Integer.parseInt(request.getParameter("customer_id"));
+            request.setAttribute("customer_id", customer_id);
             request.getRequestDispatcher("checkout.jsp").forward(request, response);
+
         } catch (Exception ex) {
-             String errorMessage = ex.getMessage();
+            String errorMessage = ex.getMessage();
 
             // Đặt thông báo lỗi vào request
             request.setAttribute("errorMessage", errorMessage);
