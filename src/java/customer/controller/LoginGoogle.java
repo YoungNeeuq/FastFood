@@ -97,9 +97,9 @@ public class LoginGoogle extends HttpServlet {
             if ("true".equals(verified_email)) {
                 // Xử lý khi verified_email là "true"
 
-                String password = "";
-                String customer_address = "";
-                String customer_name = "";
+                String password = " ";
+                String customer_address = " ";
+                String customer_name = " ";
                 String phoneNumber = "";
                 String role = "c";
 
@@ -119,15 +119,14 @@ public class LoginGoogle extends HttpServlet {
 
                             response.addCookie(customerIdCookie);
                         }
-                        int customer_id = customer.getCustomer_id();
-                        Cookie customerIdCookie = new Cookie("customer_idd", String.valueOf(customer_id));
+                        int customer_id = customerDAO.getCustomerEmail(email).getCustomer_id();
 
-                        // Đặt thời gian sống của cookie, ví dụ: 30 ngày
+                        Cookie customerIdCookie = new Cookie("customer_idd", String.valueOf(customer_id));
+                        user = customerDAO.getCustomer(customer_id).getUsername();
+
                         customerIdCookie.setMaxAge(30 * 24 * 60 * 60);
 
-                        // Thêm cookie vào HTTP response
                         response.addCookie(customerIdCookie);
-                        user = customerDAO.getCustomer(customer_id).getUsername();
 
                         session.setAttribute("account", user);
                     } catch (Exception ex) {

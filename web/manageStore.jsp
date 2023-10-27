@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="java.time.LocalDate"%>
 <%@page import="model.Order"%>
 <%@page import="java.util.List"%>
 <%@page import="dal.OrderDAO"%>
@@ -54,12 +55,14 @@
                     }
                 }
             }
+//            int store_id = (int) request.getAttribute("store_id");
             StoreDAO storeDAO = new StoreDAO();
             String store_name = storeDAO.getStoreById(storeId).getStore_name();
             OrderDAO orderDAO = new OrderDAO();
             int sum = orderDAO.sumOrderByStore(storeId);
             List<Order> listSucceedOrder = orderDAO.getOrderByStoreId(storeId);
             int numOfSucceedOrder = listSucceedOrder.size();
+            LocalDate date = LocalDate.now();
 
         %>
         <h1><%= store_name%></h1>
@@ -83,6 +86,7 @@
         </form>
 
         <form action="RevenueByStoreDMY" method="GET" >
+            <input type="hidden" name="store_id" value="<%= storeId%>"/>
             <select name="select" class="form-select" aria-label="Default select example">
                 <option value="1">Date</option>
                 <option value="2">Month</option>

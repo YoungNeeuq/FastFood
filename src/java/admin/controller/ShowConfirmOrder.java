@@ -75,6 +75,7 @@ public class ShowConfirmOrder extends HttpServlet {
             String store_name = store.getStore_name();
             request.setAttribute("store_name", store_name);
             request.setAttribute("listOrder", listOrder);
+            request.setAttribute("store_id", store_id);
             int sum = orderDAO.sumOrderByStore(store_id);
             request.setAttribute("sum", sum);
             request.getRequestDispatcher("confirmOrder.jsp").forward(request, response);

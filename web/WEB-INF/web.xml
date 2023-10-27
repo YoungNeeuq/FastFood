@@ -308,6 +308,10 @@
         <servlet-name>StatisticByYearDetail</servlet-name>
         <servlet-class>admin.controller.StatisticByYearDetail</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangePassServlet</servlet-name>
+        <servlet-class>customer.controller.ChangePassServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -607,6 +611,10 @@
     <servlet-mapping>
         <servlet-name>StatisticByYearDetail</servlet-name>
         <url-pattern>/StatisticByYearDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePassServlet</servlet-name>
+        <url-pattern>/ChangePassServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

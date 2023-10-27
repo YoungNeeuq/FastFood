@@ -188,8 +188,6 @@
                                 <c:set var="customer_id" value="${order.getCustomer_id()}"></c:set>
                                 <td><%= customerDAO.getCustomer((int) pageContext.getAttribute("customer_id")).getUsername()%></td>
 
-
-                                
                                 <td>${order.getTotalmoney()}</td>
                                 <td>${order.getStatus()}</td>
                                 <td>${order.getDate()}</td>

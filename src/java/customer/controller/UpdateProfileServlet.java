@@ -65,14 +65,26 @@ public class UpdateProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         try {
-            
-            int customer_id = Integer.parseInt(request.getParameter("customer_id"));
             CustomerDAO customerDAO = new CustomerDAO();
-            Customer c = customerDAO.getCustomer(customer_id);
-            
-            request.setAttribute("customer", c);
-            
-            request.getRequestDispatcher("updateCustomerProfile.jsp").forward(request, response);
+            String oldpass = request.getParameter("oldPassword");
+            int customer_id = Integer.parseInt(request.getParameter("customer_id"));
+            String username = customerDAO.getCustomer(customer_id).getUsername();
+            String newpass = request.getParameter("newPass");
+
+            Base64.Encoder encoder = Base64.getEncoder();
+            String encodedPassword = encoder.encodeToString(oldpass.getBytes());
+            String passInDB = customerDAO.getCustomer(customer_id).getPassword();
+            if (encodedPassword.equals(passInDB)) {
+                String customer_name = request.getParameter("cus_namee");
+
+                String phones = request.getParameter("phones");
+                String addresss = request.getParameter("addresss");
+                customerDAO.editProfile(customer_id, newpass, phones, addresss, customer_name);
+                response.sendRedirect("Profile?acc=" + username);
+            } else {
+                request.setAttribute("tb", "sai mat khau cu");
+                request.getRequestDispatcher("Profile?acc=" + username).forward(request, response);
+            }
         } catch (Exception ex) {
             Logger.getLogger(updateServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -91,9 +103,9 @@ public class UpdateProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         try {
-            
+
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
-            
+
             CustomerDAO customerDAO = new CustomerDAO();
             String username = customerDAO.getCustomer(customer_id).getUsername();
             String password = request.getParameter("add").trim();
@@ -104,7 +116,7 @@ public class UpdateProfileServlet extends HttpServlet {
                 encodedPassword = encoder.encodeToString(password.getBytes());
                 String phoneNumber = request.getParameter("phone");
                 String address = request.getParameter("address");
-                String cus_name = request.getParameter("cus_namee");
+                String cus_name = request.getParameter("cus_name");
                 // So sánh mật khẩu đã cung cấp với mật khẩu lưu trữ
 
                 customerDAO.editProfile(customer_id, encodedPassword, phoneNumber, address, cus_name);
@@ -116,7 +128,7 @@ public class UpdateProfileServlet extends HttpServlet {
 
                 customerDAO.editProfile(customer_id, password, phoneNumber, address, cus_name);
             }
-            
+
             response.sendRedirect("Profile?acc=" + username);
         } catch (NumberFormatException ex) {
             // Xử lý lỗi số học (không thể chuyển đổi thành số).

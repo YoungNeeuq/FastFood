@@ -305,4 +305,45 @@ public class CustomerDAO extends DBContext {
 
         return null;
     }
+
+    //-----------------------------------------
+    public void editPassword(int customer_id, String password) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            String sql = "update Customer \n"
+                    + "  set password = ? where customer_id = ?";
+            connection = db.getConnection();
+            ps = connection.prepareStatement(sql);
+
+            // Kiểm tra và đặt các giá trị đầu vào
+            ps.setString(1, password);
+
+            ps.setInt(2, customer_id);
+
+            // Thực hiện truy vấn
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            // Đóng PreparedStatement và Connection trong khối finally để đảm bảo giải phóng tài nguyên
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    // Xử lý lỗi đóng PreparedStatement
+                    Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    // Xử lý lỗi đóng Connection
+                    Logger.getLogger(CustomerDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
 }

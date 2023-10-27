@@ -41,7 +41,7 @@ public class Statistic extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Statistic</title>");            
+            out.println("<title>Servlet Statistic</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet Statistic at " + request.getContextPath() + "</h1>");
@@ -64,18 +64,19 @@ public class Statistic extends HttpServlet {
             throws ServletException, IOException {
         try {
             OrderDAO orderDAO = new OrderDAO();
-           int sum = orderDAO.sumOrder();
+            int sum = orderDAO.sumOrder();
             request.setAttribute("sum", sum);
             StoreDAO storeDAO = new StoreDAO();
             List<Store> storeList = storeDAO.getAll();
             request.setAttribute("storeList", storeList);
             List<Order> list = orderDAO.getOrderByStatus("succeed");
+
             request.setAttribute("list", list);
             request.getRequestDispatcher("statisticAll.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(Statistic.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
+
     }
 
     /**

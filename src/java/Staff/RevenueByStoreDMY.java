@@ -8,8 +8,10 @@ import admin.controller.RevenueByDateMonthYear;
 import dal.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,6 +66,7 @@ public class RevenueByStoreDMY extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            int store_id = Integer.parseInt(request.getParameter("store_id"));
             OrderDAO orderDAO = new OrderDAO();
             int select = Integer.parseInt(request.getParameter("select"));
             //--------------------list date -----------------------
@@ -85,30 +88,56 @@ public class RevenueByStoreDMY extends HttpServlet {
                 listYear.add(i);
             }
             if (select == 1) {
-                int sum = 0;
-                int total = 0;
+                LocalDate currDate = LocalDate.now();
+                String date = currDate.toString();
+
+                List<Order> listOrder = orderDAO.getOrderOfStoreByDate(date, store_id);
+                int total = listOrder.size();
                 request.setAttribute("total", total);
+                int sum = orderDAO.sumOrderOfStoreByDate(date, store_id);
+
+                request.setAttribute("listOrder", listOrder);
                 request.setAttribute("listDate", listDate);
                 request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statisticOfStoreByDate.jsp").forward(request, response);
             } else if (select == 2) {
-                int sum = 0;
-                int total = 0;
-                request.setAttribute("total", total);
-                request.setAttribute("sum", sum);
+                Date date = new Date();
+                SimpleDateFormat dateFormatYear = new SimpleDateFormat("yyyy");
+                SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MM");
+                int year = Integer.parseInt(dateFormatYear.format(date));
+                int month = Integer.parseInt(dateFormatMonth.format(date));
+
+                List<Order> listOrder = orderDAO.getOrderOfStoreByMonth(month, year, store_id);
+                int sum = orderDAO.sumOrderOfStoreByMonth(month, year, store_id);
                 request.setAttribute("listMonth", listMonth);
                 request.setAttribute("listYear", listYear);
+                int total = listOrder.size();
+                request.setAttribute("total", total);
+                request.setAttribute("listOrder", listOrder);
+                request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statisticOfStoreByMonth.jsp").forward(request, response);
             } else {
-                int sum = 0;
-                int total = 0;
-                request.setAttribute("total", total);
-                request.setAttribute("sum", sum);
+                Date date = new Date();
+                SimpleDateFormat dateFormatYear = new SimpleDateFormat("yyyy");
+                int year = Integer.parseInt(dateFormatYear.format(date));
+                List<Order> listOrder = orderDAO.getOrderOfStoreByYear(year, store_id);
+                int sum = orderDAO.sumOrderOfStoreByYear(year, store_id);
                 request.setAttribute("listYear", listYear);
+                int total = listOrder.size();
+                request.setAttribute("total", total);
+                request.setAttribute("listOrder", listOrder);
+                request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statisticOfStoreByYear.jsp").forward(request, response);
             }
 
         } catch (Exception ex) {
+            String errorMessage = ex.getMessage();
+
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(RevenueByDateMonthYear.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
