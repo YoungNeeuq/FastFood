@@ -133,8 +133,9 @@
 
             <h1 style="font-weight: bold;">Xác nhận đơn hàng
             </h1>
-
-            <button type="submit" class="btn btn-secondary mb-4" > <a style=" color: white; text-decoration: none;" href="manageStore.jsp">Trở về </a></button>
+           
+                <button type="submit" class="btn btn-secondary mb-4" > <a style=" color: white; text-decoration: none;" href="manageStore.jsp">Trở về </a></button>
+           
             <table>
                 <thead>
                     <tr>

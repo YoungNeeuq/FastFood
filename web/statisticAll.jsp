@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="dal.OrderDAO"%>
 <%@page import="model.Order"%>
 <%@page import="model.Store"%>
 <%@page import="java.util.List"%>
@@ -133,6 +134,7 @@
                 List<Store> listStore = (List) request.getAttribute("storeList");
                 List<Order> list = (List) request.getAttribute("list");
                 int total = list.size();
+                OrderDAO orderDAO = new OrderDAO();
             %>
             <div style="text-align: center;">
                 <h2 style=" font-weight: bold;">Doanh thu toàn cửa hàng: <%= sum%> đ </h2>
@@ -173,6 +175,31 @@
                     </c:forEach>
                 </tbody>
             </table>
+        </div>
+                
+        <div class="storeList">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Revenue</td>
+                    </tr>
+                </thead>
+                <tbody>
+                   <c:forEach var="store" items="<%= listStore%>">
+                       <tr>
+                           <td>${store.getStore_name()}</td>
+                            <c:set var="store_id" value="${store.getStore_id()}"></c:set>
+                <td><%= orderDAO.sumOrderByStore((int) pageContext.getAttribute("store_id"))%></td>
+
+                       </tr>
+               
+
+
+            </c:forEach>
+                </tbody>
+            </table>
+            
         </div>
         <footer id="footer" class="footer">
 

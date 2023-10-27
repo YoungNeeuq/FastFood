@@ -69,6 +69,13 @@ public class ShowPaidOrder extends HttpServlet {
             request.setAttribute("paidList", paidList);
             request.getRequestDispatcher("showPaidOrder.jsp").forward(request, response);
         } catch (Exception ex) {
+            String errorMessage = ex.getMessage();
+
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(ShowPaidOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -88,12 +95,12 @@ public class ShowPaidOrder extends HttpServlet {
             OrderDAO orderDAO = new OrderDAO();
             int order_id = Integer.parseInt(request.getParameter("order_id"));
             List<OrderDetail> listDetail = orderDAO.getItemById(order_id);
-            request.setAttribute("listDetail",listDetail);
+            request.setAttribute("listDetail", listDetail);
             request.getRequestDispatcher("showPaidOrderDetail.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ShowPaidOrder.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }
 
     /**

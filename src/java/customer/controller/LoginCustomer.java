@@ -6,6 +6,7 @@ package customer.controller;
 
 import dal.AdminDAO;
 import dal.CustomerDAO;
+import dal.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Base64;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.Customer;
+import model.Staff;
 
 /**
  *
@@ -79,7 +81,7 @@ public class LoginCustomer extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-
+            
             String userInput = request.getParameter("username");
             String passInput = request.getParameter("password");
             CustomerDAO customerDAO = new CustomerDAO();
@@ -88,6 +90,8 @@ public class LoginCustomer extends HttpServlet {
             Base64.Encoder encoder = Base64.getEncoder();
             String encodePass = encoder.encodeToString(passInput.getBytes());
             Customer customer = customerDAO.getCustomer(userInput, encodePass);
+            StaffDAO staffDAO = new StaffDAO();
+            Staff staff = staffDAO.getStaff(userInput, passInput);
             String role = "";
             if (customer != null) {
                 // neu la customer thi chuyen toi trang hone.jsp
@@ -100,7 +104,7 @@ public class LoginCustomer extends HttpServlet {
                 role = "c";
                 // Đặt thời gian sống của cookie, ví dụ: 30 ngày
                 customerIdCookie.setMaxAge(30 * 24 * 60 * 60);
-                 request.setAttribute("role", role);
+                request.setAttribute("role", role);
                 // Thêm cookie vào HTTP response
                 response.addCookie(customerIdCookie);
                 session.setAttribute("account", userInput);
@@ -110,12 +114,26 @@ public class LoginCustomer extends HttpServlet {
                 request.setAttribute("role", role);
                 
                 response.sendRedirect("ListProductServlet");
+            } else if (staff != null) {
+                int store_id = staff.getStore_id();
+                
+                Cookie store_idCookie = new Cookie("store_id", String.valueOf(store_id));
+                role = "s";
+
+                // Đặt thời gian sống của cookie, ví dụ: 30 ngày
+                store_idCookie.setMaxAge(30 * 24 * 60 * 60);
+                request.setAttribute("role", role);
+                // Thêm cookie vào HTTP response
+                response.addCookie(store_idCookie);
+                request.setAttribute("store_id", store_id);
+//                request.getRequestDispatcher("manageStore.jsp").forward(request, response);
+                response.sendRedirect("manageStore.jsp");
             } else {
                 request.setAttribute("tbsubmit", "Tài khoản hoặc mật khẩu không đúng");
                 // return back login.jsp using Servlet (method GET)
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
-
+            
         } catch (Exception ex) {
             response.sendRedirect("error.jsp");
             Logger.getLogger(LoginCustomer.class.getName()).log(Level.SEVERE, null, ex);

@@ -177,7 +177,7 @@
                                         </div>
                                     </div>
                                     <hr>
-                                     <div class="row">
+                                    <div class="row">
                                         <div class="col-sm-3">
                                             <p class="mb-0">Tên người dùng</p>
 
@@ -231,6 +231,7 @@
                                             <input type="password" id="add" value="${profile.getPassword().trim()}" name="add" class=" d-none">
                                         </div>
                                     </div>
+
                                 </div>
                                 <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
                             </div>
@@ -240,14 +241,40 @@
                         <div class="text-center">
 
                             <button type="button" class="btn btn-outline-danger ms-1" id="btnedit" onclick="edit()">Edit Your Profile</button>
+                            <button id="passwordButton" class="btn btn-primary" onclick="showPasswordForm()">Edit your password</button>
+
+                            <form action="ChangePassServlet" method="POsT" id="changePass" class="d-none">
+                                <input type="hidden" name="customer_id" value="<%= customer_id%>"/>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Mat Khau Cu</p>
+
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="oldPassword" name="oldPassword"  class="form-control">
+
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Mat Khau Moi</p>
+
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="text" id="newPassword" name="newPassword" class="form-control">
+                                    </div>
+                                </div>  
+
+                                <button id="passwordButton" class="btn btn-primary" >Save your password</button>
+
+                            </form>
 
                         </div>
                     </div>
                 </div>
 
             </div>
-
-
         </section>
         <footer id="footer" class="footer">
 
@@ -320,12 +347,12 @@
             {
                 document.getElementById("email").className = "d-none";
                 document.getElementById("phone").className = "d-block";
-                document.getElementById("add").className = "d-block";
+                document.getElementById("add").className = "d-none";
                 document.getElementById("address").className = "d-block";
                 document.getElementById("cus_name").className = "d-block";
-                document.getElementById("adds").style.display = "none";
+                document.getElementById("adds").style.display = "d-block";
                 document.getElementById("addresss").style.display = "none";
-                 document.getElementById("cus_namee").style.display = "none";
+                document.getElementById("cus_namee").style.display = "none";
                 document.getElementById("phones").style.display = "none";
                 document.getElementById("emails").style.display = "d-none";
                 document.getElementById("btnedit").innerHTML = "Save Your Profile";
@@ -335,9 +362,9 @@
                 document.getElementById("btnedit").innerHTML = "Edit Your Profile";
                 document.getElementById("email").className = "d-none";
                 document.getElementById("phone").className = "d-none";
-                document.getElementById("add").className = "d-none";
+                document.getElementById("add").className = "d-block";
                 document.getElementById("address").className = "d-none";
-                document.getElementById("adds").style.display = "block";
+                document.getElementById("adds").style.display = "d-block";
                 document.getElementById("addresss").style.display = "block";
                 document.getElementById("phones").style.display = "block";
                 document.getElementById("emails").style.display = "d-none";
@@ -345,7 +372,19 @@
             }
 
         }
+        function showPasswordForm() {
+            const passwordButton = document.getElementById("passwordButton");
+            const passwordForm = document.getElementById("changePass");
 
+            // Đảm bảo form ban đầu ẩn, và thay đổi lớp CSS khi cần
+            if (passwordForm.classList.contains("d-none")) {
+                passwordButton.innerText = "Cancel"; // Thay đổi văn bản nút
+                passwordForm.classList.remove("d-none"); // Hiển thị form
+            } else {
+                passwordButton.innerText = "Edit your password"; // Thay đổi văn bản nút
+                passwordForm.classList.add("d-none"); // Ẩn form
+            }
+        }
 
 
         function logout() {
