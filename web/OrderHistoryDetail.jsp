@@ -148,7 +148,7 @@
             <div style="text-align: center;">
                 <h1 style=" font-weight: bold;">Chi tiết đơn hàng</h1>
                 <button type="submit" class="btn btn-secondary mb-4" >
-                    <a style=" color: white; text-decoration: none;" >Trở về</a> </button>
+                    <a href="OrderHistoryServlet?customer_id=<%= customer_id%>" style=" color: white; text-decoration: none;" >Trở về</a> </button>
             </div>
 
             <table class="table">

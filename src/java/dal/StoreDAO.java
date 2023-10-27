@@ -39,7 +39,6 @@ public class StoreDAO {
             // Đảm bảo sử dụng UTF-8 cho kết nối để hỗ trợ tiếng Việt
 //            connection.createStatement().execute("SET store_name 'UTF8'");
 //            connection.createStatement().execute("SET CHARACTER SET 'UTF8'");
-
             // Kiểm tra và đặt các giá trị đầu vào
             ps.setString(1, store_name);
             ps.setString(2, address);
@@ -209,5 +208,109 @@ public class StoreDAO {
                 }
             }
         }
+    }
+//-------------------- rank by date------------------
+
+    public ArrayList<Store> totalPriceOfStoreByDate(String date) {
+        ArrayList<Store> storeList = new ArrayList<>();
+
+        String sql = "SELECT o.[date],\n"
+                + "       s.[store_id] AS StoreID,\n"
+                + "       SUM(o.[total_price]) AS TotalPricePerDay,\n"
+                + "       s.[store_name] AS StoreName,\n"
+                + "       s.[address] AS StoreAddress\n"
+                + "FROM [KFCStore].[dbo].[Order] AS o\n"
+                + "INNER JOIN [KFCStore].[dbo].[Store] AS s\n"
+                + "ON o.[store_id] = s.[store_id]\n"
+                + "WHERE o.pStatus = 'Paid' AND o.[date] = ?\n"
+                + "GROUP BY o.[date], s.[store_id], s.[store_name], s.[address]\n"
+                + "ORDER BY TotalPricePerDay DESC;";
+
+        try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, date);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int store_id = rs.getInt("StoreID");
+                String storeName = rs.getString("StoreName");
+                String storeAddress = rs.getString("StoreAddress");
+                int totalPrice = rs.getInt("TotalPricePerDay");
+                Store store = new Store(store_id, storeName, storeAddress, totalPrice);
+                storeList.add(store);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return storeList;
+    }
+
+    //--------- rank by month------------------
+    public ArrayList<Store> totalPriceOfStoreByMonth(int year, int month) {
+        ArrayList<Store> storeList = new ArrayList<>();
+
+        String sql = "SELECT \n"
+                + "       s.[store_id] AS StoreID,\n"
+                + "       SUM(o.[total_price]) AS TotalPricePerDay,\n"
+                + "       s.[store_name] AS StoreName,\n"
+                + "       s.[address] AS StoreAddress\n"
+                + "FROM [KFCStore].[dbo].[Order] AS o\n"
+                + "INNER JOIN [KFCStore].[dbo].[Store] AS s\n"
+                + "ON o.[store_id] = s.[store_id]\n"
+                + "WHERE o.pStatus = 'Paid' AND YEAR(o.date) = ? AND MONTH(o.date) = ?\n"
+                + "GROUP BY s.[store_id], s.[store_name], s.[address]\n"
+                + "ORDER BY TotalPricePerDay DESC;";
+
+        try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, month);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int store_id = rs.getInt("StoreID");
+                String storeName = rs.getString("StoreName");
+                String storeAddress = rs.getString("StoreAddress");
+                int totalPrice = rs.getInt("TotalPricePerDay");
+                Store store = new Store(store_id, storeName, storeAddress, totalPrice);
+                storeList.add(store);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return storeList;
+    }
+    //--------- rank by year------------------
+
+    public ArrayList<Store> totalPriceOfStoreByYear(int year) {
+        ArrayList<Store> storeList = new ArrayList<>();
+
+        String sql = "SELECT \n"
+                + "       s.[store_id] AS StoreID,\n"
+                + "       SUM(o.[total_price]) AS TotalPricePerDay,\n"
+                + "       s.[store_name] AS StoreName,\n"
+                + "       s.[address] AS StoreAddress\n"
+                + "FROM [KFCStore].[dbo].[Order] AS o\n"
+                + "INNER JOIN [KFCStore].[dbo].[Store] AS s\n"
+                + "ON o.[store_id] = s.[store_id]\n"
+                + "WHERE o.pStatus = 'Paid' AND YEAR(o.date) = ? \n"
+                + "GROUP BY s.[store_id], s.[store_name], s.[address]\n"
+                + "ORDER BY TotalPricePerDay DESC;";
+
+        try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                int store_id = rs.getInt("StoreID");
+                String storeName = rs.getString("StoreName");
+                String storeAddress = rs.getString("StoreAddress");
+                int totalPrice = rs.getInt("TotalPricePerDay");
+                Store store = new Store(store_id, storeName, storeAddress, totalPrice);
+                storeList.add(store);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return storeList;
     }
 }

@@ -5,6 +5,7 @@
 package admin.controller;
 
 import dal.OrderDAO;
+import dal.StoreDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Order;
 import model.OrderDetail;
+import model.Store;
 
 /**
  *
@@ -64,11 +66,17 @@ public class ShowConfirmOrder extends HttpServlet {
             throws ServletException, IOException {
         try {
             // Lấy dữ liệu từ cookie và giải mã ở phía servlet
-            List<Order> orderList = new ArrayList<>();
+            int store_id = Integer.parseInt(request.getParameter("store_id"));
+            String status = "Succeed";
             OrderDAO orderDAO = new OrderDAO();
-            orderList = orderDAO.getOrderByStatus("Pending");
-
-            request.setAttribute("orderList", orderList);
+            StoreDAO storeDAO = new StoreDAO();
+            List<Order> listOrder = orderDAO.getOrderByStoreIdAndStatus(store_id, status);
+            Store store = storeDAO.getStoreById(store_id);
+            String store_name = store.getStore_name();
+            request.setAttribute("store_name", store_name);
+            request.setAttribute("listOrder", listOrder);
+            int sum = orderDAO.sumOrderByStore(store_id);
+            request.setAttribute("sum", sum);
             request.getRequestDispatcher("confirmOrder.jsp").forward(request, response);
         } catch (Exception ex) {
             String errorMessage = ex.getMessage();

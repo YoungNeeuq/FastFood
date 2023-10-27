@@ -260,6 +260,54 @@
         <servlet-name>DetailProductGuest</servlet-name>
         <servlet-class>guest.controller.DetailProductGuest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListStaffAccountServlet</servlet-name>
+        <servlet-class>Staff.ListStaffAccountServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddNewStaffAccount</servlet-name>
+        <servlet-class>Staff.AddNewStaffAccount</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginAsStaff</servlet-name>
+        <servlet-class>Staff.LoginAsStaff</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowSucceedOrder</servlet-name>
+        <servlet-class>Staff.ShowSucceedOrder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RevenueByStoreDMY</servlet-name>
+        <servlet-class>Staff.RevenueByStoreDMY</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowCanceledOrder</servlet-name>
+        <servlet-class>Staff.ShowCanceledOrder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeliveringOrderServlet</servlet-name>
+        <servlet-class>customer.controller.DeliveringOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewCanceledOrderDetail</servlet-name>
+        <servlet-class>customer.controller.ViewCanceledOrderDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ShowPaidOrder</servlet-name>
+        <servlet-class>Staff.ShowPaidOrder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StatisticByDateDetail</servlet-name>
+        <servlet-class>admin.controller.StatisticByDateDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StatisticByMonthDetail</servlet-name>
+        <servlet-class>admin.controller.StatisticByMonthDetail</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StatisticByYearDetail</servlet-name>
+        <servlet-class>admin.controller.StatisticByYearDetail</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -511,6 +559,54 @@
     <servlet-mapping>
         <servlet-name>DetailProductGuest</servlet-name>
         <url-pattern>/DetailProductGuest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListStaffAccountServlet</servlet-name>
+        <url-pattern>/ListStaffAccountServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddNewStaffAccount</servlet-name>
+        <url-pattern>/AddNewStaffAccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginAsStaff</servlet-name>
+        <url-pattern>/LoginAsStaff</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowSucceedOrder</servlet-name>
+        <url-pattern>/ShowSucceedOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RevenueByStoreDMY</servlet-name>
+        <url-pattern>/RevenueByStoreDMY</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowCanceledOrder</servlet-name>
+        <url-pattern>/ShowCanceledOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeliveringOrderServlet</servlet-name>
+        <url-pattern>/DeliveringOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewCanceledOrderDetail</servlet-name>
+        <url-pattern>/ViewCanceledOrderDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ShowPaidOrder</servlet-name>
+        <url-pattern>/ShowPaidOrder</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatisticByDateDetail</servlet-name>
+        <url-pattern>/StatisticByDateDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatisticByMonthDetail</servlet-name>
+        <url-pattern>/StatisticByMonthDetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatisticByYearDetail</servlet-name>
+        <url-pattern>/StatisticByYearDetail</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

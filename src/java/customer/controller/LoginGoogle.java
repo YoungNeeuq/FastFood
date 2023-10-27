@@ -92,23 +92,34 @@ public class LoginGoogle extends HttpServlet {
             CustomerDAO customerDAO = new CustomerDAO();
             String email = request.getParameter("email");
             String verified_email = request.getParameter("verified_email");
+            Customer customer = customerDAO.getCustomerEmail(email);
             // Sử dụng giá trị verified_email theo cách bạn muốn ở đây
             if ("true".equals(verified_email)) {
                 // Xử lý khi verified_email là "true"
 
                 String password = "";
-
+                String customer_address = "";
+                String customer_name = "";
                 String phoneNumber = "";
                 String role = "c";
 
                 try {
-                    Customer customer = new Customer(email, password, email, phoneNumber, role);
 
-                    if (customerDAO.getCustomerEmail(email) == null) {
-                        customerDAO.add(email, password, email, phoneNumber, role);
-                        int customer_id = customerDAO.getCustomerEmail(email).getCustomer_id();
+                    try {
+                        if (customer == null) {
+                            customerDAO.add(email, password, email, phoneNumber, role, customer_name, customer_address);
 
-                        // Tạo một cookie với tên "customer_id" và giá trị là customer_id
+                        } else {
+                            int customer_id = customerDAO.getCustomerEmail(email).getCustomer_id();
+                            Customer c = customerDAO.getCustomer(customer_id);
+                            Cookie customerIdCookie = new Cookie("customer_idd", String.valueOf(customer_id));
+                            user = customerDAO.getCustomer(customer_id).getUsername();
+
+                            customerIdCookie.setMaxAge(30 * 24 * 60 * 60);
+
+                            response.addCookie(customerIdCookie);
+                        }
+                        int customer_id = customer.getCustomer_id();
                         Cookie customerIdCookie = new Cookie("customer_idd", String.valueOf(customer_id));
 
                         // Đặt thời gian sống của cookie, ví dụ: 30 ngày
@@ -118,25 +129,23 @@ public class LoginGoogle extends HttpServlet {
                         response.addCookie(customerIdCookie);
                         user = customerDAO.getCustomer(customer_id).getUsername();
 
-                    } else {
-                        int customer_id = customerDAO.getCustomerEmail(email).getCustomer_id();
-                        Customer c = customerDAO.getCustomer(customer_id);
+                        session.setAttribute("account", user);
+                    } catch (Exception ex) {
+                        String errorMessage = ex.getMessage();
 
-                        // Tạo một cookie với tên "customer_id" và giá trị là customer_id
-                        Cookie customerIdCookie = new Cookie("customer_idd", String.valueOf(customer_id));
-                        user = customerDAO.getCustomer(customer_id).getUsername();
-                        // Đặt thời gian sống của cookie, ví dụ: 30 ngày
-                        customerIdCookie.setMaxAge(30 * 24 * 60 * 60);
+                        request.setAttribute("errorMessage", errorMessage + "3");
 
-                        // Thêm cookie vào HTTP response
-                        response.addCookie(customerIdCookie);
+                        request.getRequestDispatcher("error.jsp").forward(request, response);
+                        Logger.getLogger(addServlet.class.getName()).log(Level.SEVERE, null,
+                                ex);
                     }
-// add person 
-                    session.setAttribute("account", user);
 
-//response.sendRedirect("ListController");
                 } catch (Exception ex) {
-                    response.sendRedirect("success.jsp");
+                    String errorMessage = ex.getMessage();
+
+                    request.setAttribute("errorMessage", errorMessage + "2");
+
+                    request.getRequestDispatcher("error.jsp").forward(request, response);
                     Logger.getLogger(addServlet.class.getName()).log(Level.SEVERE, null,
                             ex);
                 }
@@ -145,17 +154,15 @@ public class LoginGoogle extends HttpServlet {
 
             } else {
                 request.setAttribute("tbsubmit", "tài khoan email khong hop le");
-                // Trả về trang login.jsp bằng cách chuyển hướng Servlet (phương thức GET)
+
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
 
         } catch (Exception ex) {
             String errorMessage = ex.getMessage();
 
-            // Đặt thông báo lỗi vào request
-            request.setAttribute("errorMessage", errorMessage);
+            request.setAttribute("errorMessage", errorMessage + "1");
 
-            // Chuyển hướng người dùng đến trang error.jsp
             request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(LoginGoogle.class.getName()).log(Level.SEVERE, null, ex);
         }

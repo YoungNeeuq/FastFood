@@ -65,8 +65,8 @@ public class FindAddressServlet extends HttpServlet {
         try {
             String city = String.valueOf(request.getParameter("address1"));
             String district = String.valueOf(request.getParameter("address2"));
-            String commue = String.valueOf(request.getParameter("address3"));
-            String street = String.valueOf(request.getParameter("address4"));
+
+            String street = String.valueOf(request.getParameter("address3"));
             int customter_id = Integer.parseInt(request.getParameter("customer_id"));
             String name = String.valueOf(request.getParameter("name"));
             String phoneNumber = String.valueOf(request.getParameter("phone"));
@@ -170,7 +170,7 @@ public class FindAddressServlet extends HttpServlet {
             request.setAttribute("district", district);
             request.setAttribute("street", street);
             request.setAttribute("city", city);
-            request.setAttribute("address", commue);
+           
             request.setAttribute("recommendList", recommendList);
             request.getRequestDispatcher("storeList.jsp").forward(request, response);
 

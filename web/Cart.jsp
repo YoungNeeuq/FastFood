@@ -391,7 +391,7 @@
             });
         } else {
 
-            checkoutButton.href = "ListStoreServlet";
+            checkoutButton.href = "ListStoreServlet?customer_id=" + <%= customer_id%>;
         }
         function incrementQuantity(index, dish_id) {
             var quantitySpan = document.getElementById("quantity" + index);

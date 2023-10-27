@@ -65,7 +65,7 @@ public class OrderTracking extends HttpServlet {
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
             OrderDAO orderDAO = new OrderDAO();
             List<Order> list = new ArrayList<>();
-            list = orderDAO.getOrderByCusId(customer_id);
+            list = orderDAO.getOrderByStatusID("Pending", customer_id);
             request.setAttribute("listTracking", list);
             request.getRequestDispatcher("orderTracking.jsp").forward(request, response);
         } catch (Exception ex) {

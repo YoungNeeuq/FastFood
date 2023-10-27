@@ -16,10 +16,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="css/styleadmin.css"/>
         <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="css/styleadmin.css"/>
         <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
-         <link href="assets/img/favicon.png" rel="icon">
+        <link href="assets/img/favicon.png" rel="icon">
         <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
         <!-- Google Fonts -->
@@ -55,7 +55,7 @@
                 background-color: rgba(0,0,0,0.4);
                 background-clip: padding-box;
             }
-             .modal22{
+            .modal22{
                 position: fixed;
                 z-index: 1;
                 top:0;
@@ -101,9 +101,10 @@
                     <ul>
                         <li><a href="ListProductServlet">Món ăn</a></li>
                         <li><a href="ListStore">Cửa hàng</a></li>
-                         <li> <a href="ShowConfirmOrder">Xác nhận đơn hàng</a> </li>
-                        <li><a href="Statistic">Xem doanh thu</a></li>
-                        
+                         <li><a href="Statistic">Xem doanh thu</a></li>
+                        <li><a href="ListStaffAccountServlet">Nhân viên</a></li>
+                       
+
                     </ul>
                 </nav><!-- .navbar -->
                 <div> 
@@ -116,7 +117,7 @@
 
 
         </header><!-- End Header -->
-         <div class="modal" id="myModal22">
+        <div class="modal" id="myModal22">
             <div class="modal-content" style="width: 30%;">
                 <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn bạn muốn thoát?</h5>
                 <div class="d-flex btnlogout">
@@ -128,62 +129,62 @@
         </div>
         <div style="margin:120px auto; text-align: center;">
             <h1 style="font-weight:bold;">Danh sách cửa hàng</h1>
-       <button class="btn btn-secondary mb-4 mt-4" id="btnThem">Thêm cửa hàng</button>
-        <%
-            List<Store> storeList = (List) request.getAttribute("storeList");
+            <button class="btn btn-secondary mb-4 mt-4" id="btnThem">Thêm cửa hàng</button>
+            <%
+                List<Store> storeList = (List) request.getAttribute("storeList");
 
-        %>
-        <table  class="table mt-4" style="text-align: center;">
-            <thead class="thead-dark">
-                <tr>
-                    <th scope="col" style=" vertical-align: middle;">Mã cửa hàng</th>
-                    <th scope="col" style=" vertical-align: middle;">Tên cửa hàng</th>
-                    <th scope="col" style=" vertical-align: middle;">Giờ đóng, mở cửa</th>
-                    <th scope="col" style=" vertical-align: middle;">Địa chỉ</th><!-- comment -->
-                    <th scope="col" style=" vertical-align: middle;">Số điện thoại</th>
-                    <th scope="col" style=" vertical-align: middle;">Hoạt động</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <c:forEach var="store" items="<%=storeList%>" >
+            %>
+            <table  class="table mt-4" style="text-align: center;">
+                <thead class="thead-dark">
                     <tr>
-                        <td> ${store.getStore_id()} </td>
-                        <td> ${store.getStore_name()}  </td>
-                        <td> ${store.getOcTime()}  </td><!-- comment -->
-                        <td> ${store.getAddress()}  </td>
-                        <td> ${store.getStore_PhoneNumber()}  </td>
-                        <td>
-                            <div class="product-button d-flex justify-content-center">
-                                <form  accept-charset="UTF-8" action="UpdateStoreServlet" method="GET">
+                        <th scope="col" style=" vertical-align: middle;">Mã cửa hàng</th>
+                        <th scope="col" style=" vertical-align: middle;">Tên cửa hàng</th>
+                        <th scope="col" style=" vertical-align: middle;">Giờ đóng, mở cửa</th>
+                        <th scope="col" style=" vertical-align: middle;">Địa chỉ</th><!-- comment -->
+                        <th scope="col" style=" vertical-align: middle;">Số điện thoại</th>
+                        <th scope="col" style=" vertical-align: middle;">Hoạt động</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-                                    <input type="hidden" name="store_id" value="${store.getStore_id()}">
-                                    <button class="btn btn-success" type="button" name="updateButton" value="update" onclick="modaledit.style.display = 'block';
+                    <c:forEach var="store" items="<%=storeList%>" >
+                        <tr>
+                            <td> ${store.getStore_id()} </td>
+                            <td> ${store.getStore_name()}  </td>
+                            <td> ${store.getOcTime()}  </td><!-- comment -->
+                            <td> ${store.getAddress()}  </td>
+                            <td> ${store.getStore_PhoneNumber()}  </td>
+                            <td>
+                                <div class="product-button d-flex justify-content-center">
+                                    <form  accept-charset="UTF-8" action="UpdateStoreServlet" method="GET">
 
-                                            document.getElementById('store_idd').value = ${store.getStore_id()};
+                                        <input type="hidden" name="store_id" value="${store.getStore_id()}">
+                                        <button class="btn btn-success" type="button" name="updateButton" value="update" onclick="modaledit.style.display = 'block';
 
-                                            document.getElementById('namee').value = '${store.getStore_name().trim()}';
+                                                document.getElementById('store_idd').value = ${store.getStore_id()};
 
-                                            document.getElementById('addresss').value = '${store.getAddress().trim()}';
+                                                document.getElementById('namee').value = '${store.getStore_name().trim()}';
 
-                                            document.getElementById('phoneNumberr').value = '${store.getStore_PhoneNumber().trim()}';
+                                                document.getElementById('addresss').value = '${store.getAddress().trim()}';
 
-                                            document.getElementById('timeOcc').value = '${store.getOcTime().trim()}';
-                                            "
-                                            ><i class="fa-solid fa-wrench"></i></button>
-                                </form>
-                                <form action="DeleteStoreServlet" method="POST">
-                                    <input type="hidden" name="store_id" value="${store.getStore_id()}">
-                                    <button class="product-delete btn btn-danger"> <i class="fa-solid fa-trash"></i></button>
-                                </form>
-                            </div>
-                        </td>
-                    <tr>
+                                                document.getElementById('phoneNumberr').value = '${store.getStore_PhoneNumber().trim()}';
 
-                    </c:forEach>
+                                                document.getElementById('timeOcc').value = '${store.getOcTime().trim()}';
+                                                "
+                                                ><i class="fa-solid fa-wrench"></i></button>
+                                    </form>
+                                    <form action="DeleteStoreServlet" method="POST">
+                                        <input type="hidden" name="store_id" value="${store.getStore_id()}">
+                                        <button class="product-delete btn btn-danger"> <i class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </td>
+                        <tr>
 
-            </tbody>
-        </table>
+                        </c:forEach>
+
+                </tbody>
+            </table>
         </div>
         <!-- chinh sua thong tin cua hang -->
 
@@ -214,8 +215,8 @@
 
                         <div class="form-group">
                             <label for="phoneNumberr"><i class="fa-solid fa-tag"></i></label>
-                            <input type="text" id="phoneNumberr" name="phoneNumberr"value="${store.getStore_PhoneNumber()}">
-                            <input type="hidden" id="phoneNumberr" name="phoneNumberr"value="${store.getStore_PhoneNumber()}">
+                            <input type="text" id="phoneNumberr" name="phoneNumberr" value="${store.getStore_PhoneNumber()}">
+                            <input type="hidden" id="phoneNumberr" name="phoneNumberr" value="${store.getStore_PhoneNumber()}">
                             <span class="sp-thongbao" id="tbType"></span>
                         </div>
 
@@ -224,7 +225,7 @@
                 </div>
                 <div class="footer-modal">
                     <button type="submit" class="btn btn-success" style="margin-left: 46.5%;"  value="Sửa món ăn"> Sửa cửa hàng</button>
-                    <button type="button"class="close-button" onclick="closeForm('myModaledit')">Đóng</button>
+                    <button type="button" class="close-button" onclick="closeForm('myModaledit')">Đóng</button>
                 </div>
             </div>
         </form>
@@ -269,7 +270,7 @@
                 </div>
             </div>
         </form> 
-<footer id="footer" class="footer">
+        <footer id="footer" class="footer">
 
             <div class="container">
                 <div class="row gy-3">
@@ -333,55 +334,55 @@
             </div>
 
         </footer>
-  <!-- Vendor JS Files -->
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="vendor/aos/aos.js"></script>
-  <script src="vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="vendor/php-email-form/validate.js"></script>
+        <!-- Vendor JS Files -->
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="vendor/aos/aos.js"></script>
+        <script src="vendor/glightbox/js/glightbox.min.js"></script>
+        <script src="vendor/purecounter/purecounter_vanilla.js"></script>
+        <script src="vendor/swiper/swiper-bundle.min.js"></script>
+        <script src="vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="js/main.js"></script>
+        <!-- Template Main JS File -->
+        <script src="js/main.js"></script>
         <script>
 
-            const modal = document.getElementById('myModal');
-            const modall = document.getElementById('myModaledit');
-            const btn = document.getElementById('btnThem');
-            btn.addEventListener('click', () => {
-                modal.style.display = 'block';
-            });
+                        const modal = document.getElementById('myModal');
+                        const modall = document.getElementById('myModaledit');
+                        const btn = document.getElementById('btnThem');
+                        btn.addEventListener('click', () => {
+                            modal.style.display = 'block';
+                        });
 
-            window.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
+                        window.addEventListener('click', (event) => {
+                            if (event.target === modal) {
+                                modal.style.display = 'none';
 
-                }
-            });
-            //=================================================
-            const modaledit = document.getElementById('myModaledit');
+                            }
+                        });
+                        //=================================================
+                        const modaledit = document.getElementById('myModaledit');
 
-            function closeForm(formId) {
-                const form = document.getElementById(formId);
-                form.style.display = 'none';
-            }
+                        function closeForm(formId) {
+                            const form = document.getElementById(formId);
+                            form.style.display = 'none';
+                        }
 
-            window.addEventListener('click', (event) => {
-                if (event.target === modaledit) {
-                    modaledit.style.display = 'none';
-                }
-            });
+                        window.addEventListener('click', (event) => {
+                            if (event.target === modaledit) {
+                                modaledit.style.display = 'none';
+                            }
+                        });
 
-function logout() {
-            document.getElementById("myModal22").style.display = "block";
-        }
-        function no() {
-            document.getElementById("myModal22").style.display = "none";
-        }
-        function yes() {
+                        function logout() {
+                            document.getElementById("myModal22").style.display = "block";
+                        }
+                        function no() {
+                            document.getElementById("myModal22").style.display = "none";
+                        }
+                        function yes() {
 
-            window.location.href = "ListProductGuest";
-        }
+                            window.location.href = "ListProductGuest";
+                        }
         </script>
     </body>
 

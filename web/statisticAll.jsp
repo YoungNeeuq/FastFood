@@ -14,7 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>FastFood</title>
-          <link href="assets/img/favicon.png" rel="icon">
+        <link href="assets/img/favicon.png" rel="icon">
         <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
         <!-- Google Fonts -->
@@ -26,7 +26,7 @@
         <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
         <link href="vendor/aos/aos.css" rel="stylesheet">
-        <!--  <link href="vendor/glightbox/css/glightbox.min.css" rel="stylesheet">-->
+        <link href="vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
         <link href="vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -42,16 +42,16 @@
             }
         </style>
         <style>
-           tr {
-            margin-bottom: 20px; /* Adjust the value as needed */
-        }
-        .titlee{
-            font-weight: bold;
-        }
- table {
-        text-align: center;
-    }
-     .modal{
+            tr {
+                margin-bottom: 20px; /* Adjust the value as needed */
+            }
+            .titlee{
+                font-weight: bold;
+            }
+            table {
+                text-align: center;
+            }
+            .modal{
                 position: fixed;
                 z-index: 1;
                 top:0;
@@ -82,8 +82,8 @@
                 gap: 20px;
             }
             table {
-        text-align: center;
-    }
+                text-align: center;
+            }
         </style>
     </head>
 
@@ -102,10 +102,10 @@
                     <ul>
                         <li><a href="ListProductServlet">Món ăn</a></li>
                         <li><a href="ListStore">Cửa hàng</a></li>
-                         <li> <a href="ShowConfirmOrder">Xác nhận đơn hàng</a> </li>
+
                         <li><a href="Statistic">Xem doanh thu</a></li>
-                        
-                    </ul>
+                        <li><a href="ListStaffAccountServlet">Nhân viên</a></li> 
+                    </ul> 
                 </nav><!-- .navbar -->
                 <div> 
                     <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
@@ -117,7 +117,7 @@
 
 
         </header><!-- End Header -->
-         <div class="modal" id="myModal">
+        <div class="modal" id="myModal">
             <div class="modal-content" style="width: 30%;">
                 <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn bạn muốn thoát?</h5>
                 <div class="d-flex btnlogout">
@@ -128,50 +128,51 @@
 
         </div>
         <div style="margin:100px 0 150px 0;">
-        <%
-            int sum = (int) request.getAttribute("sum");
-            List<Store> listStore = (List) request.getAttribute("storeList");
-            List<Order> list = (List) request.getAttribute("list");
-            int total = list.size();
-        %>
-        <div style="text-align: center;">
-            <h2 style=" font-weight: bold;">Doanh thu toàn cửa hàng: <%= sum%> đ </h2>
-        <h4 style="color: blueviolet;">Tổng đơn hàng cho toàn bộ cửa hàng: <%= total%> đơn </h4>
-        <button class="btn btn-secondary mb-4">  <a style=" color: white; text-decoration: none;" href="ListProductServlet">Trở về</a> </button>
-        <form action="RevenueByDateMonthYear" method="GET" style="display: flex; width: fit-content; gap:20px;
-              margin: auto;">
-            <select name="select" class="form-select" aria-label="Default select example">
-                <option value="1">Date</option>
-                <option value="2">Month</option>
-                <option value="3">Year</option>
-            </select>
-            <button  class="btn btn-info" type="submit">Xem</button>
-        </form>
-        </div>
-        <table class="table mt-4" style="text-align: center;">
-            <thead class="thead-dark">
-                <tr>
-                   <th scope="col">Tên cửa hàng</th>
+            <%
+                int sum = (int) request.getAttribute("sum");
+                List<Store> listStore = (List) request.getAttribute("storeList");
+                List<Order> list = (List) request.getAttribute("list");
+                int total = list.size();
+            %>
+            <div style="text-align: center;">
+                <h2 style=" font-weight: bold;">Doanh thu toàn cửa hàng: <%= sum%> đ </h2>
+                <h4 style="color: blueviolet;">Tổng đơn hàng cho toàn bộ cửa hàng: <%= total%> đơn </h4>
+                <button class="btn btn-secondary mb-4">  <a style=" color: white; text-decoration: none;" href="ListProductServlet">Trở về</a> </button>
+                <p>Rank revenue</p>
+                <form action="RevenueByDateMonthYear" method="GET" style="display: flex; width: fit-content; gap:20px;
+                      margin: auto;">
+                    <select name="select" class="form-select" aria-label="Default select example">
+                        <option value="1">Date</option>
+                        <option value="2">Month</option>
+                        <option value="3">Year</option>
+                    </select>
+                    <button  class="btn btn-info" type="submit">Xem</button>
+                </form>
+            </div>
+            <table class="table mt-4" style="text-align: center;">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Tên cửa hàng</th>
                         <th scope="col">Địa chỉ</th>
                         <th scope="col">Hoạt động</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                <c:forEach var="store" items="<%= listStore%>">
-                    <tr>
-                        <td style="font-weight: bold; color: blue;"> ${store.getStore_name()}</td>
-                        <td> ${store.getAddress()}</td>
-                        <td>
-                            <form action="StatisticByStore" method="GET">
-                                <input type="hidden" name="store_id" value="${store.getStore_id()}"/>
-                                <button type="submit" class="btn btn-success" > Xem doanh thu </button>
-                            </form>
-                        </td>
                     </tr>
-                </c:forEach>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <c:forEach var="store" items="<%= listStore%>">
+                        <tr>
+                            <td style="font-weight: bold; color: blue;"> ${store.getStore_name()}</td>
+                            <td> ${store.getAddress()}</td>
+                            <td>
+                                <form action="StatisticByStore" method="GET">
+                                    <input type="hidden" name="store_id" value="${store.getStore_id()}"/>
+                                    <button type="submit" class="btn btn-success" > Xem doanh thu </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
         </div>
         <footer id="footer" class="footer">
 
@@ -237,27 +238,27 @@
             </div>
 
         </footer>
-         <script>
-       function logout() {
-            document.getElementById("myModal").style.display = "block";
-        }
-        function no() {
-            document.getElementById("myModal").style.display = "none";
-        }
-        function yes() {
+        <script>
+            function logout() {
+                document.getElementById("myModal").style.display = "block";
+            }
+            function no() {
+                document.getElementById("myModal").style.display = "none";
+            }
+            function yes() {
 
-            window.location.href = "ListProductGuest";
-        }
-  </script>
-  <!-- Vendor JS Files -->
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="vendor/aos/aos.js"></script>
-  <script src="vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="vendor/php-email-form/validate.js"></script>
+                window.location.href = "ListProductGuest";
+            }
+        </script>
+        <!-- Vendor JS Files -->
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="vendor/aos/aos.js"></script>
+        <script src="vendor/glightbox/js/glightbox.min.js"></script>
+        <script src="vendor/purecounter/purecounter_vanilla.js"></script>
+        <script src="vendor/swiper/swiper-bundle.min.js"></script>
+        <script src="vendor/php-email-form/validate.js"></script>
 
-  <!-- Template Main JS File -->
-  <script src="js/main.js"></script>
+        <!-- Template Main JS File -->
+        <script src="js/main.js"></script>
     </body>
 </html>

@@ -171,6 +171,26 @@
                                 }
                             }
                         }
+                        String phone = "";
+                        if (cookies != null) {
+                            for (Cookie cookie : cookies) {
+                                if ("phonee".equals(cookie.getName())) {
+                                    phone = cookie.getValue();
+                                    // Sử dụng giá trị của cookie "phone"
+                                    break; // Tìm thấy "phone" cookie, thoát khỏi vòng lặp
+                                }
+                            }
+                        }
+                        String address = "";
+                        if (cookies != null) {
+                            for (Cookie cookie : cookies) {
+                                if ("addresss".equals(cookie.getName())) {
+                                    address = cookie.getValue();
+                                    // Sử dụng giá trị của cookie "phone"
+                                    break; // Tìm thấy "phone" cookie, thoát khỏi vòng lặp
+                                }
+                            }
+                        }
                     %>
                     <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
                     <c:forEach var="dish" items="${cart6.getCartItems()}" varStatus="loop">
@@ -178,6 +198,9 @@
                         <input type="hidden" name="quantity" value="${dish.getQuantity()}">
                         <input type="hidden" name="total" value="${cart6.getTotal()}">
                         <input type="hidden" name="cod" id="cod" value="1">
+                        <input type="hidden" id="pStatus" name="pStatus" value="Y"/>
+                        <input type="hidden" id="address" name="address" value="<%= address%>"/>
+                        <input type="hidden" id="phone" name="phone" value="<%= phone%>"/>
                     </c:forEach>
                     <button type="submit" class="btn btn-primary" id="confirmButton" >Xác nhận</button>
                 </form>

@@ -22,12 +22,14 @@ public class CustomerDAO extends DBContext {
         db = new DBContext();
     }
 
-    public void add(String username, String password, String email, String phoneNumber, String role) {
+    public void add(String username, String password, String email, String phoneNumber,
+            String role, String customer_name, String customer_address) {
         Connection connection = null;
         PreparedStatement ps = null;
 
         try {
-            String sql = "INSERT INTO Customer (username, password, email, phoneNumber, role) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Customer (username, password, email, "
+                    + "phoneNumber, role,customer_name,customer_address) VALUES (?, ?, ?, ?, ?,?,?)";
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
 
@@ -37,7 +39,8 @@ public class CustomerDAO extends DBContext {
             ps.setString(3, email);
             ps.setString(4, phoneNumber);
             ps.setString(5, role);
-
+            ps.setString(6, customer_name);
+            ps.setString(7, customer_address);
             // Thực hiện truy vấn
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -154,7 +157,7 @@ public class CustomerDAO extends DBContext {
     public Customer getCustomerUserName(String username) {
 
         try {
-            String sql = "SELECT customer_id, username, email,password,phoneNumber,customer_address FROM Customer WHERE username = ? ;";
+            String sql = "SELECT customer_id, username, email,password,phoneNumber,customer_address, customer_name FROM Customer WHERE username = ? ;";
             Connection connection = null;
 
             connection = db.getConnection();
@@ -171,6 +174,7 @@ public class CustomerDAO extends DBContext {
                 customer.setPassword(rs.getString("password"));
                 customer.setAddress(rs.getNString("customer_address"));
                 customer.setPhoneNumber(rs.getString("phoneNumber"));
+                customer.setCustomer_name(rs.getString("customer_name"));
 
                 // return lap tuc!
                 return customer;
@@ -188,7 +192,9 @@ public class CustomerDAO extends DBContext {
     public Customer getCustomerEmail(String email) {
 
         try {
-            String sql = "SELECT * FROM Customer WHERE email = ? ;";
+            String sql = "SELECT customer_id, username, password, email, phoneNumber, "
+                    + "customer_address, role, customer_name FROM Customer WHERE email = ?;";
+
             Connection connection = null;
 
             connection = db.getConnection();
@@ -200,8 +206,13 @@ public class CustomerDAO extends DBContext {
 
             while (rs.next()) {
                 customer.setCustomer_id(rs.getInt("customer_id"));
-                customer.setUsername(rs.getString("email"));
-
+                customer.setUsername(rs.getString("username"));
+                customer.setAddress(rs.getString("customer_address"));
+                customer.setCustomer_name(rs.getString("customer_name"));
+                customer.setPassword(rs.getString("password"));
+                customer.setPhoneNumber(rs.getString("phoneNumber"));
+                customer.setRole(rs.getString("role"));
+                customer.setEmail(rs.getString("email"));
                 // return lap tuc!
                 return customer;
             }
@@ -215,13 +226,13 @@ public class CustomerDAO extends DBContext {
         return null;
     }
 
-    public void editProfile(int customer_id, String password, String phoneNumber, String address) {
+    public void editProfile(int customer_id, String password, String phoneNumber, String address, String customer_name) {
         Connection connection = null;
         PreparedStatement ps = null;
 
         try {
             String sql = "update Customer \n"
-                    + "  set password = ?, phoneNumber = ?, customer_address = ? \n"
+                    + "  set password = ?, phoneNumber = ?, customer_address = ?, customer_name= ? \n"
                     + "  where customer_id = ?";
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
@@ -230,8 +241,9 @@ public class CustomerDAO extends DBContext {
             ps.setString(1, password);
             ps.setString(2, phoneNumber);
             ps.setString(3, address);
+            ps.setString(4, customer_name);
 
-            ps.setInt(4, customer_id);
+            ps.setInt(5, customer_id);
 
             // Thực hiện truy vấn
             ps.executeUpdate();
@@ -260,7 +272,8 @@ public class CustomerDAO extends DBContext {
 
     public Customer getCustomer(int customer_id) {
         try {
-            String sql = "select customer_id, username,password,email,phoneNumber,role from Customer where customer_id = ?";
+            String sql = "select customer_id, username,password,email,phoneNumber,role,\n"
+                    + "customer_name,customer_address from Customer where customer_id = ?";
             Connection connection = null;
 
             connection = db.getConnection();
@@ -276,8 +289,9 @@ public class CustomerDAO extends DBContext {
             customer.setUsername(rs.getString("username").trim());
             customer.setPassword(rs.getString("password"));
             customer.setEmail(rs.getString("email"));
+            customer.setCustomer_name(rs.getString("customer_name").trim());
             customer.setPhoneNumber(rs.getString("phoneNumber").trim());
-
+            customer.setAddress(rs.getString("customer_address").trim());
             customer.setRole(rs.getString("role"));
 
             rs.close();

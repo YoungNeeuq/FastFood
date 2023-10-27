@@ -128,11 +128,24 @@
             </div>
 
         </div>
+        <%
+            Cookie[] cookies = request.getCookies(); // Get the array of cookies from the request
+            int storeId = 0;
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("store_id".equals(cookie.getName())) {
+                        String storeIdValue = cookie.getValue();
+                        storeId = Integer.parseInt(storeIdValue);
+
+                    }
+                }
+            }
+        %>
         <div style="margin:100px 0 150px 0;">
             <div style="text-align: center;">
                 <h1 style=" font-weight: bold;">Chi tiết đơn hàng</h1>
                 <button type="submit" class="btn btn-secondary mb-4" >
-                    <a href="ShowConfirmOrder" style=" color: white; text-decoration: none;" >Trở về</a> </button>
+                    <a href="ShowConfirmOrder?store_id=<%= storeId%>" style=" color: white; text-decoration: none;" >Trở về</a> </button>
             </div>
             <table class="table">
                 <thead class="thead-dark">
@@ -175,12 +188,14 @@
             <div style="display:flex; gap:26px; justify-content: end; margin-right: 50px;">
 
                 <input type="hidden" name="order_id" value="<%= order_id%>">
+                <input type="hidden" name="store_id" value="<%= storeId%>">
                 <button class="btn btn-success" type="submit" name="viewButton" value="1" onclick="confirm()">
                     Xác nhận
                 </button>
 
 
                 <input type="hidden" name="order_id" value="<%= order_id%>">
+                <input type="hidden" name="store_id" value="<%= storeId%>">
                 <button type="submit" name="viewButton" value="2" class="btn btn-danger" onclick="delete1()">
                     Từ chối
                 </button>
@@ -205,7 +220,7 @@
                 <div class="modal-content" style="width: 30%;">
                     <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn xác nhận ?</h5>
                     <div class="d-flex btnlogout">
-                        <button onclick="yes1(<%=order_id%>,<%=value1%>)" type="button" class="btn btn-warning">Yes</button>
+                        <button onclick="yes1(<%=order_id%>,<%= storeId%>,<%=value1%>)" type="button" class="btn btn-warning">Yes</button>
                         <button onclick="no1(${loop.index})" type="button" class="btn btn-success">No</button>
                     </div>
                 </div><!-- comment -->
@@ -301,8 +316,8 @@
                                 modal.style.display = "block";
                             }
 
-                            function yes2(order_id, value) {
-                                window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value;
+                            function yes2(order_id, store_id, value) {
+                                window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value + "&store_id=" + store_id;
                             }
 
                             //khac me chi o tren dau ma k duoc ta dcm
@@ -315,8 +330,8 @@
                                 modal.style.display = "block";
                             }
 
-                            function yes1(order_id, value) {
-                                window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value;
+                            function yes1(order_id, store_id, value) {
+                                window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value + "&store_id=" + store_id;
                             }
 
                             //khac me chi o tren dau ma k duoc ta dcm

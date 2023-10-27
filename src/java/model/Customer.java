@@ -9,7 +9,9 @@ package model;
  * @author Asus
  */
 public class Customer {
+
     private int customer_id;
+    private String customer_name;
     private String username;
     private String password;
     private String email;
@@ -20,8 +22,9 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(int customer_id, String username, String password, String email, String phoneNumber, String role, String address) {
+    public Customer(int customer_id, String customer_name, String username, String password, String email, String phoneNumber, String role, String address) {
         this.customer_id = customer_id;
+        this.customer_name = customer_name;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -40,6 +43,14 @@ public class Customer {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getCustomer_name() {
+        return customer_name;
+    }
+
+    public void setCustomer_name(String customer_name) {
+        this.customer_name = customer_name;
     }
 
     public void setAddress(String address) {
@@ -96,7 +107,7 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" + "customer_id=" + customer_id + ", username=" + username + ", password=" + password + ", email=" + email + ", phoneNumber=" + phoneNumber + ", role=" + role + '}';
+        return "Customer{" + "customer_id=" + customer_id + ", customer_name=" + customer_name + ", username=" + username + ", password=" + password + ", email=" + email + ", phoneNumber=" + phoneNumber + ", role=" + role + ", address=" + address + '}';
     }
-    
+
 }

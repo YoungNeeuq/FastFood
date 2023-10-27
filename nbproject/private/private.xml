@@ -3,41 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/oke.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/guest/controller/RegisterServlet.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/viewDetailOrderByStore.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/confirmOrder.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/customer.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/profile.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/Cart/CartServlet.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/customer/controller/NewPassword.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/admin/controller/ShowConfirmOrder.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/customer/controller/ListProductCustomer.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/guest.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/orderTracking.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/admin.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/guest/controller/DetailProductGuest.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/connectDB/DBInfor.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/DetailProductGuest.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/viewDetailOrder.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/storeList.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/css/styleadmin.css</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/admin/controller/ConfirmOrderServlet.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/guest/controller/ListProductGuest.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/checkout.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/Store.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/customer/controller/CheckOutServlet.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/statisticByMonth.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/customer/controller/UpdateProfileServlet.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/customer/controller/FindAddressServlet.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/dal/OrderDAO.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/customer/controller/ForgotPassword.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/orderHistory.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/customer/controller/OrderTracking.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/detailProduct.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/Product/DetailProduct.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/src/java/connectDB/DBContext.java</file>
-            <file>file:/C:/Users/HAU/Desktop/PRO/PROJECT/web/Cart.jsp</file>
+            <file>file:/D:/FPT%20Nam%203/PROJECTDead/web/guest.jsp</file>
         </group>
     </open-files>
 </project-private>
