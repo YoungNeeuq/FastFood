@@ -67,7 +67,7 @@ public class ShowConfirmOrder extends HttpServlet {
         try {
             // Lấy dữ liệu từ cookie và giải mã ở phía servlet
             int store_id = Integer.parseInt(request.getParameter("store_id"));
-            String status = "Succeed";
+            String status = "Canceled";
             OrderDAO orderDAO = new OrderDAO();
             StoreDAO storeDAO = new StoreDAO();
             List<Order> listOrder = orderDAO.getOrderByStoreIdAndStatus(store_id, status);
