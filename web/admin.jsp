@@ -191,7 +191,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="typeOfDish"><i class="fa-solid fa-tag"></i></label>
-                                <input type="text" id="typeOfDish" name="typeOfDish" placeholder="Phân loại ( Combo : c , Món lẻ : d )" required>
+
+                                <select name="typeOfDish" require>
+                                    <option value="f">Food</option>
+                                    <option value="d">Drink</option><!-- comment -->
+                                    <option value="c">Combo</option>
+                                    <option value="i">Icecream</option>
+                                </select>
                                 <span class="sp-thongbao" id="tbType"></span>
                             </div>
 

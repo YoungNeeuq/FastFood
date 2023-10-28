@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="model.MonthlyTotal"%>
 <%@page import="model.Order"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -133,10 +134,12 @@
                 <button class="btn btn-secondary mb-4">  <a style="
                                                             color: white; text-decoration: none;" href="Statistic">Trở về</a> </button>
                     <%
+
                         List<Integer> listYear = (List) request.getAttribute("listYear");
                         List<Order> listOrder = (List) request.getAttribute("listOrder");
                         int sum = (int) request.getAttribute("sum");
                         int year = (int) request.getAttribute("year");
+                        List<MonthlyTotal> list = (List) request.getAttribute("listTotal");
                     %>
                 <form action="RevenueByDateMonthYear" method="Post" style="display: flex; width: fit-content; gap:20px;
                       margin: auto;">
@@ -146,10 +149,44 @@
                         </c:forEach>
                     </select>
                     <input type="hidden" name="type" value="3" />
+
                     <button type="submit" class="btn btn-info">Xem</button>
                 </form>
 
             </div>
+            <div class="chart">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Year</td>
+                            <td>Month</td>
+                            <td>Revenue</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:choose>
+                            <c:when test="${empty listTotal}">
+                            <p>Không có</p>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="c" items="${listTotal}">
+                                <tr>
+                                    <td>${c.getYear()}</td>
+                                    <td> ${c.getMonth()}</td>
+                                    <td>${c.total}</td>
+                                </tr>
+
+
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+
             <table class="table mt-4" style="text-align: center;">
                 <thead  class="thead-dark">
                     <tr>

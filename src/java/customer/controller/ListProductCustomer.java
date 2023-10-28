@@ -67,15 +67,15 @@ public class ListProductCustomer extends HttpServlet {
             DishDAO dishDao = new DishDAO();
             ArrayList<Dish> list = dishDao.getAll();
             request.setAttribute("listss", list); // request scope
-            ArrayList<Dish> breakfast = dishDao.getAll();
-            List<Dish> listTypeD = dishDao.getDishByType("d");
-            request.setAttribute("listTypeD", listTypeD);
-            request.setAttribute("break", breakfast);
+//            ArrayList<Dish> breakfast = dishDao.getAll();
+            List<Dish> listTypeF = dishDao.getDishByType("f");
+            request.setAttribute("listTypeF", listTypeF);
+//            request.setAttribute("break", breakfast);
             List<Dish> listTypeC = dishDao.getDishByType("c");
             request.setAttribute("listTypeC", listTypeC);
-            List<Dish> listPriceA = dishDao.getDishByPrice("ASC");
-            request.setAttribute("listPriceA", listPriceA);
-            List<Dish> listPriceD = dishDao.getDishByPrice("DESC");
+            List<Dish> listPriceI = dishDao.getDishByType("i");
+            request.setAttribute("listPriceI", listPriceI);
+            List<Dish> listPriceD = dishDao.getDishByType("d");
             request.setAttribute("listPriceD", listPriceD);
             request.getRequestDispatcher("customer.jsp").forward(request, response);
         } catch (Exception ex) {
