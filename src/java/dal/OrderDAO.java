@@ -17,9 +17,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Customer;
+import model.DailyTotal;
+import model.MonthlyTotal;
 import model.Order;
 import model.OrderDetail;
-import model.Store;
 
 /**
  *
@@ -1676,4 +1677,167 @@ public class OrderDAO {
     }
 //--------------total revenue of store per day of system----------------
 
+    public List<MonthlyTotal> sumOfMonthByYear(int year) {
+        String sql = "SELECT\n"
+                + "                  YEAR([date]) AS [Year],\n"
+                + "                MONTH([date]) AS [Month],\n"
+                + "              SUM([total_price]) AS [MonthlyTotal]\n"
+                + "              FROM\n"
+                + "                 [KFCStore].[dbo].[Order]\n"
+                + "                WHERE\n"
+                + "                  YEAR([date]) = ?\n"
+                + "               AND  pStatus = 'Paid'\n"
+                + "            GROUP By\n"
+                + "                  YEAR([date]),\n"
+                + "                   MONTH([date])\n"
+                + "               ORDER BY\n"
+                + "                  [Year], [Month];";
+
+        List<MonthlyTotal> monthlyTotalList = new ArrayList<>();
+
+        try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int retrievedYear = resultSet.getInt("Year");
+                int month = resultSet.getInt("Month");
+                int monthlyTotal = resultSet.getInt("MonthlyTotal");
+                MonthlyTotal monthlyTotalObj = new MonthlyTotal(month, retrievedYear, monthlyTotal);
+                monthlyTotalList.add(monthlyTotalObj);
+            }
+        } catch (SQLException e) {
+            // Handle database connection or query errors here
+            e.printStackTrace();
+        }
+
+        return monthlyTotalList;
+    }
+
+    // total monthly of store by year
+    public List<MonthlyTotal> sumOfMonthByYearS(int year, int store_id) {
+        String sql = "SELECT\n"
+                + "                  YEAR([date]) AS [Year],\n"
+                + "                MONTH([date]) AS [Month],\n"
+                + "              SUM([total_price]) AS [MonthlyTotal]\n"
+                + "              FROM\n"
+                + "                 [KFCStore].[dbo].[Order]\n"
+                + "                WHERE\n"
+                + "                  YEAR([date]) = ?\n"
+                + "               AND  pStatus = 'Paid'"
+                + "AND store_id = ?\n"
+                + "            GROUP By\n"
+                + "                  YEAR([date]),\n"
+                + "                   MONTH([date])\n"
+                + "               ORDER BY\n"
+                + "                  [Year], [Month];";
+
+        List<MonthlyTotal> monthlyTotalList = new ArrayList<>();
+
+        try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, store_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int retrievedYear = resultSet.getInt("Year");
+                int month = resultSet.getInt("Month");
+                int monthlyTotal = resultSet.getInt("MonthlyTotal");
+                MonthlyTotal monthlyTotalObj = new MonthlyTotal(month, retrievedYear, monthlyTotal);
+                monthlyTotalList.add(monthlyTotalObj);
+            }
+        } catch (SQLException e) {
+            // Handle database connection or query errors here
+            e.printStackTrace();
+        }
+
+        return monthlyTotalList;
+    }
+
+    // total daily in month
+    public List<DailyTotal> sumOfDayByMonth(int year, int month) {
+        String sql = "	 SELECT\n"
+                + "    DAY([date]) AS [Day],\n"
+                + "    MONTH([date]) as [Month],\n"
+                + "    [date],\n"
+                + "    SUM([total_price]) AS [DailyTotal]\n"
+                + "FROM\n"
+                + "    [KFCStore].[dbo].[Order]\n"
+                + "WHERE\n"
+                + "    YEAR([date]) = ?\n"
+                + "    AND MONTH([date]) = ?\n"
+                + "    AND pStatus = 'Paid' \n"
+                + "GROUP BY\n"
+                + "    DAY([date]),\n"
+                + "    MONTH([date]),\n"
+                + "    [date]\n"
+                + "ORDER BY\n"
+                + "    [Day];";
+
+        List<DailyTotal> dailyTotalList = new ArrayList<>();
+
+        try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, month);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int date = resultSet.getInt("Day");
+                int monthh = resultSet.getInt("Month");
+                int dailyTotal = resultSet.getInt("DailyTotal");
+                DailyTotal dailyTotalObj = new DailyTotal(date, monthh, dailyTotal);
+                dailyTotalList.add(dailyTotalObj);
+            }
+        } catch (SQLException e) {
+            // Handle database connection or query errors here
+            e.printStackTrace();
+        }
+
+        return dailyTotalList;
+    }
+
+    // total revenue daily of store by month
+    public List<DailyTotal> sumOfDayByMonthS(int year, int month, int store_id) {
+        String sql = "	 SELECT\n"
+                + "    DAY([date]) AS [Day],\n"
+                + "    MONTH([date]) as [Month],\n"
+                + "    [date],\n"
+                + "    SUM([total_price]) AS [DailyTotal]\n"
+                + "FROM\n"
+                + "    [KFCStore].[dbo].[Order]\n"
+                + "WHERE\n"
+                + "    YEAR([date]) = ?\n"
+                + "    AND MONTH([date]) = ?\n"
+                + "    AND pStatus = 'Paid' "
+                + "AND store_id = ?\n"
+                + "GROUP BY\n"
+                + "    DAY([date]),\n"
+                + "    MONTH([date]),\n"
+                + "    [date]\n"
+                + "ORDER BY\n"
+                + "    [Day];";
+
+        List<DailyTotal> dailyTotalList = new ArrayList<>();
+
+        try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, month);
+            preparedStatement.setInt(3, store_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int date = resultSet.getInt("Day");
+                int monthh = resultSet.getInt("Month");
+                int dailyTotal = resultSet.getInt("DailyTotal");
+                DailyTotal dailyTotalObj = new DailyTotal(date, monthh, dailyTotal);
+                dailyTotalList.add(dailyTotalObj);
+            }
+        } catch (SQLException e) {
+            // Handle database connection or query errors here
+            e.printStackTrace();
+        }
+
+        return dailyTotalList;
+    }
 }

@@ -101,9 +101,9 @@
                     <ul>
                         <li><a href="ListProductServlet">Món ăn</a></li>
                         <li><a href="ListStore">Cửa hàng</a></li>
-                      
+
                         <li><a href="Statistic">Xem doanh thu</a></li>
-                         <li><a href="ListStaffAccountServlet">Nhân viên</a></li>
+                        <li><a href="ListStaffAccountServlet">Nhân viên</a></li>
 
                     </ul>
                 </nav><!-- .navbar -->
@@ -135,7 +135,7 @@
                     <%
                         List<Integer> listMonth = (List) request.getAttribute("listMonth");
                         List<Integer> listYear = (List) request.getAttribute("listYear");
-                      
+
                         int sum = (int) request.getAttribute("sum");
                         int month = (int) request.getAttribute("month");
                         int year = (int) request.getAttribute("year");
@@ -190,6 +190,36 @@
                 </tbody>
             </table>
             <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
+        </div>
+        <div class="chart">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Month</td>
+                        <td>Date</td>
+                        <td>Revenue</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="${empty listDaily}">
+                        <p>Không có</p>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="c" items="${listDaily}">
+                            <tr>
+                                <td>${c.getMonth()}</td>
+                                <td> ${c.getDate()}</td>
+                                <td>${c.getTotal()}</td>
+                            </tr>
+
+
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+                </tbody>
+            </table>
+
         </div>
         <footer id="footer" class="footer">
 

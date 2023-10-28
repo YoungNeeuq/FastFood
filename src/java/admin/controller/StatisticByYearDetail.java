@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.MonthlyTotal;
 import model.Order;
 import model.OrderDetail;
 
@@ -68,6 +69,8 @@ public class StatisticByYearDetail extends HttpServlet {
             int year = Integer.parseInt(request.getParameter("year"));
             request.setAttribute("year", year);
             List<Order> listOrder = orderDAO.getOrderOfStoreByYear(year, store_id);
+            List<MonthlyTotal> listMonthly = orderDAO.sumOfMonthByYearS(year, store_id);
+            request.setAttribute("listMonthly", listMonthly);
             request.setAttribute("listOrder", listOrder);
             request.getRequestDispatcher("statisticByYearDetail.jsp").forward(request, response);
         } catch (Exception ex) {

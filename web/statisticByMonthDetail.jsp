@@ -155,8 +155,8 @@
                         int total = listOrder.size();
                         StoreDAO storeDAO = new StoreDAO();
                         CustomerDAO customerDAO = new CustomerDAO();
-                        int month =(int)request.getAttribute("month");
-                        int year =(int)request.getAttribute("year");
+                        int month = (int) request.getAttribute("month");
+                        int year = (int) request.getAttribute("year");
                     %>
 
                 <table class="table mt-4" style="text-align: center;">
@@ -188,8 +188,8 @@
                                 <td>${order.getDate()}</td>
                                 <td>
                                     <form action="StatisticByMonthDetail" method="POST"> 
-                                        <input type="hidden" name="month" value="<%= month %>"/>
-                                        <input type="hidden" name="year" value="<%= year %>"/>
+                                        <input type="hidden" name="month" value="<%= month%>"/>
+                                        <input type="hidden" name="year" value="<%= year%>"/>
                                         <input type="hidden" name="order_id" value="${order.getOrder_id()}"/>
                                         <button type="submit">
                                             View Detail
@@ -206,6 +206,36 @@
                 </table>
                 <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%= total%></h4>
             </div>
+        </div>
+        <div class="chart">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Month</td>
+                        <td>Date</td>
+                        <td>Revenue</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="${empty listDaily}">
+                        <p>Không có</p>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="c" items="${listDaily}">
+                            <tr>
+                                <td>${c.getMonth()}</td>
+                                <td> ${c.getDate()}</td>
+                                <td>${c.getTotal()}</td>
+                            </tr>
+
+
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+                </tbody>
+            </table>
+
         </div>
         <footer id="footer" class="footer">
 

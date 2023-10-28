@@ -14,7 +14,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="css/styleadmin.css"/>
         <link href="bootstrap/bootstrap.min.css" rel="stylesheet">
         <link href="assets/img/favicon.png" rel="icon">
@@ -112,76 +112,77 @@
 
             </header><!-- End Header -->
             <div style="margin:100px 0 150px 0;">
-            <% StoreDAO storeDAO = new StoreDAO();
+                <% StoreDAO storeDAO = new StoreDAO();
 
-            %>
-            <div style="text-align: center;">
-                 <h1 style=" font-weight: bold;">Danh sách nhân viên</h1>
-                 <button type="submit" class="btn btn-secondary mb-4" >
-          <a style=" color: white; text-decoration: none;"  href="ListProductServlet">Back</a>
-          </button>
-          <br>
-          <button class="btn btn-secondary mb-4 mt-4" id="btnThem">Thêm tài khoản nhân viên</button>
-            </div>
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">ID Nhân viên</th>
-                    <th scope="col">Tài khoản</th>
-                    <th scope="col">Mật khẩu</th>
-                    <th scope="col">Tên cửa hàng</th>
-                </tr>
-                </thead>
-                <c:forEach items="${listStaff}" var="staff">
-                    <tr>
-                        <td>${staff.getStaff_id()}</td>
-                        <td>${staff.getUsername()}</td>
-                        <td>***********</td>
-                        <c:set var="store_id" value="${staff.getStore_id()}"></c:set>
-                        <td><%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%></td>
+                %>
+                <div style="text-align: center;">
+                    <h1 style=" font-weight: bold;">Danh sách nhân viên</h1>
+                    <button type="submit" class="btn btn-secondary mb-4" >
+                        <a style=" color: white;
+                        text-decoration: none;"  href="ListProductServlet">Back</a>
+                    </button>
+                    <br>
+                    <button class="btn btn-secondary mb-4 mt-4" id="btnThem">Thêm tài khoản nhân viên</button>
+                </div>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID Nhân viên</th>
+                            <th scope="col">Tài khoản</th>
+                            <th scope="col">Mật khẩu</th>
+                            <th scope="col">Tên cửa hàng</th>
+                        </tr>
+                    </thead>
+                    <c:forEach items="${listStaff}" var="staff">
+                        <tr>
+                            <td>${staff.getStaff_id()}</td>
+                            <td>${staff.getUsername()}</td>
+                            <td>***********</td>
+                            <c:set var="store_id" value="${staff.getStore_id()}"></c:set>
+                            <td><%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%></td>
 
-                    </tr>
-                </c:forEach>
+                        </tr>
+                    </c:forEach>
 
-            </table>
-          
-            <form id="myModal" class="modal" action="AddNewStaffAccount" method="get" >
-                <div class="modal-content" id="modall" style="width:30%;">
-                    <h2 id="header-modal">Thêm tài khoản nhân viên</h2>
-                    <div  class="container-form">
-                        <div id="employeeForm">
-                            <div class="form-group">
-                                <label for="username"><i class="fa-solid fa-drumstick-bite"></i></label>
-                                <input type="text" id="username" name="username" placeholder="Tài khoản" required>
-                                <span class="sp-thongbao" id="tbName"></span>
-                            </div>
+                </table>
 
-                            <div class="form-group">
-                                <label for="password" ><i class="fa-solid fa-circle-info"></i></label>
-                                <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
-                                <span class="sp-thongbao" id="tbInfor"></span>
-                            </div>
+                <form id="myModal" class="modal" action="AddNewStaffAccount" method="get" >
+                    <div class="modal-content" id="modall" style="width:30%;">
+                        <h2 id="header-modal">Thêm tài khoản nhân viên</h2>
+                        <div  class="container-form">
+                            <div id="employeeForm">
+                                <div class="form-group">
+                                    <label for="username"><i class="fa-solid fa-drumstick-bite"></i></label>
+                                    <input type="text" id="username" name="username" placeholder="Tài khoản" required>
+                                    <span class="form-message" style="color:red;">${tb}</span>
+                                </div>
 
-                            <div class="form-group">
-                                <select name="store_id" class="form-select" aria-label="Default select example">
-                                    <option value="0">Chọn cửa hàng</option>
-                                    <c:forEach var="store" items="${listStore}" >
-                                        <option value="${store.getStore_id()}">${store.getStore_name()}</option>
-                                    </c:forEach>
-                                </select>
-                                <span class="sp-thongbao" id="tbSalary"></span>
+                                <div class="form-group">
+                                    <label for="password" ><i class="fa-solid fa-circle-info"></i></label>
+                                    <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
+                                    <span class="sp-thongbao" id="tbInfor"></span>
+                                </div>
+
+                                <div class="form-group">
+                                    <select name="store_id" class="form-select" aria-label="Default select example">
+                                        <option value="0">Chọn cửa hàng</option>
+                                        <c:forEach var="store" items="${listStore}" >
+                                            <option value="${store.getStore_id()}">${store.getStore_name()}</option>
+                                        </c:forEach>
+                                    </select>
+                                    <span class="sp-thongbao" id="tbSalary"></span>
+                                </div>
                             </div>
                         </div>
+                        <div class="footer-modal">
+                            <button type="submit" value="Submit!" name="submit" style="margin-left: 46.5%;" class="submit submit-form" id="them">Thêm</button>
+                            <button class="close-button" onclick="closeForm('myModal')">Đóng</button>
+                        </div>
                     </div>
-                    <div class="footer-modal">
-                        <button type="submit" value="Submit!" name="submit" style="margin-left: 46.5%;" class="submit submit-form" id="them">Thêm</button>
-                       <button class="close-button" onclick="closeForm('myModal')">Đóng</button>
-                    </div>
-                </div>
-                
-            </form> 
-          </div>
-             <div class="modal" id="myModal12">
+
+                </form> 
+            </div>
+            <div class="modal" id="myModal12">
                 <div class="modal-content2" style="width: 30%;">
                     <h5 style=" margin-bottom: 20px;">
                         Bạn có chắc chắn bạn muốn thoát??</h5>
@@ -192,7 +193,7 @@
                 </div>
 
             </div>
-              <footer id="footer" class="footer">
+            <footer id="footer" class="footer">
 
                 <div class="container">
                     <div class="row gy-3">
@@ -257,7 +258,7 @@
 
             </footer><!-- End Footer -->
             <script>
-             const modal = document.getElementById('myModal');
+                const modal = document.getElementById('myModal');
                 const modall = document.getElementById('myModaledit');
                 const btn = document.getElementById('btnThem');
                 btn.addEventListener('click', () => {
@@ -274,7 +275,7 @@
                     const form = document.getElementById(formId);
                     form.style.display = 'none';
                 }
-                 function logout() {
+                function logout() {
                     document.getElementById("myModal12").style.display = "block";
                 }
                 function no() {
@@ -285,7 +286,7 @@
                     window.location.href = "ListProductGuest";
                 }
             </script>
-                      <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
             <script src="vendor/aos/aos.js"></script>
             <script src="vendor/glightbox/js/glightbox.min.js"></script>
             <script src="vendor/purecounter/purecounter_vanilla.js"></script>

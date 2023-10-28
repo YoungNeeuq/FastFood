@@ -60,12 +60,19 @@ public class AddNewStaffAccount extends HttpServlet {
             throws ServletException, IOException {
         try {
             StaffDAO staffDAO = new StaffDAO();
-            String username = request.getParameter("username");
+            String username = request.getParameter("username").trim();
             String password = request.getParameter("password");
+            String user = staffDAO.getStaffByUsername(username).getUsername().trim();
             int store_id = Integer.parseInt(request.getParameter("store_id"));
-            String role = "s";
-            staffDAO.addStaff(username, password, role, store_id);
-            response.sendRedirect("ListStaffAccountServlet");
+            if (username.equals(user)) {
+                String role = "s";
+                staffDAO.addStaff(username, password, role, store_id);
+                response.sendRedirect("ListStaffAccountServlet");
+            } else {
+                request.setAttribute("tb", "username da ton tai");
+                request.getRequestDispatcher("ListStaffAccountServlet").forward(request, response);
+            }
+
         } catch (Exception ex) {
             Logger.getLogger(AddNewStaffAccount.class.getName()).log(Level.SEVERE, null, ex);
         }

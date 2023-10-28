@@ -64,9 +64,9 @@ public class StatisticByStore extends HttpServlet {
             throws ServletException, IOException {
         try {
             int store_id = Integer.parseInt(request.getParameter("store_id"));
-            
+
             OrderDAO orderDAO = new OrderDAO();
-           
+
             StoreDAO storeDAO = new StoreDAO();
             Store store = storeDAO.getStoreById(store_id);
             request.setAttribute("store_id", store_id);
@@ -74,8 +74,8 @@ public class StatisticByStore extends HttpServlet {
             request.setAttribute("storee", store);
             request.setAttribute("sumByStore", sumByStore);
             List<Order> listOrder = orderDAO.getOrderByStoreId(store_id);
-           int total = listOrder.size();
-           request.setAttribute("total", total);
+            int total = listOrder.size();
+            request.setAttribute("total", total);
             request.setAttribute("listOrder", listOrder);
             request.getRequestDispatcher("statisticByStore.jsp").forward(request, response);
         } catch (Exception ex) {

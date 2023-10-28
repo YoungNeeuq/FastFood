@@ -300,43 +300,41 @@
                             </a>
                         </li><!-- End tab nav item -->
                         <li class="nav-item">
-                            <a  class="nav-link" data-bs-toggle="tab"data-id="searchType" data-value="d" data-bs-target="#menu-breakfast" >
-                                <h4>Món lẻ</h4>
-                            </a><!-- End tab nav item -->
+                            <a  class="nav-link" data-bs-toggle="tab"data-id="searchType" data-value="f" 
+                                data-bs-target="#menu-food" >
+                                <h4>Food</h4>
+                            </a>
+                        </li><!-- End tab nav item -->
 
                         <li class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-lunch">
+                            <a  class="nav-link" data-bs-toggle="tab"data-id="searchType" data-value="d" 
+                                data-bs-target="#menu-drink" >
+                                <h4>Drink</h4>
+                            </a>
+                        </li><!-- End tab nav item -->
+                        <li class="nav-item">
+                            <a  class="nav-link" data-bs-toggle="tab"data-id="searchType" data-value="i" 
+                                data-bs-target="#menu-ice" >
+                                <h4>Icecream</h4>
+                            </a>
+                        </li><!-- End tab nav item -->
+                        <li class="nav-item">
+                            <a  class="nav-link" data-bs-toggle="tab"data-id="searchType" data-value="c" 
+                                data-bs-target="#menu-combo" >
                                 <h4>Combo</h4>
                             </a>
                         </li><!-- End tab nav item -->
+
                         <div style="display:flex;gap:0px; margin-left: 20px;">
-                        <div style="border: var(--bs-border-width) solid var(--bs-border-color);
-    border-radius: var(--bs-border-radius); display: flex; padding: 0 5px;">
-                        <label style="margin: auto 0;
-    height: fit-content;">Giá :</label>
-                         <div style="display:flex; gap:1px;">
-                    <div class="nav-item" style="list-style-type: none;">
-                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-caothap"
-                                style="border-bottom:none;width: 12px;">
-                                <h4> <i style="font-size:22px;" class="fa-solid fa-caret-down"></i></h4>
-                            </a>
-                        </div>
-                             </div>
-                        <div class="nav-item">
-                            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#menu-thapcao"
-                               style="border-bottom:none;width: 12px; margin-top: 2px;">
-                                <h4> <i style="font-size:22px;" class="fa-solid fa-caret-up"></i></h4>
-                            </a>
-                        </div>
-                        </div>
-                        <!-- End tab nav item -->
-                        <form action="searchAjax" method="get" style="display:flex; gap:5px; margin-left: 15px; ">
-                            <input class="form-control" aria-label="Text input with segmented dropdown button" type="text" id="searchInput" value="" oninput="searchByName()" name="txt" />
-                            <button class="btn btn-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                        </form>
+
+                            <!-- End tab nav item -->
+                            <form action="searchAjax" method="get" style="display:flex; gap:5px; margin-left: 15px; ">
+                                <input class="form-control" aria-label="Text input with segmented dropdown button" type="text" id="searchInput" value="" oninput="searchByName()" name="txt" />
+                                <button class="btn btn-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            </form>
                         </div>
                     </ul>
-                    
+
 
                     <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
 
@@ -344,13 +342,13 @@
 
                             <div class="tab-header text-center" id="">
                                 <p>Menu</p>
-                                <h3>Menu</h3>
+                                <h3>Tất cả</h3>
                             </div>
                             <div class="row gy-5" id="content" >
                                 <c:forEach var="dish" items="${listss}" >
                                     <div class="col-lg-4 menu-item" >
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                         <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
 
                                         <p class="ingredients">
                                             ${dish.getInfor()}
@@ -366,22 +364,21 @@
 
                         </div><!-- End Starter Menu Content -->
 
-                        <div class="tab-pane fade" id="menu-breakfast">
+                        <div class="tab-pane fade" id="menu-food">
 
                             <div class="tab-header text-center">
                                 <p>Menu</p>
-                                <h3>Món lẻ</h3>
+                                <h3>Food</h3>
                             </div>
 
                             <div class="row gy-5" id="content1">
 
 
-                                <c:forEach var="dish" items="${listTypeD}" >
+                                <c:forEach var="dish" items="${listTypeF}" >
 
                                     <div class="col-lg-4 menu-item" >
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
-                                        <p class="ingredients">
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>  <p class="ingredients">
                                             ${dish.getInfor()}
                                         </p>
                                         <p class="price" >
@@ -389,27 +386,26 @@
                                         </p>           
                                     </div><!-- Menu Item -->
                                 </c:forEach>
-                                <c:if test="${empty listTypeD}">
+                                <c:if test="${empty listTypeF}">
                                     <p>Danh sách món ăn hiện đang trống.</p>
                                 </c:if>
                             </div>
                         </div><!-- End Breakfast Menu Content -->
 
-                        <div class="tab-pane fade" id="menu-lunch">
+                        <div class="tab-pane fade" id="menu-drink">
 
                             <div class="tab-header text-center">
                                 <p>Menu</p>
-                                <h3>Combo</h3>
+                                <h3>Drink</h3>
                             </div>
 
                             <div class="row gy-5" id="content2">
 
-                                <c:forEach var="dish" items="${listTypeC}" >
+                                <c:forEach var="dish" items="${listPriceD}" >
 
                                     <div class="col-lg-4 menu-item" >
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
-                                        <p class="ingredients">
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>   <p class="ingredients">
                                             ${dish.getInfor()}
                                         </p>
                                         <p class="price" >
@@ -417,28 +413,27 @@
                                         </p>           
                                     </div><!-- Menu Item -->
                                 </c:forEach>
-                                <c:if test="${empty listTypeC}">
+                                <c:if test="${empty listPriceD}">
                                     <p>Danh sách món ăn hiện đang trống.</p>
                                 </c:if>
 
                             </div>
                         </div><!-- End Lunch Menu Content -->
 
-                        <div class="tab-pane fade" id="menu-caothap">
+                        <div class="tab-pane fade" id="menu-ice">
 
                             <div class="tab-header text-center">
                                 <p>Menu</p>
-                                <h3>Giá cao - thấp</h3>
+                                <h3>Ice cream</h3>
                             </div>
 
                             <div class="row gy-5" id="content3">
 
-                                <c:forEach var="dish" items="${listPriceD}" >
+                                <c:forEach var="dish" items="${listPriceI}" >
 
                                     <div class="col-lg-4 menu-item" >
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
-                                        <p class="ingredients">
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>   <p class="ingredients">
                                             ${dish.getInfor()}
                                         </p>
                                         <p class="price" >
@@ -452,22 +447,21 @@
 
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="menu-thapcao">
+                        <div class="tab-pane fade" id="menu-combo">
 
                             <div class="tab-header text-center">
                                 <p>Menu</p>
-                                <h3>Giá thấp - cao</h3>
+                                <h3>Combo</h3>
                             </div>
 
                             <div class="row gy-5" id="content4">
 
-                                <c:forEach var="dish" items="${listPriceA}" >   
-      
+                                <c:forEach var="dish" items="${listTypeC}" >   
+
                                     <div class="col-lg-4 menu-item"  >
-                                        
+
                                         <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>
-                                        <p class="ingredients">
+                                        <h4><a href="DetailProductGuest?pid=${dish.getDish_id()}" title="View Product">${dish.getName()}</a></h4>  <p class="ingredients">
                                             ${dish.getInfor()}
                                         </p>
                                         <p class="price" >
@@ -475,7 +469,7 @@
                                         </p>   
                                     </div><!-- Menu Item -->
                                 </c:forEach>
-                                <c:if test="${empty listPriceA}">
+                                <c:if test="${empty listTypeC}">
                                     <p>Danh sách món ăn hiện đang trống.</p>
                                 </c:if>
 
@@ -487,6 +481,7 @@
 
                 </div>
             </section><!-- End Menu Section -->
+
 
             <!-- ======= Contact Section ======= -->
             <section id="contact" class="contact">

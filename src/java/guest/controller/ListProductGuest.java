@@ -4,7 +4,6 @@ package guest.controller;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 import admin.controller.ListProductServlet;
 import dal.DishDAO;
 import java.io.IOException;
@@ -42,7 +41,7 @@ public class ListProductGuest extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListProductGuest</title>");            
+            out.println("<title>Servlet ListProductGuest</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ListProductGuest at " + request.getContextPath() + "</h1>");
@@ -60,29 +59,28 @@ public class ListProductGuest extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-     @Override
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             DishDAO dishDao = new DishDAO();
             ArrayList<Dish> list = dishDao.getAll();
             request.setAttribute("listss", list); // request scope
-            ArrayList<Dish> breakfast = dishDao.getAll();
-            List<Dish> listTypeD = dishDao.getDishByType("d");
-            request.setAttribute("listTypeD", listTypeD);
-            request.setAttribute("break", breakfast);
+//            ArrayList<Dish> breakfast = dishDao.getAll();
+            List<Dish> listTypeF = dishDao.getDishByType("f");
+            request.setAttribute("listTypeF", listTypeF);
+//            request.setAttribute("break", breakfast);
             List<Dish> listTypeC = dishDao.getDishByType("c");
             request.setAttribute("listTypeC", listTypeC);
-            List<Dish> listPriceA = dishDao.getDishByPrice("ASC");
-            request.setAttribute("listPriceA", listPriceA);
-            List<Dish> listPriceD = dishDao.getDishByPrice("DESC");
+            List<Dish> listPriceI = dishDao.getDishByType("i");
+            request.setAttribute("listPriceI", listPriceI);
+            List<Dish> listPriceD = dishDao.getDishByType("d");
             request.setAttribute("listPriceD", listPriceD);
             request.getRequestDispatcher("guest.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ListProductServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
     /**
      * Handles the HTTP <code>POST</code> method.

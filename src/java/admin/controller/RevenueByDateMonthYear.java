@@ -19,6 +19,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.DailyTotal;
+import model.MonthlyTotal;
 import model.Order;
 import model.Store;
 
@@ -110,6 +112,7 @@ public class RevenueByDateMonthYear extends HttpServlet {
                 SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MM");
                 int year = Integer.parseInt(dateFormatYear.format(date));
                 int month = Integer.parseInt(dateFormatMonth.format(date));
+
                 List<Order> listOrder = orderDAO.getOrderByMonth(month, year);
                 int sum = orderDAO.sumOrderByMonth(month, year);
                 request.setAttribute("listMonth", listMonth);
@@ -118,6 +121,8 @@ public class RevenueByDateMonthYear extends HttpServlet {
                 request.setAttribute("year", year);
                 int total = listOrder.size();
                 request.setAttribute("total", total);
+                List<DailyTotal> listDaily = orderDAO.sumOfDayByMonth(year, month);
+                request.setAttribute("listDaily", listDaily);
 //                request.setAttribute("listOrder", listOrder);
                 StoreDAO storeDAO = new StoreDAO();
                 List<Store> listStore = storeDAO.totalPriceOfStoreByMonth(year, month);
@@ -128,6 +133,7 @@ public class RevenueByDateMonthYear extends HttpServlet {
                 Date date = new Date();
                 SimpleDateFormat dateFormatYear = new SimpleDateFormat("yyyy");
                 int year = Integer.parseInt(dateFormatYear.format(date));
+                List<MonthlyTotal> listTotal = orderDAO.sumOfMonthByYear(2023);
 
                 StoreDAO storeDAO = new StoreDAO();
                 List<Order> listOrder = orderDAO.getOrderByYear(year);
@@ -139,6 +145,7 @@ public class RevenueByDateMonthYear extends HttpServlet {
                 request.setAttribute("total", total);
                 request.setAttribute("listStore", listStore);
                 request.setAttribute("sum", sum);
+                request.setAttribute("listTotal", listTotal);
                 request.getRequestDispatcher("statisticByYear.jsp").forward(request, response);
             }
 
@@ -213,6 +220,7 @@ public class RevenueByDateMonthYear extends HttpServlet {
                 request.setAttribute("year", year);
                 int total = listOrder.size();
                 request.setAttribute("total", total);
+
 //                request.setAttribute("listOrder", listOrder);
                 StoreDAO storeDAO = new StoreDAO();
                 List<Store> listStore = storeDAO.totalPriceOfStoreByMonth(year, month);
@@ -226,6 +234,8 @@ public class RevenueByDateMonthYear extends HttpServlet {
                 List<Order> listOrder = orderDAO.getOrderByYear(year);
                 List<Store> listStore = storeDAO.totalPriceOfStoreByYear(year);
                 int sum = orderDAO.sumOrderByYear(year);
+                List<MonthlyTotal> listTotal = orderDAO.sumOfMonthByYear(2023);
+                request.setAttribute("listTotal", listTotal);
                 request.setAttribute("listYear", listYear);
                 int total = listOrder.size();
                 request.setAttribute("year", year);

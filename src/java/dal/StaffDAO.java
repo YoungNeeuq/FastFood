@@ -157,4 +157,34 @@ public class StaffDAO {
 
         return null;
     }
+
+    public Staff getStaffByUsername(String username) {
+
+        try {
+            String sql = "SELECT * FROM Staff WHERE username = ? ;";
+            Connection connection = null;
+
+            connection = db.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            Staff staff = new Staff();
+
+            while (rs.next()) {
+                staff.setStaff_id(rs.getInt("staff_id"));
+                staff.setUsername(rs.getString("username"));
+                staff.setPassword(rs.getString("password"));
+
+                // return lap tuc!
+                return staff;
+            }
+
+            rs.close();
+            ps.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(AdminDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

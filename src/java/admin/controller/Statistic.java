@@ -70,7 +70,7 @@ public class Statistic extends HttpServlet {
             List<Store> storeList = storeDAO.getAll();
             request.setAttribute("storeList", storeList);
             List<Order> list = orderDAO.getOrderByStatus("succeed");
-
+            
             request.setAttribute("list", list);
             request.getRequestDispatcher("statisticAll.jsp").forward(request, response);
         } catch (Exception ex) {

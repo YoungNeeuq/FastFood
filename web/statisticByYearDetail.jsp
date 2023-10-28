@@ -187,7 +187,7 @@
                                 <td>
                                     <form action="StatisticByYearDetail" method="POST"> 
                                         <input type="hidden" name="order_id" value="${order.getOrder_id()}"/>
-                                        <input type="hidden" name="year" value="<%= year %>"/>
+                                        <input type="hidden" name="year" value="<%= year%>"/>
                                         <button type="submit">
                                             View Detail
                                         </button>
@@ -202,6 +202,36 @@
                 </table>
                 <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%= total%></h4>
             </div>
+        </div>
+        <div class="chart">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Year</td>
+                        <td>Month</td>
+                        <td>Revenue</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="${empty listMonthly}">
+                        <p>Không có</p>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="c" items="${listMonthly}">
+                            <tr>
+                                <td>${c.getYear()}</td>
+                                <td> ${c.getMonth()}</td>
+                                <td>${c.total}</td>
+                            </tr>
+
+
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+                </tbody>
+            </table>
+
         </div>
         <footer id="footer" class="footer">
 
