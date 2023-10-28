@@ -37,6 +37,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.44.0/apexcharts.min.js"></script>
         <style>
             td {
                 padding: 10px; /* Adjust the value as needed */
@@ -84,6 +85,29 @@
             }
             table {
                 text-align: center;
+            }
+            .charts {
+                display: grid;
+                gap: 20px;
+            }
+
+            .charts-card {
+                background-color: #ffffff;
+                margin-bottom: 20px;
+                padding: 25px;
+                box-sizing: border-box;
+                -webkit-column-break-inside: avoid;
+                border: 1px solid #d2d2d3;
+                border-radius: 5px;
+                box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+            }
+
+            .chart-title {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                font-weight: 600;
             }
         </style>
     </head>
@@ -140,6 +164,13 @@
                 <h2 style=" font-weight: bold;">Doanh thu toàn cửa hàng: <%= sum%> đ </h2>
                 <h4 style="color: blueviolet;">Tổng đơn hàng cho toàn bộ cửa hàng: <%= total%> đơn </h4>
                 <button class="btn btn-secondary mb-4">  <a style=" color: white; text-decoration: none;" href="ListProductServlet">Trở về</a> </button>
+                <div class="charts">
+
+                    <div class="charts-card container">
+                        <p class="chart-title">Biểu đồ doanh thu</p>
+                        <div id="bar-chart"></div>
+                    </div>
+                </div>
                 <p>Rank revenue</p>
                 <form action="RevenueByDateMonthYear" method="GET" style="display: flex; width: fit-content; gap:20px;
                       margin: auto;">
@@ -163,7 +194,7 @@
                 <tbody>
                     <c:forEach var="store" items="<%= listStore%>">
                         <tr>
-                            <td style="font-weight: bold; color: blue;"> ${store.getStore_name()}</td>
+                            <td class="namee" style="font-weight: bold; color: blue;"> ${store.getStore_name()}</td>
                             <td> ${store.getAddress()}</td>
                             <td>
                                 <form action="StatisticByStore" method="GET">
@@ -176,8 +207,8 @@
                 </tbody>
             </table>
         </div>
-                
-        <div class="storeList">
+
+        <div class="storeList" style="display:none;">
             <table>
                 <thead>
                     <tr>
@@ -186,20 +217,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                   <c:forEach var="store" items="<%= listStore%>">
-                       <tr>
-                           <td>${store.getStore_name()}</td>
+                    <c:forEach var="store" items="<%= listStore%>">
+                        <tr>
+                            <td >${store.getStore_name()}</td>
                             <c:set var="store_id" value="${store.getStore_id()}"></c:set>
-                <td><%= orderDAO.sumOrderByStore((int) pageContext.getAttribute("store_id"))%></td>
+                            <td class="revenuee"><%= orderDAO.sumOrderByStore((int) pageContext.getAttribute("store_id"))%></td>
 
-                       </tr>
-               
+                        </tr>
 
 
-            </c:forEach>
+
+                    </c:forEach>
                 </tbody>
             </table>
-            
+
         </div>
         <footer id="footer" class="footer">
 
@@ -276,6 +307,60 @@
 
                 window.location.href = "ListProductGuest";
             }
+            var storeNames = [];
+            var nameElements = document.getElementsByClassName('namee');
+            for (var i = 0; i < nameElements.length; i++) {
+                storeNames.push(nameElements[i].innerText);
+            }
+            var doanhthu = [];
+            var dtElements = document.getElementsByClassName('revenuee');
+            for (var i = 0; i < dtElements.length; i++) {
+                doanhthu.push(dtElements[i].innerText);
+            }
+            const barChartOptions = {
+                series: [
+                    {
+                        data: doanhthu
+                    }
+                ],
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    toolbar: {
+                        show: false
+                    }
+                },
+                colors: ['#246dec', '#cc3c43', '#367952', '#f5b74f', '#4f35a1'],
+                plotOptions: {
+                    bar: {
+                        distributed: true,
+                        borderRadius: 4,
+                        horizontal: false,
+                        columnWidth: '40%'
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                legend: {
+                    show: false
+                },
+                xaxis: {
+                    categories: storeNames
+                },
+                yaxis: {
+                    title: {
+                        text: 'Count'
+                    }
+                }
+            };
+
+            const barChart = new ApexCharts(
+                    document.querySelector('#bar-chart'),
+                    barChartOptions
+                    );
+            barChart.render();
+
         </script>
         <!-- Vendor JS Files -->
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
