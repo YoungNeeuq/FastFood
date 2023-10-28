@@ -187,158 +187,164 @@
             </table>
             <div style="display:flex; gap:26px; justify-content: end; margin-right: 50px;">
 
-                <input type="hidden" name="order_id" value="<%= order_id%>">
+               
+
+
+                <% int value = 2;
+                    int value1 = 1;
+                    OrderDAO orderDAO = new OrderDAO();
+                    String status = orderDAO.getOrderById(order_id).getStatus().trim();
+                    
+                    if (status.equals("Pending")) {
+
+
+                %>
+                 <input type="hidden" name="order_id" value="<%= order_id%>">
                 <input type="hidden" name="store_id" value="<%= storeId%>">
                 <button class="btn btn-success" type="submit" name="viewButton" value="1" onclick="confirm()">
                     Xác nhận
                 </button>
-
-
                 <input type="hidden" name="order_id" value="<%= order_id%>">
                 <input type="hidden" name="store_id" value="<%= storeId%>">
                 <button type="submit" name="viewButton" value="2" class="btn btn-danger" onclick="delete1()">
                     Từ chối
                 </button>
+                <% }%>
+              
 
-                </tr>
-            </div>
-            <% int value = 2;
-                int value1 = 1;
-            %>
-
-            <div class="modal" id="modaldelete">
-                <div class="modal-content" style="width: 30%;">
-                    <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn từ chối ?</h5>
-                    <div class="d-flex btnlogout">
-                        <button onclick="yes2(<%=order_id%>,<%=value%>)" type="button" class="btn btn-warning">Yes</button>
-                        <button onclick="no2(${loop.index})" type="button" class="btn btn-success">No</button>
-                    </div>
-                </div><!-- comment -->
-
-            </div>
-            <div class="modal" id="modalconfirm">
-                <div class="modal-content" style="width: 30%;">
-                    <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn xác nhận ?</h5>
-                    <div class="d-flex btnlogout">
-                        <button onclick="yes1(<%=order_id%>,<%= storeId%>,<%=value1%>)" type="button" class="btn btn-warning">Yes</button>
-                        <button onclick="no1(${loop.index})" type="button" class="btn btn-success">No</button>
-                    </div>
-                </div><!-- comment -->
-
-            </div>
-
-        </div>
-        <footer id="footer" class="footer">
-
-            <div class="container">
-                <div class="row gy-3">
-                    <div class="col-lg-3 col-md-6 d-flex">
-                        <i class="bi bi-geo-alt icon"></i>
-                        <div>
-                            <h4>Address</h4>
-                            <p>
-                                FPT University <br>
-                                Khu đô thị FPT Đà Nẵng<br>
-                            </p>
+                <div class="modal" id="modaldelete">
+                    <div class="modal-content" style="width: 30%;">
+                        <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn từ chối ?</h5>
+                        <div class="d-flex btnlogout">
+                            <button onclick="yes2(<%=order_id%>,<%=value%>)" type="button" class="btn btn-warning">Yes</button>
+                            <button onclick="no2(${loop.index})" type="button" class="btn btn-success">No</button>
                         </div>
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 footer-links d-flex">
-                        <i class="bi bi-telephone icon"></i>
-                        <div>
-                            <h4>Reservations</h4>
-                            <p>
-                                <strong>Phone:</strong> (+84) 334807725<br>
-                                <strong>Email:</strong> haulvdev@gmail.com<br>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 footer-links d-flex">
-                        <i class="bi bi-clock icon"></i>
-                        <div>
-                            <h4>Opening Hours</h4>
-                            <p>
-                                <strong>Mon-Sat: 11AM</strong> - 23PM<br>
-                                Sunday: Closed
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 footer-links">
-                        <h4>Follow Us</h4>
-                        <div class="social-links d-flex">
-                            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                        </div>
-                    </div>
+                    </div><!-- comment -->
 
                 </div>
-            </div>
+                <div class="modal" id="modalconfirm">
+                    <div class="modal-content" style="width: 30%;">
+                        <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn xác nhận ?</h5>
+                        <div class="d-flex btnlogout">
+                            <button onclick="yes1(<%=order_id%>,<%= storeId%>,<%=value1%>)" type="button" class="btn btn-warning">Yes</button>
+                            <button onclick="no1(${loop.index})" type="button" class="btn btn-success">No</button>
+                        </div>
+                    </div><!-- comment -->
 
-            <div class="container">
-                <div class="copyright">
-                    &copy; Copyright <strong><span>420ent</span></strong>. All Rights Reserved
                 </div>
-                <div class="credits">
-                    <!-- All the links in the footer should remain intact. -->
-                    <!-- You can delete the links only if you purchased the pro version. -->
-                    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/ -->
-                </div>
+
             </div>
+            <footer id="footer" class="footer">
 
-        </footer><!-- End Footer -->
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="vendor/aos/aos.js"></script>
-        <script src="vendor/glightbox/js/glightbox.min.js"></script>
-        <script src="vendor/purecounter/purecounter_vanilla.js"></script>
-        <script src="vendor/swiper/swiper-bundle.min.js"></script>
-        <script src="vendor/php-email-form/validate.js"></script>
+                <div class="container">
+                    <div class="row gy-3">
+                        <div class="col-lg-3 col-md-6 d-flex">
+                            <i class="bi bi-geo-alt icon"></i>
+                            <div>
+                                <h4>Address</h4>
+                                <p>
+                                    FPT University <br>
+                                    Khu đô thị FPT Đà Nẵng<br>
+                                </p>
+                            </div>
 
-        <!-- Template Main JS File -->
-        <script src="js/main.js"></script>
-        <script> function logout() {
-                                document.getElementById("myModal").style.display = "block";
-                            }
-                            function no() {
-                                document.getElementById("myModal").style.display = "none";
-                            }
-                            function yes() {
+                        </div>
 
-                                window.location.href = "ListProductGuest";
-                            }
-                            function delete1() {
-                                var modal = document.getElementById("modaldelete");
-                                modal.style.display = "block";
-                            }
+                        <div class="col-lg-3 col-md-6 footer-links d-flex">
+                            <i class="bi bi-telephone icon"></i>
+                            <div>
+                                <h4>Reservations</h4>
+                                <p>
+                                    <strong>Phone:</strong> (+84) 334807725<br>
+                                    <strong>Email:</strong> haulvdev@gmail.com<br>
+                                </p>
+                            </div>
+                        </div>
 
-                            function yes2(order_id, store_id, value) {
-                                window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value + "&store_id=" + store_id;
-                            }
+                        <div class="col-lg-3 col-md-6 footer-links d-flex">
+                            <i class="bi bi-clock icon"></i>
+                            <div>
+                                <h4>Opening Hours</h4>
+                                <p>
+                                    <strong>Mon-Sat: 11AM</strong> - 23PM<br>
+                                    Sunday: Closed
+                                </p>
+                            </div>
+                        </div>
 
-                            //khac me chi o tren dau ma k duoc ta dcm
-                            function no2(index) {
-                                var modal = document.getElementById("modaldelete" + index);
-                                modal.style.display = "none";
-                            }
-                            function confirm() {
-                                var modal = document.getElementById("modalconfirm");
-                                modal.style.display = "block";
-                            }
+                        <div class="col-lg-3 col-md-6 footer-links">
+                            <h4>Follow Us</h4>
+                            <div class="social-links d-flex">
+                                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                            </div>
+                        </div>
 
-                            function yes1(order_id, store_id, value) {
-                                window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value + "&store_id=" + store_id;
-                            }
+                    </div>
+                </div>
 
-                            //khac me chi o tren dau ma k duoc ta dcm
-                            function no1(index) {
-                                var modal = document.getElementById("modaldelete" + index);
-                                modal.style.display = "none";
-                            }
-        </script>
+                <div class="container">
+                    <div class="copyright">
+                        &copy; Copyright <strong><span>420ent</span></strong>. All Rights Reserved
+                    </div>
+                    <div class="credits">
+                        <!-- All the links in the footer should remain intact. -->
+                        <!-- You can delete the links only if you purchased the pro version. -->
+                        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/ -->
+                    </div>
+                </div>
+
+            </footer><!-- End Footer -->
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="vendor/aos/aos.js"></script>
+            <script src="vendor/glightbox/js/glightbox.min.js"></script>
+            <script src="vendor/purecounter/purecounter_vanilla.js"></script>
+            <script src="vendor/swiper/swiper-bundle.min.js"></script>
+            <script src="vendor/php-email-form/validate.js"></script>
+
+            <!-- Template Main JS File -->
+            <script src="js/main.js"></script>
+            <script> function logout() {
+                                    document.getElementById("myModal").style.display = "block";
+                                }
+                                function no() {
+                                    document.getElementById("myModal").style.display = "none";
+                                }
+                                function yes() {
+
+                                    window.location.href = "ListProductGuest";
+                                }
+                                function delete1() {
+                                    var modal = document.getElementById("modaldelete");
+                                    modal.style.display = "block";
+                                }
+
+                                function yes2(order_id, store_id, value) {
+                                    window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value + "&store_id=" + store_id;
+                                }
+
+                                //khac me chi o tren dau ma k duoc ta dcm
+                                function no2(index) {
+                                    var modal = document.getElementById("modaldelete" + index);
+                                    modal.style.display = "none";
+                                }
+                                function confirm() {
+                                    var modal = document.getElementById("modalconfirm");
+                                    modal.style.display = "block";
+                                }
+
+                                function yes1(order_id, store_id, value) {
+                                    window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value + "&store_id=" + store_id;
+                                }
+
+                                //khac me chi o tren dau ma k duoc ta dcm
+                                function no1(index) {
+                                    var modal = document.getElementById("modaldelete" + index);
+                                    modal.style.display = "none";
+                                }
+            </script>
     </body>
 </html>

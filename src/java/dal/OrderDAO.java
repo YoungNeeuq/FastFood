@@ -1542,9 +1542,10 @@ public class OrderDAO {
         ResultSet rs = null;
 
         try {
-            String sql = "Select order_id, total_price, date, customer_id, store_id,"
-                    + " status, customer_address, customer_phone, pStatus \n"
-                    + "  from [KFCStore].[dbo].[Order] where store_id = ? and status  != ?";
+            String sql = "Select order_id, total_price, date, customer_id, store_id,\n"
+                    + "  status, customer_address, customer_phone, pStatus \n"
+                    + "   from [KFCStore].[dbo].[Order] where store_id = ? and (status  !=  'Succeed'"
+                    + " and status != ?) ";
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setInt(1, store_id);
@@ -1675,5 +1676,4 @@ public class OrderDAO {
     }
 //--------------total revenue of store per day of system----------------
 
-    
 }

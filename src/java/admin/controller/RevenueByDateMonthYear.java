@@ -8,8 +8,10 @@ import dal.OrderDAO;
 import dal.StoreDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,32 +88,57 @@ public class RevenueByDateMonthYear extends HttpServlet {
                 listYear.add(i);
             }
             if (select == 1) {
-                int sum = 0;
-                int total = 0;
+
+                LocalDate currDate = LocalDate.now();
+                String date = currDate.toString();
+                List<Order> listOrder = orderDAO.getOrderByDate(date);
+                int total = listOrder.size();
                 request.setAttribute("total", total);
+                int sum = orderDAO.sumOrderByDate(date);
+                StoreDAO storeDAO = new StoreDAO();
+                List<Store> listStore = storeDAO.totalPriceOfStoreByDate(date);
+                request.setAttribute("listStore", listStore);
+//                request.setAttribute("listOrder", listOrder);
                 request.setAttribute("listDate", listDate);
+                request.setAttribute("date", date);
                 request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statisticByDate.jsp").forward(request, response);
             } else if (select == 2) {
-                int sum = 0;
-                int total = 0;
-                int month = 0;
-                int year = 0;
-                request.setAttribute("total", total);
-                request.setAttribute("sum", sum);
-                request.setAttribute("month", month);
-                request.setAttribute("year", year);
+
+                Date date = new Date();
+                SimpleDateFormat dateFormatYear = new SimpleDateFormat("yyyy");
+                SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MM");
+                int year = Integer.parseInt(dateFormatYear.format(date));
+                int month = Integer.parseInt(dateFormatMonth.format(date));
+                List<Order> listOrder = orderDAO.getOrderByMonth(month, year);
+                int sum = orderDAO.sumOrderByMonth(month, year);
                 request.setAttribute("listMonth", listMonth);
                 request.setAttribute("listYear", listYear);
+                request.setAttribute("month", month);
+                request.setAttribute("year", year);
+                int total = listOrder.size();
+                request.setAttribute("total", total);
+//                request.setAttribute("listOrder", listOrder);
+                StoreDAO storeDAO = new StoreDAO();
+                List<Store> listStore = storeDAO.totalPriceOfStoreByMonth(year, month);
+                request.setAttribute("listStore", listStore);
+                request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statisticByMonth.jsp").forward(request, response);
             } else {
-                int sum = 0;
-                int total = 0;
-                int year = 0;
+                Date date = new Date();
+                SimpleDateFormat dateFormatYear = new SimpleDateFormat("yyyy");
+                int year = Integer.parseInt(dateFormatYear.format(date));
+
+                StoreDAO storeDAO = new StoreDAO();
+                List<Order> listOrder = orderDAO.getOrderByYear(year);
+                List<Store> listStore = storeDAO.totalPriceOfStoreByYear(year);
+                int sum = orderDAO.sumOrderByYear(year);
+                request.setAttribute("listYear", listYear);
+                int total = listOrder.size();
                 request.setAttribute("year", year);
                 request.setAttribute("total", total);
+                request.setAttribute("listStore", listStore);
                 request.setAttribute("sum", sum);
-                request.setAttribute("listYear", listYear);
                 request.getRequestDispatcher("statisticByYear.jsp").forward(request, response);
             }
 

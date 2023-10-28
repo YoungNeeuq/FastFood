@@ -41,7 +41,7 @@ public class ViewDetailOrder extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ViewDetailOrder</title>");            
+            out.println("<title>Servlet ViewDetailOrder</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ViewDetailOrder at " + request.getContextPath() + "</h1>");
@@ -68,10 +68,10 @@ public class ViewDetailOrder extends HttpServlet {
             OrderDAO orderDAO = new OrderDAO();
             List<OrderDetail> listDetail = orderDAO.getItemById(order_id);
             request.setAttribute("listDetail", listDetail);
-           
+
             request.getRequestDispatcher("viewDetailOrder.jsp").forward(request, response);
         } catch (Exception ex) {
-             String errorMessage = ex.getMessage();
+            String errorMessage = ex.getMessage();
 
             // Đặt thông báo lỗi vào request
             request.setAttribute("errorMessage", errorMessage);
@@ -93,18 +93,18 @@ public class ViewDetailOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         try {
+        try {
             int order_id = Integer.parseInt(request.getParameter("order_id"));
             int store_id = Integer.parseInt(request.getParameter("store_id"));
-           
+
             OrderDAO orderDAO = new OrderDAO();
             StoreDAO storeDAO = new StoreDAO();
             Store store = storeDAO.getStoreById(store_id);
-             request.setAttribute("storee", store);
-             request.setAttribute("store_id", store_id);
+            request.setAttribute("storee", store);
+            request.setAttribute("store_id", store_id);
             List<OrderDetail> listDetail = orderDAO.getItemById(order_id);
             request.setAttribute("listDetail", listDetail);
-           
+
             request.getRequestDispatcher("viewDetailOrderByStore.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ViewDetailOrder.class.getName()).log(Level.SEVERE, null, ex);
