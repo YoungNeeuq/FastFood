@@ -171,7 +171,7 @@
                             <td style=" vertical-align: middle;"> ${orderDetail.getName()}</td>
                             <td style=" vertical-align: middle;"> ${orderDetail.getQuantity()}</td>
                             <td style=" vertical-align: middle;"> ${orderDetail.getPrice()} đ</td>
-                            <td>
+                      
                             </c:forEach>
 
 
@@ -185,7 +185,7 @@
 
 
 
-                        </td>
+                     
                 </tbody>
             </table>
 

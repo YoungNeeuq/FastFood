@@ -145,16 +145,7 @@
 
                 <button type="submit" class="btn btn-secondary mb-4" > <a style=" color: white; text-decoration: none;"  href="Profile?acc=<%=session.getAttribute("account")%>">Trở về </a></button>
 
-                <form action="OrderHistoryByDMY" method="GET" style="display: flex; width: fit-content; gap:20px;
-                      margin: auto;">
-                    <select class="form-select" name ="select" aria-label="Default select example">
-                        <option value="1">Date</option>
-                        <option value="2">Month</option>
-                        <option value="3">Year</option>
-                    </select>
-                    <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
-                    <button type="submit" class="btn btn-info">Xem</button>
-                </form>
+            
 
             </div>
             <%

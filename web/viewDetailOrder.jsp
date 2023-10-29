@@ -190,7 +190,7 @@
                
 
 
-                <% int value = 2;
+                <% int value = 4;
                     int value1 = 1;
                     OrderDAO orderDAO = new OrderDAO();
                     String status = orderDAO.getOrderById(order_id).getStatus().trim();
@@ -216,7 +216,7 @@
                     <div class="modal-content" style="width: 30%;">
                         <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn từ chối ?</h5>
                         <div class="d-flex btnlogout">
-                            <button onclick="yes2(<%=order_id%>,<%=value%>)" type="button" class="btn btn-warning">Yes</button>
+                            <button onclick="yes2(<%=order_id%>,<%=value%>, <%= storeId%>)" type="button" class="btn btn-warning">Yes</button>
                             <button onclick="no2(${loop.index})" type="button" class="btn btn-success">No</button>
                         </div>
                     </div><!-- comment -->
@@ -234,6 +234,7 @@
                 </div>
 
             </div>
+        </div>
             <footer id="footer" class="footer">
 
                 <div class="container">
@@ -322,7 +323,7 @@
                                     modal.style.display = "block";
                                 }
 
-                                function yes2(order_id, store_id, value) {
+                                function yes2(order_id, value, store_id) {
                                     window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value + "&store_id=" + store_id;
                                 }
 

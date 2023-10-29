@@ -35,6 +35,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
         <style>
             td {
                 padding: 10px; /* Adjust the value as needed */
@@ -82,6 +83,29 @@
             }
             table {
                 text-align: center;
+            }
+            .charts {
+                display: grid;
+                gap: 20px;
+            }
+
+            .charts-card {
+                background-color: #ffffff;
+                margin-bottom: 20px;
+                padding: 25px;
+                box-sizing: border-box;
+                -webkit-column-break-inside: avoid;
+                border: 1px solid #d2d2d3;
+                border-radius: 5px;
+                box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+            }
+
+            .chart-title {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                font-weight: 600;
             }
         </style>
     </head>
@@ -138,23 +162,31 @@
                         List<Integer> listYear = (List) request.getAttribute("listYear");
                         List<Order> listOrder = (List) request.getAttribute("listOrder");
                         int sum = (int) request.getAttribute("sum");
-                        int year = (int) request.getAttribute("year");
+                        int numOfOrder = listOrder.size();
                         List<MonthlyTotal> list = (List) request.getAttribute("listTotal");
+
                     %>
                 <form action="RevenueByDateMonthYear" method="Post" style="display: flex; width: fit-content; gap:20px;
                       margin: auto;">
-                    <select name="year" class="form-select" aria-label="Default select example">
-                        <c:forEach var="year" items="<%= listYear%>" >
+                    <select name="year" id="yearSelect" class="form-select" aria-label="Default select example">
+                        <c:forEach var="year" items="${listYear}">
                             <option value="${year}">${year}</option>
                         </c:forEach>
                     </select>
+
                     <input type="hidden" name="type" value="3" />
 
                     <button type="submit" class="btn btn-info">Xem</button>
                 </form>
 
             </div>
-            <div class="chart">
+            <div class="charts container" style="margin-top:20px;">
+                <div class="charts-card">
+                    <p class="chart-title">Doanh thu và số đơn</p>
+                    <div id="area-chart"></div>
+                </div>
+            </div>
+            <div class="chart" style="display:none;">
                 <table>
                     <thead>
                         <tr>
@@ -172,8 +204,8 @@
                             <c:forEach var="c" items="${listTotal}">
                                 <tr>
                                     <td>${c.getYear()}</td>
-                                    <td> ${c.getMonth()}</td>
-                                    <td>${c.total}</td>
+                                    <td class="namee" > ${c.getMonth()}</td>
+                                    <td class="revenuee">${c.total}</td>
                                 </tr>
 
 
@@ -184,7 +216,36 @@
                 </table>
 
             </div>
+            <div class="chart-count" style="display:none;">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Year</td>
+                            <td>Month</td>
+                            <td>num of order</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:choose>
+                            <c:when test="${empty countList}">
+                            <p>Không có</p>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="c" items="${countList}">
+                                <tr>
+                                    <td>${c.getYear()}</td>
+                                    <td> ${c.getMonth()}</td>
+                                    <td class="quan">${c.getCount()}</td>
+                                </tr>
 
+
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
+                    </tbody>
+                </table>
+
+            </div>
 
 
             <table class="table mt-4" style="text-align: center;">
@@ -207,10 +268,10 @@
                             <td>${store.getRevenue()}</td>
                             <td>
                                 <form action="StatisticByYearDetail" method="GET">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-success">
                                         <input type="hidden" name="store_id" value="${store.getStore_id()}"/>
-                                        <input type="hidden" name="year" value="<%= year%>"/>
-                                        View Detail
+                                        <input type="hidden" name="year" value="${year}"/>
+                                        Xem chi tiết
                                     </button>
                                 </form>
                             </td>
@@ -219,6 +280,7 @@
 
                 </tbody>
             </table>
+                  <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%= numOfOrder%> đơn</h4>
             <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
         </div>
         <footer id="footer" class="footer">
@@ -296,6 +358,86 @@
 
                 window.location.href = "ListProductGuest";
             }
+            var storeNames = [];
+            var nameElements = document.getElementsByClassName('quan');
+            for (var i = 0; i < nameElements.length; i++) {
+                storeNames.push(nameElements[i].innerText);
+            }
+            var doanhthu = [];
+            var dtElements = document.getElementsByClassName('revenuee');
+            for (var i = 0; i < dtElements.length; i++) {
+                doanhthu.push(dtElements[i].innerText);
+            }
+            const areaChartOptions = {
+                series: [
+                    {
+                        name: 'Doanh thu',
+                        data: doanhthu,
+                    },
+                    {
+                        name: 'Số đơn',
+                        data: storeNames,
+                    },
+                ],
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    toolbar: {
+                        show: false,
+                    },
+                },
+                colors: ['#4f35a1', '#246dec'],
+                dataLabels: {
+                    enabled: false,
+                },
+                stroke: {
+                    curve: 'smooth',
+                },
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9',
+                    'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                markers: {
+                    size: 0,
+                },
+                yaxis: [
+                    {
+                        title: {
+                            text: 'Doanh thu',
+                        },
+                    },
+                    {
+                        opposite: true,
+                        title: {
+                            text: 'Số đơn',
+                        },
+                    },
+                ],
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                },
+            };
+
+            const areaChart = new ApexCharts(
+                    document.querySelector('#area-chart'),
+                    areaChartOptions
+                    );
+            areaChart.render();
+            document.addEventListener("DOMContentLoaded", function () {
+                var yearSelect = document.getElementById("yearSelect");
+
+                // Xem nếu đã có một năm đã lưu trong Local Storage
+                var savedYear = localStorage.getItem("selectedYear");
+
+                // Nếu có, thiết lập giá trị năm đã chọn
+                if (savedYear) {
+                    yearSelect.value = savedYear;
+                }
+
+                // Lắng nghe sự kiện thay đổi năm và cập nhật giá trị trong Local Storage
+                yearSelect.addEventListener("change", function () {
+                    localStorage.setItem("selectedYear", yearSelect.value);
+                });
+            });
         </script>
         <!-- Vendor JS Files -->
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

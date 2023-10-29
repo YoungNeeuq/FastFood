@@ -138,12 +138,13 @@
                         List<Order> listOrder = (List) request.getAttribute("listOrder");
                         int sum = (int) request.getAttribute("sum");
                         int total = (int) request.getAttribute("total");
+                        int numOfOrder = listOrder.size();
                         List<Store> listStore = (List) request.getAttribute("listStore");
                         String date = String.valueOf(request.getAttribute("date"));
                     %>
                 <form action="RevenueByDateMonthYear" method="Post" style="display: flex; width: fit-content; gap:10px;
                       margin: auto;">
-                    <select name="date" class="form-select" aria-label="Default select example">
+                    <select name="date" id="dateSelected" class="form-select" aria-label="Default select example">
                         <c:forEach var="date" items="<%= listDate%>" >
                             <option value="${date}">${date}</option>
                         </c:forEach>
@@ -171,10 +172,10 @@
                                 <td>${store.getRevenue()}</td>
                                 <td>
                                     <form action="StatisticByDateDetail" method="get">
-                                        <button type="submit" class="btn btn-primary">
+                                        <button type="submit" class="btn btn-success">
                                             <input type="hidden" name="store_id" value="${store.getStore_id()}"/>
                                             <input type="hidden" name="date" value="<%= date%>"/>
-                                            View Detail
+                                            Xem chi tiết
                                         </button>
                                     </form>
                                 </td>
@@ -183,6 +184,7 @@
 
                     </tbody>
                 </table>
+                   <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%=numOfOrder%> đơn</h4>
                 <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
             </div>
         </div>
@@ -261,6 +263,22 @@
 
                 window.location.href = "ListProductGuest";
             }
+            document.addEventListener("DOMContentLoaded", function () {
+                var dateSelected = document.getElementById("dateSelected");
+
+                // Xem nếu đã có một năm đã lưu trong Local Storage
+                var savedDate = localStorage.getItem("selectedDate");
+
+                // Nếu có, thiết lập giá trị năm đã chọn
+                if (savedDate) {
+                    dateSelected.value = savedDate;
+                }
+
+                // Lắng nghe sự kiện thay đổi năm và cập nhật giá trị trong Local Storage
+                dateSelected.addEventListener("change", function () {
+                    localStorage.setItem("selectedDate", dateSelected.value);
+                });
+            });
         </script>
         <!-- Vendor JS Files -->
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

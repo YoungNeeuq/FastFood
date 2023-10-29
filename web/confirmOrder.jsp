@@ -34,6 +34,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
+           .btt{
+                display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3px;
+    font-family: var(--font-secondary);
+    font-size: 16px;
+    font-weight: 600;
+    color: #7f7f90;
+    white-space: nowrap;
+    transition: 0.3s;
+    position: relative;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+            }
+            .btt:hover{
+                border-bottom: 3px red solid;
+                color: black;
+            }
         .totall{
             margin-bottom: 30px;
             text-align: center;
@@ -84,12 +104,21 @@
 
                 <nav id="navbar" class="navbar">
                     <ul>
-                        <li><a href="ListProductServlet">Món ăn</a></li>
-                        <li><a href="ListStore">Cửa hàng</a></li>
-                        <li> <a href="ShowConfirmOrder">Xác nhận đơn hàng</a> </li>
-                        <li><a href="Statistic">Xem doanh thu</a></li>
+                        <li> <form action="ShowConfirmOrder" method="get">
+    
+            <button class="btt" type="submit">Xác nhận đơn hàng</button>
+        </form></li>
+                        <li><form action="ShowSucceedOrder" method="get">
+     
+            <button class="btt" type="submit">Đơn hàng thành công</button>
+        </form></li>
 
-                    </ul>
+                        <li> <form action="ShowCanceledOrder" method="get">
+     
+            <button class="btt" type="submit">Đơn hàng đã hủy</button>
+        </form></li>
+                       
+                    </ul> 
                 </nav><!-- .navbar -->
                 <div> 
                     <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
@@ -136,19 +165,20 @@
            
                 <button type="submit" class="btn btn-secondary mb-4" > <a style=" color: white; text-decoration: none;" href="manageStore.jsp">Trở về </a></button>
            
-            <table>
-                <thead>
-                    <tr>
-                        <td>Customer</td>
-                        <td>Order ID</td>
-                        <td>Phone Number</td>
-                        <td>Address</td>
-                        <td>Date</td>
-                        <td>Total</td>
-                        <td>Order Status</td>
-                        <td>Payment status</td>
-                    </tr>
-                </thead>
+             <table class="table" style=" text-align: center;">
+            <thead class="thead-dark" >
+           
+                    <th style=" text-align: center; vertical-align: middle;" scope="col">Người mua hàng</th>
+                    <th style=" text-align: center; vertical-align: middle;" scope="col">ID Đơn hàng</th>
+                    <th style=" text-align: center; vertical-align: middle;" scope="col">Số điện thoại</th>
+                    <th style=" text-align: center; vertical-align: middle;" scope="col">Địa chỉ</th>
+                    <th style=" text-align: center; vertical-align: middle;" scope="col">Ngày mua</th>
+                    <th style=" text-align: center; vertical-align: middle;" scope="col">Tổng tiền</th>
+                    <th style=" text-align: center; vertical-align: middle;" scope="col">Trạng thái đơn hàng</th>
+                    <th style=" text-align: center; vertical-align: middle;" scope="col">Trạng thái thanh toán</th>
+                    <th style=" text-align: center; vertical-align: middle;" scope="col">Hoạt động</th>
+   
+            </thead>
                 <tbody>
                     <c:forEach var="order" items="${listOrder}">
                         <tr>
@@ -163,15 +193,12 @@
                             <td>${order.getStatus()}</td>   
                             <td>${order.getPaymentStatus()}</td>   
 
-                            <td>
+                            <td style="display:flex; gap: 10px;">
                                 <form action="ViewDetailOrder" method="GET">
                                     <input type="hidden" name="order_id" value="${order.getOrder_id()}">
                                     <button type="submit" name="viewButton" value="view" class="btn btn-success">Xem chi tiết</button>
                                 </form>
-
-                            </td>
-                            <td>
-                                <c:set var = "status" scope = "session" value = "${order.getStatus().trim()}"/>
+  <c:set var = "status" scope = "session" value = "${order.getStatus().trim()}"/>
                                 <c:if test="${status eq 'Preparing' }">
 
                                     <form action="ConfirmOrderServlet" method="GET">
@@ -193,6 +220,9 @@
                                     </form>
                                 </c:if>
                             </td>
+<!--                            <td>
+                              
+                            </td>-->
 
 
                         </tr>

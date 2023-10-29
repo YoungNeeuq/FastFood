@@ -167,7 +167,7 @@
                             <th scope="col">Giá tiền</th>
                             <th scope="col">Trạng thái</th>
                             <th scope="col">Ngày mua hàng</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Hoạt động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -189,8 +189,8 @@
                                     <form action="StatisticByDateDetail" method="POST"> 
                                         <input type="hidden" name="date" value="<%= date%>"/>
                                         <input type="hidden" name="order_id" value="${order.getOrder_id()}"/>
-                                        <button type="submit">
-                                            View Detail
+                                        <button type="submit" class="btn btn-success">
+                                            Xem chi tiết
                                         </button>
                                     </form>
                                 </td>   
@@ -202,6 +202,7 @@
                     </tbody>
                 </table>
                 <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%= total%></h4>
+                  <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${totalMoney} đ</h4>
             </div>
         </div>
         <footer id="footer" class="footer">

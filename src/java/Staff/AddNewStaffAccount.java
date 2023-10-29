@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Staff;
 
 /**
  *
@@ -62,18 +63,28 @@ public class AddNewStaffAccount extends HttpServlet {
             StaffDAO staffDAO = new StaffDAO();
             String username = request.getParameter("username").trim();
             String password = request.getParameter("password");
-            String user = staffDAO.getStaffByUsername(username).getUsername().trim();
+            Staff staff = staffDAO.getStaffByUsername(username);
+
             int store_id = Integer.parseInt(request.getParameter("store_id"));
-            if (username.equals(user)) {
+            if (staff == null) {
+
                 String role = "s";
                 staffDAO.addStaff(username, password, role, store_id);
                 response.sendRedirect("ListStaffAccountServlet");
             } else {
                 request.setAttribute("tb", "username da ton tai");
                 request.getRequestDispatcher("ListStaffAccountServlet").forward(request, response);
+
             }
 
         } catch (Exception ex) {
+            String errorMessage = ex.getMessage();
+
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(AddNewStaffAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

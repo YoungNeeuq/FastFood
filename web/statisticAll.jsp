@@ -171,7 +171,7 @@
                         <div id="bar-chart"></div>
                     </div>
                 </div>
-                <p>Rank revenue</p>
+                <p>Thống kê theo</p>
                 <form action="RevenueByDateMonthYear" method="GET" style="display: flex; width: fit-content; gap:20px;
                       margin: auto;">
                     <select name="select" class="form-select" aria-label="Default select example">
