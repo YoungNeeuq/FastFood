@@ -37,6 +37,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
         <style>
             td {
                 padding: 10px; /* Adjust the value as needed */
@@ -84,6 +85,29 @@
             }
             table {
                 text-align: center;
+            }
+            .charts {
+                display: grid;
+                gap: 20px;
+            }
+
+            .charts-card {
+                background-color: #ffffff;
+                margin-bottom: 20px;
+                padding: 25px;
+                box-sizing: border-box;
+                -webkit-column-break-inside: avoid;
+                border: 1px solid #d2d2d3;
+                border-radius: 5px;
+                box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+            }
+
+            .chart-title {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                font-weight: 600;
             }
         </style>
     </head>
@@ -146,7 +170,7 @@
         </div>
         <div style="margin:100px 0 150px 0;">
             <div style="text-align: center;">
-                <h2 style=" font-weight: bold;">Thống kê theo thang</h2>
+                <h2 style=" font-weight: bold;">Thống kê theo tháng</h2>
                 <button class="btn btn-secondary mb-4">  <a style="
                                                             color: white; text-decoration: none;" href="RevenueByDateMonthYear?select=2">Trở về</a> </button>   
                     <%                        List<String> listDate = (List) request.getAttribute("listDate");
@@ -158,7 +182,12 @@
                         int month = (int) request.getAttribute("month");
                         int year = (int) request.getAttribute("year");
                     %>
-
+                <div class="charts container" style="margin-top:20px;">
+                    <div class="charts-card">
+                        <p class="chart-title">Doanh thu và số đơn</p>
+                        <div id="area-chart"></div>
+                    </div>
+                </div>
                 <table class="table mt-4" style="text-align: center;">
                     <thead  class="thead-dark">
                         <tr>
@@ -168,7 +197,7 @@
                             <th scope="col">Giá tiền</th>
                             <th scope="col">Trạng thái</th>
                             <th scope="col">Ngày mua hàng</th>
-                            <th scope="col">Action</th>
+                            <th scope="col">Hoạt động</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -191,8 +220,8 @@
                                         <input type="hidden" name="month" value="<%= month%>"/>
                                         <input type="hidden" name="year" value="<%= year%>"/>
                                         <input type="hidden" name="order_id" value="${order.getOrder_id()}"/>
-                                        <button type="submit">
-                                            View Detail
+                                        <button type="submit" class="btn btn-success">
+                                            Xem chi tiết
                                         </button>
                                     </form>
                                 </td>           
@@ -204,10 +233,11 @@
 
                     </tbody>
                 </table>
-                <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%= total%></h4>
+                <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%= total%> đơn</h4>
+                <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${totalMoney} đ</h4>
             </div>
         </div>
-        <div class="chart">
+        <div class="chart" style="display:none;">
             <table>
                 <thead>
                     <tr>
@@ -225,8 +255,40 @@
                         <c:forEach var="c" items="${listDaily}">
                             <tr>
                                 <td>${c.getMonth()}</td>
+                                <td class="dayy"> ${c.getDate()}</td>
+                                <td class="revenuee">${c.getTotal()}</td>
+                            </tr>
+
+
+                        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="chart-count" style="display:none;">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Year</td>
+                        <td>Month</td>
+                        <td>Date</td>
+                        <td>Revenue</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:choose>
+                        <c:when test="${empty listCount}">
+                        <p>Không có</p>
+                    </c:when>
+                    <c:otherwise>
+                        <c:forEach var="c" items="${listCount}">
+                            <tr>
+                                <td>${c.getYear()}</td>
+                                <td>${c.getMonth()}</td>
                                 <td> ${c.getDate()}</td>
-                                <td>${c.getTotal()}</td>
+                                <td class="quan">${c.getCount()}</td>
                             </tr>
 
 
@@ -312,6 +374,96 @@
 
                 window.location.href = "ListProductGuest";
             }
+            var storeNames = [];
+            var nameElements = document.getElementsByClassName('quan');
+            for (var i = 0; i < nameElements.length; i++) {
+                storeNames.push(nameElements[i].innerText);
+            }
+            var day = [];
+            var Elements = document.getElementsByClassName('dayy');
+            for (var i = 0; i < Elements.length; i++) {
+                day.push(Elements[i].innerText);
+            }
+            var doanhthu = [];
+            var dtElements = document.getElementsByClassName('revenuee');
+            for (var i = 0; i < dtElements.length; i++) {
+                doanhthu.push(dtElements[i].innerText);
+            }
+            const areaChartOptions = {
+                series: [
+                    {
+                        name: 'Doanh thu',
+                        data: doanhthu,
+                    },
+                    {
+                        name: 'Số đơn',
+                        data: storeNames,
+                    },
+                ],
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    toolbar: {
+                        show: false,
+                    },
+                },
+                colors: ['#4f35a1', '#246dec'],
+                dataLabels: {
+                    enabled: false,
+                },
+                stroke: {
+                    curve: 'smooth',
+                },
+                labels: day,
+                markers: {
+                    size: 0,
+                },
+                yaxis: [
+                    {
+                        title: {
+                            text: 'Doanh thu',
+                        },
+                    },
+                    {
+                        opposite: true,
+                        title: {
+                            text: 'Số đơn',
+                        },
+                    },
+                ],
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                },
+            };
+
+            const areaChart = new ApexCharts(
+                    document.querySelector('#area-chart'),
+                    areaChartOptions
+                    );
+            areaChart.render();
+            document.addEventListener("DOMContentLoaded", function () {
+                var monthSelect = document.getElementById("monthSelect");
+                var yearSelect = document.getElementById("yearSelect");
+                // Xem nếu đã có tháng và năm đã lưu trong Local Storage
+                var savedMonth = localStorage.getItem("selectedMonth");
+                var savedYear = localStorage.getItem("selectedYear");
+                // Nếu có, thiết lập giá trị tháng và năm đã chọn
+                if (savedMonth) {
+                    monthSelect.value = savedMonth;
+                }
+                if (savedYear) {
+                    yearSelect.value = savedYear;
+                }
+
+                // Lắng nghe sự kiện thay đổi tháng và năm và cập nhật giá trị trong Local Storage
+                monthSelect.addEventListener("change", function () {
+                    localStorage.setItem("selectedMonth", monthSelect.value);
+                });
+                yearSelect.addEventListener("change", function () {
+                    localStorage.setItem("selectedYear", yearSelect.value);
+                });
+            });
         </script>
         <!-- Vendor JS Files -->
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -66,6 +66,8 @@ public class StatisticByDateDetail extends HttpServlet {
             int store_id = Integer.parseInt(request.getParameter("store_id"));
             String date = request.getParameter("date");
             request.setAttribute("date", date);
+            int totalMoney = orderDAO.sumOrderOfStoreByDate(date, store_id);
+            request.setAttribute("totalMoney", totalMoney);
             List<Order> listOrder = orderDAO.getOrderOfStoreByDate(date, store_id);
             request.setAttribute("listOrder", listOrder);
             request.getRequestDispatcher("statisticByDateDetail.jsp").forward(request, response);

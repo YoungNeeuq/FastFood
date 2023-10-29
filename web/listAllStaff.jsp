@@ -78,6 +78,7 @@
                 position: absolute;
                 top: 15% !important;
                 left: 30% !important;
+            }
             </style>
         </head>
         <body>

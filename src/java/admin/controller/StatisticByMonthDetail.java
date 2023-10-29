@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.DailyTotal;
+import model.MonthCount;
 import model.Order;
 import model.OrderDetail;
 
@@ -71,6 +72,10 @@ public class StatisticByMonthDetail extends HttpServlet {
             request.setAttribute("year", year);
             List<DailyTotal> listDaily = orderDAO.sumOfDayByMonthS(year, month, store_id);
             request.setAttribute("listDaily", listDaily);
+            List<MonthCount> listCount = orderDAO.getNumberOfOrderByMonthS(year, month, store_id);
+            request.setAttribute("listCount", listCount);
+            int totalMoney = orderDAO.sumOrderByStore(store_id);
+            request.setAttribute("totalMoney", totalMoney);
             List<Order> listOrder = orderDAO.getOrderOfStoreByMonth(month, year, store_id);
             request.setAttribute("listOrder", listOrder);
             request.getRequestDispatcher("statisticByMonthDetail.jsp").forward(request, response);

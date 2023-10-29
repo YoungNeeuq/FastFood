@@ -18,9 +18,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Customer;
 import model.DailyTotal;
+import model.MonthCount;
 import model.MonthlyTotal;
 import model.Order;
 import model.OrderDetail;
+import model.YearCount;
 
 /**
  *
@@ -1678,20 +1680,43 @@ public class OrderDAO {
 //--------------total revenue of store per day of system----------------
 
     public List<MonthlyTotal> sumOfMonthByYear(int year) {
-        String sql = "SELECT\n"
-                + "                  YEAR([date]) AS [Year],\n"
-                + "                MONTH([date]) AS [Month],\n"
-                + "              SUM([total_price]) AS [MonthlyTotal]\n"
-                + "              FROM\n"
-                + "                 [KFCStore].[dbo].[Order]\n"
-                + "                WHERE\n"
-                + "                  YEAR([date]) = ?\n"
-                + "               AND  pStatus = 'Paid'\n"
-                + "            GROUP By\n"
-                + "                  YEAR([date]),\n"
-                + "                   MONTH([date])\n"
-                + "               ORDER BY\n"
-                + "                  [Year], [Month];";
+        String sql = "	WITH AllMonths AS (\n"
+                + "  SELECT 1 AS [Month]\n"
+                + "  UNION ALL SELECT 2\n"
+                + "  UNION ALL SELECT 3\n"
+                + "  UNION ALL SELECT 4\n"
+                + "  UNION ALL SELECT 5\n"
+                + "  UNION ALL SELECT 6\n"
+                + "  UNION ALL SELECT 7\n"
+                + "  UNION ALL SELECT 8\n"
+                + "  UNION ALL SELECT 9\n"
+                + "  UNION ALL SELECT 10\n"
+                + "  UNION ALL SELECT 11\n"
+                + "  UNION ALL SELECT 12\n"
+                + ")\n"
+                + "\n"
+                + "SELECT\n"
+                + "    am.[Month] AS [Month],\n"
+                + "    ISNULL(SUM(dt.[MonthlyTotal]), 0) AS [MonthlyTotal]\n"
+                + "FROM\n"
+                + "    AllMonths am\n"
+                + "LEFT JOIN (\n"
+                + "    SELECT\n"
+                + "        MONTH([date]) AS [Month],\n"
+                + "        SUM([total_price]) AS [MonthlyTotal]\n"
+                + "    FROM\n"
+                + "        [KFCStore].[dbo].[Order]\n"
+                + "    WHERE\n"
+                + "        YEAR([date]) = ?\n"
+                + "        AND pStatus = 'Paid'\n"
+                + "       \n"
+                + "    GROUP BY\n"
+                + "        MONTH([date])\n"
+                + ") dt ON am.[Month] = dt.[Month]\n"
+                + "GROUP BY\n"
+                + "    am.[Month]\n"
+                + "ORDER BY\n"
+                + "    am.[Month];";
 
         List<MonthlyTotal> monthlyTotalList = new ArrayList<>();
 
@@ -1701,10 +1726,10 @@ public class OrderDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                int retrievedYear = resultSet.getInt("Year");
+
                 int month = resultSet.getInt("Month");
                 int monthlyTotal = resultSet.getInt("MonthlyTotal");
-                MonthlyTotal monthlyTotalObj = new MonthlyTotal(month, retrievedYear, monthlyTotal);
+                MonthlyTotal monthlyTotalObj = new MonthlyTotal(month, year, monthlyTotal);
                 monthlyTotalList.add(monthlyTotalObj);
             }
         } catch (SQLException e) {
@@ -1717,21 +1742,43 @@ public class OrderDAO {
 
     // total monthly of store by year
     public List<MonthlyTotal> sumOfMonthByYearS(int year, int store_id) {
-        String sql = "SELECT\n"
-                + "                  YEAR([date]) AS [Year],\n"
-                + "                MONTH([date]) AS [Month],\n"
-                + "              SUM([total_price]) AS [MonthlyTotal]\n"
-                + "              FROM\n"
-                + "                 [KFCStore].[dbo].[Order]\n"
-                + "                WHERE\n"
-                + "                  YEAR([date]) = ?\n"
-                + "               AND  pStatus = 'Paid'"
-                + "AND store_id = ?\n"
-                + "            GROUP By\n"
-                + "                  YEAR([date]),\n"
-                + "                   MONTH([date])\n"
-                + "               ORDER BY\n"
-                + "                  [Year], [Month];";
+        String sql = "WITH AllMonths AS (\n"
+                + "  SELECT 1 AS [Month]\n"
+                + "  UNION ALL SELECT 2\n"
+                + "  UNION ALL SELECT 3\n"
+                + "  UNION ALL SELECT 4\n"
+                + "  UNION ALL SELECT 5\n"
+                + "  UNION ALL SELECT 6\n"
+                + "  UNION ALL SELECT 7\n"
+                + "  UNION ALL SELECT 8\n"
+                + "  UNION ALL SELECT 9\n"
+                + "  UNION ALL SELECT 10\n"
+                + "  UNION ALL SELECT 11\n"
+                + "  UNION ALL SELECT 12\n"
+                + ")\n"
+                + "\n"
+                + "SELECT\n"
+                + "    am.[Month] AS [Month],\n"
+                + "    ISNULL(SUM(dt.[MonthlyTotal]), 0) AS [MonthlyTotal]\n"
+                + "FROM\n"
+                + "    AllMonths am\n"
+                + "LEFT JOIN (\n"
+                + "    SELECT\n"
+                + "        MONTH([date]) AS [Month],\n"
+                + "        SUM([total_price]) AS [MonthlyTotal]\n"
+                + "    FROM\n"
+                + "        [KFCStore].[dbo].[Order]\n"
+                + "    WHERE\n"
+                + "        YEAR([date]) = ?\n"
+                + "        AND pStatus = 'Paid'\n"
+                + "        AND store_id = ?\n"
+                + "    GROUP BY\n"
+                + "        MONTH([date])\n"
+                + ") dt ON am.[Month] = dt.[Month]\n"
+                + "GROUP BY\n"
+                + "    am.[Month]\n"
+                + "ORDER BY\n"
+                + "    am.[Month];\n";
 
         List<MonthlyTotal> monthlyTotalList = new ArrayList<>();
 
@@ -1741,10 +1788,10 @@ public class OrderDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-                int retrievedYear = resultSet.getInt("Year");
+
                 int month = resultSet.getInt("Month");
                 int monthlyTotal = resultSet.getInt("MonthlyTotal");
-                MonthlyTotal monthlyTotalObj = new MonthlyTotal(month, retrievedYear, monthlyTotal);
+                MonthlyTotal monthlyTotalObj = new MonthlyTotal(month, year, monthlyTotal);
                 monthlyTotalList.add(monthlyTotalObj);
             }
         } catch (SQLException e) {
@@ -1757,23 +1804,62 @@ public class OrderDAO {
 
     // total daily in month
     public List<DailyTotal> sumOfDayByMonth(int year, int month) {
-        String sql = "	 SELECT\n"
-                + "    DAY([date]) AS [Day],\n"
-                + "    MONTH([date]) as [Month],\n"
-                + "    [date],\n"
-                + "    SUM([total_price]) AS [DailyTotal]\n"
+        String sql = "	 WITH AllDays AS (\n"
+                + "  SELECT 1 AS [Day]\n"
+                + "  UNION ALL SELECT 2\n"
+                + "  UNION ALL SELECT 3\n"
+                + "  UNION ALL SELECT 4\n"
+                + "  UNION ALL SELECT 5\n"
+                + "  UNION ALL SELECT 6\n"
+                + "  UNION ALL SELECT 7\n"
+                + "  UNION ALL SELECT 8\n"
+                + "  UNION ALL SELECT 9\n"
+                + "  UNION ALL SELECT 10\n"
+                + "  UNION ALL SELECT 11\n"
+                + "  UNION ALL SELECT 12\n"
+                + "  UNION ALL SELECT 13\n"
+                + "  UNION ALL SELECT 14\n"
+                + "  UNION ALL SELECT 15\n"
+                + "  UNION ALL SELECT 16\n"
+                + "  UNION ALL SELECT 17\n"
+                + "  UNION ALL SELECT 18\n"
+                + "  UNION ALL SELECT 19\n"
+                + "  UNION ALL SELECT 20\n"
+                + "  UNION ALL SELECT 21\n"
+                + "  UNION ALL SELECT 22\n"
+                + "  UNION ALL SELECT 23\n"
+                + "  UNION ALL SELECT 24\n"
+                + "  UNION ALL SELECT 25\n"
+                + "  UNION ALL SELECT 26\n"
+                + "  UNION ALL SELECT 27\n"
+                + "  UNION ALL SELECT 28\n"
+                + "  UNION ALL SELECT 29\n"
+                + "  UNION ALL SELECT 30\n"
+                + "  UNION ALL SELECT 31\n"
+                + ")\n"
+                + "\n"
+                + "SELECT\n"
+                + "    ad.[Day] AS [Day],\n"
+                + "    ISNULL(SUM(dt.[DailyTotal]), 0) AS [DailyTotal]\n"
                 + "FROM\n"
-                + "    [KFCStore].[dbo].[Order]\n"
-                + "WHERE\n"
-                + "    YEAR([date]) = ?\n"
-                + "    AND MONTH([date]) = ?\n"
-                + "    AND pStatus = 'Paid' \n"
+                + "    AllDays ad\n"
+                + "LEFT JOIN (\n"
+                + "    SELECT\n"
+                + "        DAY([date]) AS [Day],\n"
+                + "        SUM([total_price]) AS [DailyTotal]\n"
+                + "    FROM\n"
+                + "        [KFCStore].[dbo].[Order]\n"
+                + "    WHERE\n"
+                + "        YEAR([date]) = ?\n"
+                + "        AND MONTH([date]) = ?\n"
+                + "        AND pStatus = 'Paid'\n"
+                + "    GROUP BY\n"
+                + "        DAY([date])\n"
+                + ") dt ON ad.[Day] = dt.[Day]\n"
                 + "GROUP BY\n"
-                + "    DAY([date]),\n"
-                + "    MONTH([date]),\n"
-                + "    [date]\n"
+                + "    ad.[Day]\n"
                 + "ORDER BY\n"
-                + "    [Day];";
+                + "    ad.[Day];";
 
         List<DailyTotal> dailyTotalList = new ArrayList<>();
 
@@ -1784,9 +1870,9 @@ public class OrderDAO {
 
             while (resultSet.next()) {
                 int date = resultSet.getInt("Day");
-                int monthh = resultSet.getInt("Month");
+
                 int dailyTotal = resultSet.getInt("DailyTotal");
-                DailyTotal dailyTotalObj = new DailyTotal(date, monthh, dailyTotal);
+                DailyTotal dailyTotalObj = new DailyTotal(date, month, dailyTotal);
                 dailyTotalList.add(dailyTotalObj);
             }
         } catch (SQLException e) {
@@ -1799,24 +1885,63 @@ public class OrderDAO {
 
     // total revenue daily of store by month
     public List<DailyTotal> sumOfDayByMonthS(int year, int month, int store_id) {
-        String sql = "	 SELECT\n"
-                + "    DAY([date]) AS [Day],\n"
-                + "    MONTH([date]) as [Month],\n"
-                + "    [date],\n"
-                + "    SUM([total_price]) AS [DailyTotal]\n"
+        String sql = "	 WITH AllDays AS (\n"
+                + "  SELECT 1 AS [Day]\n"
+                + "  UNION ALL SELECT 2\n"
+                + "  UNION ALL SELECT 3\n"
+                + "  UNION ALL SELECT 4\n"
+                + "  UNION ALL SELECT 5\n"
+                + "  UNION ALL SELECT 6\n"
+                + "  UNION ALL SELECT 7\n"
+                + "  UNION ALL SELECT 8\n"
+                + "  UNION ALL SELECT 9\n"
+                + "  UNION ALL SELECT 10\n"
+                + "  UNION ALL SELECT 11\n"
+                + "  UNION ALL SELECT 12\n"
+                + "  UNION ALL SELECT 13\n"
+                + "  UNION ALL SELECT 14\n"
+                + "  UNION ALL SELECT 15\n"
+                + "  UNION ALL SELECT 16\n"
+                + "  UNION ALL SELECT 17\n"
+                + "  UNION ALL SELECT 18\n"
+                + "  UNION ALL SELECT 19\n"
+                + "  UNION ALL SELECT 20\n"
+                + "  UNION ALL SELECT 21\n"
+                + "  UNION ALL SELECT 22\n"
+                + "  UNION ALL SELECT 23\n"
+                + "  UNION ALL SELECT 24\n"
+                + "  UNION ALL SELECT 25\n"
+                + "  UNION ALL SELECT 26\n"
+                + "  UNION ALL SELECT 27\n"
+                + "  UNION ALL SELECT 28\n"
+                + "  UNION ALL SELECT 29\n"
+                + "  UNION ALL SELECT 30\n"
+                + "  UNION ALL SELECT 31\n"
+                + ")\n"
+                + "\n"
+                + "SELECT\n"
+                + "    ad.[Day] AS [Day],\n"
+                + "    ISNULL(SUM(dt.[DailyTotal]), 0) AS [DailyTotal]\n"
                 + "FROM\n"
-                + "    [KFCStore].[dbo].[Order]\n"
-                + "WHERE\n"
-                + "    YEAR([date]) = ?\n"
-                + "    AND MONTH([date]) = ?\n"
-                + "    AND pStatus = 'Paid' "
+                + "    AllDays ad\n"
+                + "LEFT JOIN (\n"
+                + "    SELECT\n"
+                + "        DAY([date]) AS [Day],\n"
+                + "        SUM([total_price]) AS [DailyTotal]\n"
+                + "    FROM\n"
+                + "        [KFCStore].[dbo].[Order]\n"
+                + "    WHERE\n"
+                + "        YEAR([date]) = ?\n"
+                + "        AND MONTH([date]) = ?\n"
+                + "        AND pStatus = 'Paid'"
                 + "AND store_id = ?\n"
+                + "    GROUP BY\n"
+                + "        DAY([date])\n"
+                + ") dt ON ad.[Day] = dt.[Day]\n"
                 + "GROUP BY\n"
-                + "    DAY([date]),\n"
-                + "    MONTH([date]),\n"
-                + "    [date]\n"
+                + "    ad.[Day]\n"
                 + "ORDER BY\n"
-                + "    [Day];";
+                + "    ad.[Day];";
 
         List<DailyTotal> dailyTotalList = new ArrayList<>();
 
@@ -1828,9 +1953,9 @@ public class OrderDAO {
 
             while (resultSet.next()) {
                 int date = resultSet.getInt("Day");
-                int monthh = resultSet.getInt("Month");
+
                 int dailyTotal = resultSet.getInt("DailyTotal");
-                DailyTotal dailyTotalObj = new DailyTotal(date, monthh, dailyTotal);
+                DailyTotal dailyTotalObj = new DailyTotal(date, month, dailyTotal);
                 dailyTotalList.add(dailyTotalObj);
             }
         } catch (SQLException e) {
@@ -1839,5 +1964,171 @@ public class OrderDAO {
         }
 
         return dailyTotalList;
+    }
+
+    // total num of order of each month in year
+    public List<YearCount> getNumberOfOrderByYear(int year) {
+        String sql = "WITH Months AS (\n"
+                + "                    SELECT 1 AS MonthNumber\n"
+                + "                    UNION ALL\n"
+                + "                   SELECT MonthNumber + 1\n"
+                + "                   FROM Months\n"
+                + "                  WHERE MonthNumber < 12\n"
+                + "                )\n"
+                + "               \n"
+                + "                SELECT Months.MonthNumber, COALESCE(COUNT(O.order_id), 0) AS OrderCount\n"
+                + "                FROM Months\n"
+                + "                LEFT JOIN [KFCStore].[dbo].[Order] O\n"
+                + "                ON Months.MonthNumber = MONTH(O.date)\n"
+                + "                AND YEAR(O.date) = ?\n"
+                + "               AND o.status = 'Succeed' \n"
+                + "                GROUP BY Months.MonthNumber\n"
+                + "                ORDER BY Months.MonthNumber;";
+        List<YearCount> countList = new ArrayList<>();
+
+        try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int month = resultSet.getInt("MonthNumber");
+
+                int count = resultSet.getInt("OrderCount");
+                YearCount countObj = new YearCount(month, year, count);
+                countList.add(countObj);
+            }
+        } catch (SQLException e) {
+            // Handle database connection or query errors here
+            e.printStackTrace();
+        }
+
+        return countList;
+    }
+
+    //-------- number of order in year by store
+    public List<YearCount> getNumberOfOrderByYearS(int year, int store_id) {
+        String sql = "WITH Months AS (\n"
+                + "    SELECT 1 AS MonthNumber\n"
+                + "    UNION ALL\n"
+                + "    SELECT MonthNumber + 1\n"
+                + "    FROM Months\n"
+                + "    WHERE MonthNumber < 12\n"
+                + ")\n"
+                + "\n"
+                + "SELECT Months.MonthNumber, COALESCE(COUNT(O.order_id), 0) AS OrderCount\n"
+                + "FROM Months\n"
+                + "LEFT JOIN [KFCStore].[dbo].[Order] O\n"
+                + "ON Months.MonthNumber = MONTH(O.date)\n"
+                + "AND YEAR(O.date) = ?\n"
+                + "AND O.store_id = ? \n"
+                + "AND o.status = 'Succeed' "
+                + "GROUP BY Months.MonthNumber\n"
+                + "ORDER BY Months.MonthNumber;";
+        List<YearCount> countList = new ArrayList<>();
+
+        try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, year);
+            preparedStatement.setInt(2, store_id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int month = resultSet.getInt("MonthNumber");
+
+                int count = resultSet.getInt("OrderCount");
+                YearCount countObj = new YearCount(month, year, count);
+                countList.add(countObj);
+            }
+        } catch (SQLException e) {
+            // Handle database connection or query errors here
+            e.printStackTrace();
+        }
+
+        return countList;
+    }
+
+    // get number of order of day in month
+    public List<MonthCount> getNumberOfOrderByMonth(int year, int month) {
+        String sql = "WITH Days AS (\n"
+                + "    SELECT 1 AS DayNumber\n"
+                + "    UNION ALL\n"
+                + "    SELECT DayNumber + 1\n"
+                + "    FROM Days\n"
+                + "    WHERE DayNumber < 31 \n"
+                + ")\n"
+                + "\n"
+                + "SELECT Days.DayNumber, COALESCE(COUNT(O.order_id), 0) AS OrderCount\n"
+                + "FROM Days\n"
+                + "LEFT JOIN [KFCStore].[dbo].[Order] O\n"
+                + "ON DAY(O.date) = Days.DayNumber\n"
+                + "AND MONTH(O.date) = ? \n"
+                + "AND YEAR(O.date) = ?\n"
+                + "AND O.status='Succeed'\n"
+                + "GROUP BY Days.DayNumber\n"
+                + "ORDER BY Days.DayNumber;";
+        List<MonthCount> countList = new ArrayList<>();
+
+        try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, month);
+            preparedStatement.setInt(2, year);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int date = resultSet.getInt("DayNumber");
+
+                int count = resultSet.getInt("OrderCount");
+                MonthCount countObj = new MonthCount(year, month, date, count);
+                countList.add(countObj);
+            }
+        } catch (SQLException e) {
+            // Handle database connection or query errors here
+            e.printStackTrace();
+        }
+
+        return countList;
+    }
+
+    // get number of order of day in month by store
+    public List<MonthCount> getNumberOfOrderByMonthS(int year, int month, int store_id) {
+        String sql = "WITH Days AS (\n"
+                + "    SELECT 1 AS DayNumber\n"
+                + "    UNION ALL\n"
+                + "    SELECT DayNumber + 1\n"
+                + "    FROM Days\n"
+                + "    WHERE DayNumber < 31 \n"
+                + ")\n"
+                + "\n"
+                + "SELECT Days.DayNumber, COALESCE(COUNT(O.order_id), 0) AS OrderCount\n"
+                + "FROM Days\n"
+                + "LEFT JOIN [KFCStore].[dbo].[Order] O\n"
+                + "ON DAY(O.date) = Days.DayNumber\n"
+                + "AND MONTH(O.date) = ? \n"
+                + "AND YEAR(O.date) = ?\n"
+                + "AND O.status='Succeed'"
+                + "AND store_id = ?\n"
+                + "GROUP BY Days.DayNumber\n"
+                + "ORDER BY Days.DayNumber;";
+        List<MonthCount> countList = new ArrayList<>();
+
+        try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, month);
+            preparedStatement.setInt(2, year);
+            preparedStatement.setInt(3, store_id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int date = resultSet.getInt("DayNumber");
+
+                int count = resultSet.getInt("OrderCount");
+                MonthCount countObj = new MonthCount(year, month, date, count);
+                countList.add(countObj);
+            }
+        } catch (SQLException e) {
+            // Handle database connection or query errors here
+            e.printStackTrace();
+        }
+
+        return countList;
     }
 }

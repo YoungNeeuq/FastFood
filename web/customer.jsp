@@ -330,10 +330,11 @@
                             </a>
                         </li><!-- End tab nav item -->
 
-                        <div style="display:flex;gap:0px; margin-left: 20px;">
+<!--                        <div style="display:flex;gap:0px; margin-left: 20px;">-->
 
                             <!-- End tab nav item -->
-                            <form action="searchAjax" method="get" style="display:flex; gap:5px; margin-left: 15px; ">
+                            <form class="box" action="searchAjax" method="get" style="display:flex; gap:5px; margin-left: 15px; ">
+                                
                                 <input class="form-control" aria-label="Text input with segmented dropdown button" type="text" id="searchInput" value="" oninput="searchByName()" name="txt" />
                                 <button class="btn btn-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </form>
@@ -345,7 +346,7 @@
 
                         <div class="tab-pane fade active show" id="menu-starters">
 
-                            <div class="tab-header text-center" id="">
+                            <div class="tab-header text-center" >
                                 <p>Menu</p>
                                 <h3>Tất cả</h3>
                             </div>

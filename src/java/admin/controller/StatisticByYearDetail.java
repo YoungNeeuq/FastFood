@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.MonthlyTotal;
 import model.Order;
 import model.OrderDetail;
+import model.YearCount;
 
 /**
  *
@@ -71,7 +72,11 @@ public class StatisticByYearDetail extends HttpServlet {
             List<Order> listOrder = orderDAO.getOrderOfStoreByYear(year, store_id);
             List<MonthlyTotal> listMonthly = orderDAO.sumOfMonthByYearS(year, store_id);
             request.setAttribute("listMonthly", listMonthly);
+            List<YearCount> listCount = orderDAO.getNumberOfOrderByYearS(year, store_id);
+            request.setAttribute("listCount", listCount);
             request.setAttribute("listOrder", listOrder);
+            int totalMoney = orderDAO.sumOrderOfStoreByYear(year, store_id);
+            request.setAttribute("totalMoney", totalMoney);
             request.getRequestDispatcher("statisticByYearDetail.jsp").forward(request, response);
         } catch (Exception ex) {
             String errorMessage = ex.getMessage();

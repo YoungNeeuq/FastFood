@@ -142,9 +142,9 @@
         </div>
         <div style="margin:100px 0 150px 0;">
             <div style="text-align: center;">
-                <h2 style=" font-weight: bold;">Thống kê theo ngày</h2>
+                <h2 style=" font-weight: bold;">Thống kê theo năm</h2>
                 <button class="btn btn-secondary mb-4">  <a style="
-                                                            color: white; text-decoration: none;" href="RevenueByDateMonthYear?select=3">Trở về</a> </button>
+                                                            color: white; text-decoration: none;" href="manageStore.jsp">Trở về</a> </button>
                     <%
                         List<String> listDate = (List) request.getAttribute("listDate");
                         List<Order> listOrder = (List) request.getAttribute("listOrder");
