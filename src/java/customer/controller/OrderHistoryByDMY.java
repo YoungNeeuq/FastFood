@@ -8,8 +8,10 @@ import admin.controller.RevenueByDateMonthYear;
 import dal.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -64,9 +66,7 @@ public class OrderHistoryByDMY extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            OrderDAO orderDAO = new OrderDAO();
-            int select = Integer.parseInt(request.getParameter("select"));
-            //--------------------list date -----------------------
+            //--------------------list date--------------------
             List<String> listDate = new ArrayList<>();
             LocalDate startDate = LocalDate.of(2021, 1, 1);
             LocalDate currentDate = LocalDate.now();
@@ -74,7 +74,7 @@ public class OrderHistoryByDMY extends HttpServlet {
             for (LocalDate date = currentDate; !date.isBefore(startDate); date = date.minusDays(1)) {
                 listDate.add(String.valueOf(date));
             }
-            //----------------------list month---------------------
+            //----------------list month-----------------
             List<Integer> listMonth = new ArrayList<>();
             for (int i = 1; i < 13; i++) {
                 listMonth.add(i);
@@ -84,27 +84,52 @@ public class OrderHistoryByDMY extends HttpServlet {
             for (int i = 2023; i >= 2020; i--) {
                 listYear.add(i);
             }
-            if (select == 1) {
-                int sum = 0;
-                int total = 0;
+            int option = Integer.parseInt(request.getParameter("select"));
+            if (option == 1) {
+                LocalDate currDate = LocalDate.now();
+                String date = currDate.toString();
+                int customer_id = Integer.parseInt(request.getParameter("customer_id"));
+                OrderDAO orderDAO = new OrderDAO();
+                List<Order> listOrder = orderDAO.getOrderByDateCus(date, customer_id);
+                int total = listOrder.size();
                 request.setAttribute("total", total);
+                int sum = orderDAO.sumOrderByDate(date);
+
+                request.setAttribute("listOrder", listOrder);
                 request.setAttribute("listDate", listDate);
                 request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statisticByDateCus.jsp").forward(request, response);
-            } else if (select == 2) {
-                int sum = 0;
-                int total = 0;
-                request.setAttribute("total", total);
-                request.setAttribute("sum", sum);
+            } else if (option == 2) {
+                OrderDAO orderDAO = new OrderDAO();
+                int customer_id = Integer.parseInt(request.getParameter("customer_id"));
+                Date date = new Date();
+                SimpleDateFormat dateFormatYear = new SimpleDateFormat("yyyy");
+                SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MM");
+                int year = Integer.parseInt(dateFormatYear.format(date));
+                int month = Integer.parseInt(dateFormatMonth.format(date));
+                List<Order> listOrder = orderDAO.getOrderByMonthCus(month, year, customer_id);
+                int sum = orderDAO.sumOrderByMonth(month, year);
                 request.setAttribute("listMonth", listMonth);
                 request.setAttribute("listYear", listYear);
+                int total = listOrder.size();
+                request.setAttribute("total", total);
+                request.setAttribute("listOrder", listOrder);
+                request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statisticByMonthCus.jsp").forward(request, response);
             } else {
-                int sum = 0;
-                int total = 0;
-                request.setAttribute("total", total);
-                request.setAttribute("sum", sum);
+                Date date = new Date();
+                SimpleDateFormat dateFormatYear = new SimpleDateFormat("yyyy");
+                int year = Integer.parseInt(dateFormatYear.format(date));
+                OrderDAO orderDAO = new OrderDAO();
+                int customer_id = Integer.parseInt(request.getParameter("customer_id"));
+                List<Order> listOrder = orderDAO.getOrderByYearCus(year, customer_id);
+                int sum = orderDAO.sumOrderByYear(year);
                 request.setAttribute("listYear", listYear);
+                int total = listOrder.size();
+
+                request.setAttribute("total", total);
+                request.setAttribute("listOrder", listOrder);
+                request.setAttribute("sum", sum);
                 request.getRequestDispatcher("statisticByYearCus.jsp").forward(request, response);
             }
 
@@ -112,12 +137,13 @@ public class OrderHistoryByDMY extends HttpServlet {
             String errorMessage = ex.getMessage();
 
             // Đặt thông báo lỗi vào request
-            request.setAttribute("errorMessage", errorMessage + "loi2");
+            request.setAttribute("errorMessage", errorMessage);
 
             // Chuyển hướng người dùng đến trang error.jsp
             request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(RevenueByDateMonthYear.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**
