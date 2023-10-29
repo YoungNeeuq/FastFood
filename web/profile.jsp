@@ -247,7 +247,7 @@
                                 <input type="hidden" name="customer_id" value="<%= customer_id%>"/>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <p class="mb-0">Mat Khau Cu</p>
+                                        <p class="mb-0">Mật khẩu cũ</p>
 
                                     </div>
                                     <div class="col-sm-9">
@@ -258,7 +258,7 @@
 
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <p class="mb-0">Mat Khau Moi</p>
+                                        <p class="mb-0">Mật khẩu mới</p>
 
                                     </div>
                                     <div class="col-sm-9">

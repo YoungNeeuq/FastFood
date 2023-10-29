@@ -146,11 +146,11 @@
          color: white; text-decoration: none;" href="OrderHistoryServlet?customer_id=<%=customer_id%>">Trở về</a> </button>
         <form action="OrderHistoryByDMY" method="Post" style="display: flex; width: fit-content; gap:10px;
               margin: auto;">
-            <select name="date" class="form-select" aria-label="Default select example">
-                <c:forEach var="date" items="<%= listDate%>" >
-                    <option value="${date}">${date}</option>
-                </c:forEach>
-            </select>
+           <select name="date" id="dateSelected" class="form-select" aria-label="Default select example">
+                        <c:forEach var="date" items="<%= listDate%>" >
+                            <option value="${date}">${date}</option>
+                        </c:forEach>
+                    </select>
             <input type="hidden" name="type" value="1" />
              <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
             <button type="submit" class="btn btn-info">Xem</button>
@@ -178,7 +178,7 @@
                         <td>${order.getDate()}</td>
                         <td>${order.getStatus()}</td>
                          <td>
-                            <form action="ViewOrderTrackingDetail" method="GET">
+                            <form action="ViewOrderHistoryDetail" method="GET">
                                 <input type="hidden" name="order_id" value="${order.getOrder_id()}"/>
                                 <button type="submit"class="btn btn-success" > Xem chi tiết </button>
                             </form>
@@ -272,6 +272,22 @@ Tổng đơn hàng:  <%= total%> đơn</h5>
 
             window.location.href = "ListProductGuest";
         }
+        document.addEventListener("DOMContentLoaded", function () {
+                var dateSelected = document.getElementById("dateSelected");
+
+                // Xem nếu đã có một năm đã lưu trong Local Storage
+                var savedDate = localStorage.getItem("selectedDate");
+
+                // Nếu có, thiết lập giá trị năm đã chọn
+                if (savedDate) {
+                    dateSelected.value = savedDate;
+                }
+
+                // Lắng nghe sự kiện thay đổi năm và cập nhật giá trị trong Local Storage
+                dateSelected.addEventListener("change", function () {
+                    localStorage.setItem("selectedDate", dateSelected.value);
+                });
+            });
   </script>
   <!-- Vendor JS Files -->
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

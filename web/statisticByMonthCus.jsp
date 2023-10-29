@@ -13,7 +13,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>FastFood</title>
-          <link href="assets/img/favicon.png" rel="icon">
+        <link href="assets/img/favicon.png" rel="icon">
         <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
         <!-- Google Fonts -->
@@ -38,12 +38,12 @@
         <style>
             .totall{
                 margin-bottom: 30px;
-    text-align: center;
-    font-weight: 500;
-    font-family: revert;
-    color: maroon;
+                text-align: center;
+                font-weight: 500;
+                font-family: revert;
+                color: maroon;
             }
-             .modal{
+            .modal{
                 position: fixed;
                 z-index: 1;
                 top:0;
@@ -77,7 +77,7 @@
     </head>
 
     <body>
-   
+
         <header id="header" class="header fixed-top d-flex align-items-center" >
             <div class="container d-flex align-items-center justify-content-between">
 
@@ -89,7 +89,7 @@
 
                 <nav id="navbar" class="navbar">
                     <ul>
-                         <li><a href="ListProductCustomer#hero">Home</a></li>
+                        <li><a href="ListProductCustomer#hero">Home</a></li>
                         <li><a href="ListProductCustomer#about">About</a></li>
                         <li><a href="ListProductCustomer#menu">Menu</a></li>
                         <li><a href="ListProductCustomer#contact">Contact</a></li>
@@ -121,81 +121,82 @@
 
         </div>
         <div style="margin:100px 0 150px 0;">
-             <div style="text-align: center;">
-            <h2 style=" font-weight: bold;">Thống kê theo tháng</h2>
-        <%
-            List<Integer> listMonth = (List) request.getAttribute("listMonth");
-            List<Integer> listYear = (List) request.getAttribute("listYear");
-            List<Order> listOrder = (List) request.getAttribute("listOrder");
-            int sum = (int) request.getAttribute("sum");
-        %>
-         <%
-            Cookie[] cookies = request.getCookies();
-            int customer_id = 0;
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if (cookie.getName().equals("customer_idd")) {
-                        customer_id = Integer.parseInt(cookie.getValue());
+            <div style="text-align: center;">
+                <h2 style=" font-weight: bold;">Thống kê theo tháng</h2>
+                <%
+                    List<Integer> listMonth = (List) request.getAttribute("listMonth");
+                    List<Integer> listYear = (List) request.getAttribute("listYear");
+                    List<Order> listOrder = (List) request.getAttribute("listOrder");
+                    int sum = (int) request.getAttribute("sum");
+                %>
+                <%
+                    Cookie[] cookies = request.getCookies();
+                    int customer_id = 0;
+                    if (cookies != null) {
+                        for (Cookie cookie : cookies) {
+                            if (cookie.getName().equals("customer_idd")) {
+                                customer_id = Integer.parseInt(cookie.getValue());
 
+                            }
+                        }
                     }
-                }
-            }
 
-        %>
-         <button class="btn btn-secondary mb-4">  <a style=" 
-         color: white; text-decoration: none;" href="OrderHistoryServlet?customer_id=<%=customer_id%>">Trở về</a> </button>
-       <form action="OrderHistoryByDMY" method="Post"  style="display: flex; width: fit-content; gap:10px;
-              margin: auto;">
-            <select name="month" class="form-select" aria-label="Default select example" >
-                <c:forEach var="month" items="<%= listMonth%>" >
-                    <option value="${month}">${month}</option>
-                </c:forEach>
-            </select>
-            <select name="year" class="form-select" aria-label="Default select example" style="width:100px;">
-                <c:forEach var="year" items="<%= listYear%>" >
-                    <option value="${year}">${year}</option>
-                </c:forEach>
-            </select>
-            <input type="hidden" name="type" value="2" />
-             <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
-              <button type="submit" class="btn btn-info">Xem</button>
-        </form>
-         </div>
-       <table class="table mt-4" style="text-align: center;">
-            <thead  class="thead-dark">
-                <tr>
-                    <th scope="col">Mã đơn hàng</th>
-                    <th scope="col">Mã người mua</th>
-                    <th scope="col">Giá tiền </th>
-                    <th scope="col">Ngày mua hàng</th>
-                    <th scope="col">Trạng thái</th>
-                    <th scope="col">Hoạt động</th>
-                </tr>
-            </thead>
-            <tbody>
+                %>
+                <button class="btn btn-secondary mb-4">  <a style="
+                                                            color: white; text-decoration: none;" href="OrderHistoryServlet?customer_id=<%=customer_id%>">Trở về</a> </button>
+                <form action="OrderHistoryByDMY" method="Post"  style="display: flex; width: fit-content; gap:10px;
+                      margin: auto;">
+                    <select name="month" id="monthSelect" class="form-select" aria-label="Default select example">
+                        <c:forEach var="month" items="${listMonth}">
+                            <option value="${month}">${month}</option>
+                        </c:forEach>
+                    </select>
 
-                <c:forEach var="order" items="<%= listOrder%>" >
+                    <select name="year" id="yearSelect" class="form-select" aria-label="Default select example" style="width:100px;">
+                        <c:forEach var="year" items="${listYear}">
+                            <option value="${year}">${year}</option>
+                        </c:forEach>
+                    </select>
+                    <input type="hidden" name="type" value="2" />
+                    <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
+                    <button type="submit" class="btn btn-info">Xem</button>
+                </form>
+            </div>
+            <table class="table mt-4" style="text-align: center;">
+                <thead  class="thead-dark">
                     <tr>
-                        <td>${order.getOrder_id()}</td>
-                        <td>${order.getStore_id()}</td>
-                        
-                        <td>${order.getTotalmoney()}</td>
-                        <td>${order.getStatus()}</td>
-                        <td>${order.getDate()}</td>
-                         <td>
-                            <form action="ViewOrderTrackingDetail" method="GET">
-                                <input type="hidden" name="order_id" value="${order.getOrder_id()}"/>
-                                <button type="submit" class="btn btn-success">Xem chi tiết </button>
-                            </form>
-                        </td>
+                        <th scope="col">Mã đơn hàng</th>
+                        <th scope="col">Mã người mua</th>
+                        <th scope="col">Giá tiền </th>
+                        <th scope="col">Ngày mua hàng</th>
+                        <th scope="col">Trạng thái</th>
+                        <th scope="col">Hoạt động</th>
                     </tr>
-                </c:forEach>
+                </thead>
+                <tbody>
 
-            </tbody>
-        </table>
-             <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
+                    <c:forEach var="order" items="<%= listOrder%>" >
+                        <tr>
+                            <td>${order.getOrder_id()}</td>
+                            <td>${order.getStore_id()}</td>
+
+                            <td>${order.getTotalmoney()}</td>
+                            <td>${order.getStatus()}</td>
+                            <td>${order.getDate()}</td>
+                            <td>
+                                <form action="ViewOrderHistoryDetail" method="GET">
+                                    <input type="hidden" name="order_id" value="${order.getOrder_id()}"/>
+                                    <button type="submit" class="btn btn-success">Xem chi tiết </button>
+                                </form>
+                            </td>
+                        </tr>
+                    </c:forEach>
+
+                </tbody>
+            </table>
+            <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
         </div>
-     <footer id="footer" class="footer">
+        <footer id="footer" class="footer">
 
             <div class="container">
                 <div class="row gy-3">
@@ -259,24 +260,46 @@
             </div>
 
         </footer>
-         <script>
-       function logout() {
-            document.getElementById("myModal").style.display = "block";
-        }
-        function no() {
-            document.getElementById("myModal").style.display = "none";
-        }
-        function yes() {
+        <script>
+            function logout() {
+                document.getElementById("myModal").style.display = "block";
+            }
+            function no() {
+                document.getElementById("myModal").style.display = "none";
+            }
+            function yes() {
 
-            window.location.href = "ListProductGuest";
-        }
-  </script>
-  <!-- Vendor JS Files -->
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="vendor/aos/aos.js"></script>
-  <script src="vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="vendor/purecounter/purecounter_vanilla.js"></script>
-  <script src="vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="vendor/php-email-form/validate.js"></script>
+                window.location.href = "ListProductGuest";
+            }
+            document.addEventListener("DOMContentLoaded", function () {
+                var monthSelect = document.getElementById("monthSelect");
+                var yearSelect = document.getElementById("yearSelect");
+                // Xem nếu đã có tháng và năm đã lưu trong Local Storage
+                var savedMonth = localStorage.getItem("selectedMonth");
+                var savedYear = localStorage.getItem("selectedYear");
+                // Nếu có, thiết lập giá trị tháng và năm đã chọn
+                if (savedMonth) {
+                    monthSelect.value = savedMonth;
+                }
+                if (savedYear) {
+                    yearSelect.value = savedYear;
+                }
+
+                // Lắng nghe sự kiện thay đổi tháng và năm và cập nhật giá trị trong Local Storage
+                monthSelect.addEventListener("change", function () {
+                    localStorage.setItem("selectedMonth", monthSelect.value);
+                });
+                yearSelect.addEventListener("change", function () {
+                    localStorage.setItem("selectedYear", yearSelect.value);
+                });
+            });
+        </script>
+        <!-- Vendor JS Files -->
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="vendor/aos/aos.js"></script>
+        <script src="vendor/glightbox/js/glightbox.min.js"></script>
+        <script src="vendor/purecounter/purecounter_vanilla.js"></script>
+        <script src="vendor/swiper/swiper-bundle.min.js"></script>
+        <script src="vendor/php-email-form/validate.js"></script>
     </body>
 </html>
