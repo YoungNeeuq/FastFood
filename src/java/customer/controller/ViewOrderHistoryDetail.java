@@ -4,7 +4,7 @@
  */
 package customer.controller;
 
-import admin.controller.ViewDetailOrder;
+import dal.CommentDAO;
 import dal.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Comment;
 import model.OrderDetail;
 
 /**
@@ -67,7 +68,10 @@ public class ViewOrderHistoryDetail extends HttpServlet {
             OrderDAO orderDAO = new OrderDAO();
             List<OrderDetail> listDetail = orderDAO.getItemById(order_id);
             request.setAttribute("listDetail", listDetail);
-
+            request.setAttribute("order_id", order_id);
+            CommentDAO commentDAO = new CommentDAO();
+            Comment comment = commentDAO.getCommentByOrderId(order_id);
+            request.setAttribute("comment", comment);
             request.getRequestDispatcher("OrderHistoryDetail.jsp").forward(request, response);
         } catch (Exception ex) {
             String errorMessage = ex.getMessage();

@@ -63,11 +63,11 @@ public class CommentServlet extends HttpServlet {
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
             String[] dishIds = request.getParameterValues("dish_id");
             String comment_content = request.getParameter("comment_content");
-
+            int order_id = Integer.parseInt(request.getParameter("order_id"));
             if (dishIds != null) {
                 for (String dishId : dishIds) {
                     int dish_id = Integer.parseInt(dishId);
-                    commentDAO.add(dish_id, customer_id, comment_content);
+                    commentDAO.add(dish_id, customer_id, comment_content, order_id);
                 }
             }
 
