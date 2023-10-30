@@ -30,7 +30,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <!-- Template Main CSS File -->
-        <<link rel="stylesheet" href="css/styleguest.css"/>
+        <link rel="stylesheet" href="css/styleguest.css"/>
         <style>
             .form-label{
                 font-weight: bold;
@@ -198,7 +198,7 @@
                     </div>
                     <div class="select-item district-town-select">
                         <label for="district-town">Quận/Huyện:</label>
-                        <select id="district-town" name="address2"class="form-select" aria-label="Default select example">
+                        <select id="district-town" name="address2" class="form-select" aria-label="Default select example">
                             <option value='0'>Chọn Quận/Huyện...</option>
                             <!-- Quận/huyện sẽ được cập nhật thông qua Ajax -->
                         </select>
@@ -213,7 +213,7 @@
 
 
 
-                </select>
+         
 
 
 
