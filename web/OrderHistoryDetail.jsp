@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="model.Comment"%>
 <%@page import="java.util.List"%>
 <%@page import="dal.OrderDAO"%>
 <%@page import="model.OrderDetail"%>
@@ -142,7 +143,7 @@
                     }
                 }
             }
-
+            Comment comment = (Comment)request.getAttribute("comment");
         %>
         <div style="margin:70px 0 120px 0;">
             <div style="text-align: center;">
@@ -180,17 +181,22 @@
 
                 </tbody>
             </table>
-            <form action="CommentServlet" method="get">
-                <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
-                <c:forEach var="dish" items="${listDetail}">
-                    <input type="hidden" name="dish_id" value="${dish.getProduct_id()}">
-                </c:forEach>
+                    <c:set var="comment" value="<%= comment %>" ></c:set>
+                  
 
+            <c:if test="${ comment == null}">
+                <form action="CommentServlet" method="get">
+                    <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
+                    <c:forEach var="dish" items="${listDetail}">
+                        <input type="hidden" name="dish_id" value="${dish.getProduct_id()}">
+                    </c:forEach>
+                    <input type="hidden" name="order_id" value="${order_id}" />
+                    <!-- Display the text area for user comment -->
+                    <textarea id="comment_content" name="comment_content" rows="3" cols="40" placeholder="Bình luận..."></textarea>
+                    <button type="submit">Gửi</button>
+                </form>
+            </c:if>
 
-                <!-- Hiển thị ô để người dùng nhập bình luận -->
-                <textarea id="comment_content" name="comment_content" rows="3" cols="40" placeholder="Bình luận..."></textarea>
-                <button type="submit">Gửi</button>
-            </form>
         </div>
         <footer id="footer" class="footer">
 

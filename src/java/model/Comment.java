@@ -18,16 +18,26 @@ public class Comment {
     private String comment_content;
     private Date comment_date;
     private String username;
+    private int order_id;
     public Comment() {
     }
 
-    public Comment(int comment_id, int dish_id, int customer_id, String comment_content, Date comment_date, String username) {
+    public Comment(int comment_id, int dish_id, int customer_id, String comment_content, Date comment_date, 
+            String username, int order_id) {
         this.comment_id = comment_id;
         this.dish_id = dish_id;
         this.customer_id = customer_id;
         this.comment_content = comment_content;
         this.comment_date = comment_date;
         this.username = username;
+    }
+
+    public int getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(int order_id) {
+        this.order_id = order_id;
     }
 
 
