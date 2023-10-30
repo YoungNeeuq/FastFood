@@ -300,26 +300,26 @@
                             </a>
                         </li><!-- End tab nav item -->
                         <li class="nav-item">
-                            <a  class="nav-link" data-bs-toggle="tab"data-id="searchType" data-value="f" 
+                            <a  class="nav-link" data-bs-toggle="tab" data-id="searchType" data-value="f" 
                                 data-bs-target="#menu-food" >
                                 <h4>Food</h4>
                             </a>
                         </li><!-- End tab nav item -->
 
                         <li class="nav-item">
-                            <a  class="nav-link" data-bs-toggle="tab"data-id="searchType" data-value="d" 
+                            <a  class="nav-link" data-bs-toggle="tab" data-id="searchType" data-value="d" 
                                 data-bs-target="#menu-drink" >
                                 <h4>Drink</h4>
                             </a>
                         </li><!-- End tab nav item -->
                         <li class="nav-item">
-                            <a  class="nav-link" data-bs-toggle="tab"data-id="searchType" data-value="i" 
+                            <a  class="nav-link" data-bs-toggle="tab" data-id="searchType" data-value="i" 
                                 data-bs-target="#menu-ice" >
                                 <h4>Icecream</h4>
                             </a>
                         </li><!-- End tab nav item -->
                         <li class="nav-item">
-                            <a  class="nav-link" data-bs-toggle="tab"data-id="searchType" data-value="c" 
+                            <a  class="nav-link" data-bs-toggle="tab" data-id="searchType" data-value="c" 
                                 data-bs-target="#menu-combo" >
                                 <h4>Combo</h4>
                             </a>
