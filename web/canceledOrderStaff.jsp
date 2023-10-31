@@ -118,24 +118,16 @@
                             }
                         }
                     %>
-                    <nav id="navbar" class="navbar">
-                        <ul>
-                            <li> <form action="ShowConfirmOrder" method="get">
-                                    <input type="hidden" name ="store_id" value="<%= storeId%>" />
-                                    <button class="btt" type="submit">Xác nhận đơn hàng</button>
-                                </form></li>
-                            <li><form action="ShowSucceedOrder" method="get">
-                                    <input type="hidden" name ="store_id" value="<%=storeId%>" />
-                                    <button class="btt" type="submit">Đơn hàng thành công</button>
-                                </form></li>
+                     <nav id="navbar" class="navbar">
+                    <ul>
 
-                            <li> <form action="ShowCanceledOrder" method="get">
-                                    <input type="hidden" name ="store_id" value="<%=storeId%>" />
-                                    <button class="btt" type="submit">Đơn hàng đã hủy</button>
-                                </form></li>
+                        <li> <a href="ShowConfirmOrder?store_id=<%= storeId%>">Xác nhận đơn hàng</a> </li>
+                        <li> <a href="ShowSucceedOrder?store_id=<%= storeId%>">Đơn hàng thành công</a> </li><!-- comment -->
+                           <li> <a href="ShowCanceledOrder?store_id=<%= storeId%>">Đơn hàng đã hủy</a> </li>
+                        <li><a href="manageStore.jsp">Xem doanh thu</a></li>
 
-                        </ul> 
-                    </nav><!-- .navbar -->
+                    </ul>
+                </nav><!-- .navbar -->
                     <div> 
                         <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000;
                                                                        margin-left: 20px;"></i></a>
@@ -175,15 +167,24 @@
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Người mua hàng</th>
-                            <th scope="col">ID Đơn hàng</th>
-                            <th scope="col">Số điện thoại</th>
-                            <th scope="col">Địa chỉ</th>
-                            <th scope="col">Ngày mua</th>
-                            <th scope="col">Tổng tiền</th>
-                            <th scope="col">Trạng thái đơn hàng</th>
-                            <th scope="col">Trạng thái thanh toán</th>
-                            <th scope="col">Hoạt động</th>
+                            <th style=" text-align: center;
+                        vertical-align: middle;" scope="col">Người mua hàng</th>
+                            <th style=" text-align: center;
+                        vertical-align: middle;" scope="col">ID Đơn hàng</th>
+                            <th style=" text-align: center;
+                        vertical-align: middle;" scope="col">Số điện thoại</th>
+                            <th style=" text-align: center;
+                        vertical-align: middle;" scope="col">Địa chỉ</th>
+                            <th style=" text-align: center;
+                        vertical-align: middle;" scope="col">Ngày mua</th>
+                            <th style=" text-align: center;
+                        vertical-align: middle;" scope="col">Tổng tiền</th>
+                            <th style=" text-align: center;
+                        vertical-align: middle;" scope="col">Trạng thái đơn hàng</th>
+                            <th style=" text-align: center;
+                        vertical-align: middle;" scope="col">Trạng thái thanh toán</th>
+                            <th style=" text-align: center;
+                        vertical-align: middle;" scope="col">Hoạt động</th>
                         </tr>
                     </thead>
                     <tbody>

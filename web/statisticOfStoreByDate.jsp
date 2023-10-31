@@ -118,7 +118,9 @@
                     <ul>
 
                         <li> <a href="ShowConfirmOrder?store_id=<%= storeId%>">Xác nhận đơn hàng</a> </li>
-                        <li><a href="RevenueByStoreDMY">Xem doanh thu</a></li>
+                        <li> <a href="ShowSucceedOrder?store_id=<%= storeId%>">Đơn hàng thành công</a> </li><!-- comment -->
+                           <li> <a href="ShowCanceledOrder?store_id=<%= storeId%>">Đơn hàng đã hủy</a> </li>
+                        <li><a href="manageStore.jsp">Xem doanh thu</a></li>
 
                     </ul>
                 </nav><!-- .navbar -->

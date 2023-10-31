@@ -96,7 +96,7 @@ public class ValidateOtpNewAccount extends HttpServlet {
                     String customer_address= "";
                     CustomerDAO customer = new CustomerDAO();
                     customer.add(username, encodePass, email, phoneNumber, role,customer_name,customer_address);
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
+                    request.getRequestDispatcher("oke.jsp").forward(request, response);
                 } catch (Exception ex) {
                     Logger.getLogger(ValidateOtpNewAccount.class.getName()).log(Level.SEVERE, null, ex);
                 }

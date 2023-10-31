@@ -3,13 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/src/java/admin/controller/StatisticByStoreExcel.java</file>
             <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/statisticByYearCus.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/listAllStaff.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/css/styleprofile.css</file>
+            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/profile.jsp</file>
             <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/statisticOfStoreByYear.jsp</file>
-            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/statisticByYear.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/admin.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/DetailProductGuest.jsp</file>
             <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/statisticByDateCus.jsp</file>
             <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/statisticByMonthCus.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/listAllStaff.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/OrderHistoryDetail.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/EnterOtp.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/statisticByYear.jsp</file>
+            <file>file:/C:/Users/HAU/Desktop/FASTFOOD/web/statisticByStore.jsp</file>
         </group>
     </open-files>
 </project-private>
