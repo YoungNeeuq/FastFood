@@ -79,219 +79,279 @@
                 top: 15% !important;
                 left: 30% !important;
             }
-            </style>
-        </head>
-        <body>
-            <header id="header" class="header fixed-top d-flex align-items-center" >
-                <div class="container d-flex align-items-center justify-content-between">
+        </style>
+    </head>
+    <body>
+        <header id="header" class="header fixed-top d-flex align-items-center" >
+            <div class="container d-flex align-items-center justify-content-between">
 
-                    <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
-                        <!-- Uncomment the line below if you also wish to use an image logo -->
-                        <!-- <img src="assets/img/logo.png" alt=""> -->
-                        <img class="img-navbar" src="img/logo.jpg" alt="">
-                    </a>
+                <a href="index.html" class="logo d-flex align-items-center me-auto me-lg-0">
+                    <!-- Uncomment the line below if you also wish to use an image logo -->
+                    <!-- <img src="assets/img/logo.png" alt=""> -->
+                    <img class="img-navbar" src="img/logo.jpg" alt="">
+                </a>
 
-                    <nav id="navbar" class="navbar">
-                        <ul>
-                            <li><a href="#">Món ăn</a></li>
-                            <li><a href="ListStore">Cửa hàng</a></li>
+                <nav id="navbar" class="navbar">
+                    <ul>
+                        <li><a href="#">Món ăn</a></li>
+                        <li><a href="ListStore">Cửa hàng</a></li>
 
-                            <li><a href="Statistic">Xem doanh thu</a></li>
-                            <li><a href="ListStaffAccountServlet">Nhân viên</a></li>
+                        <li><a href="Statistic">Xem doanh thu</a></li>
+                        <li><a href="ListStaffAccountServlet">Nhân viên</a></li>
 
-                        </ul>
-                    </nav><!-- .navbar -->
-                    <div> 
-                        <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000;
-                                                                       margin-left: 20px;"></i></a>
-                    </div>
-                    <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-                    <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-
+                    </ul>
+                </nav><!-- .navbar -->
+                <div> 
+                    <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000;
+                                                                   margin-left: 20px;"></i></a>
                 </div>
-
-
-            </header><!-- End Header -->
-            <div style="margin:100px 0 150px 0;">
-                <% StoreDAO storeDAO = new StoreDAO();
-
-                %>
-                <div style="text-align: center;">
-                    <h1 style=" font-weight: bold;">Danh sách nhân viên</h1>
-                    <button type="submit" class="btn btn-secondary mb-4" >
-                        <a style=" color: white;
-                        text-decoration: none;"  href="ListProductServlet">Back</a>
-                    </button>
-                    <br>
-                    <button class="btn btn-secondary mb-4 mt-4" id="btnThem">Thêm tài khoản nhân viên</button>
-                </div>
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">ID Nhân viên</th>
-                            <th scope="col">Tài khoản</th>
-                            <th scope="col">Mật khẩu</th>
-                            <th scope="col">Tên cửa hàng</th>
-                        </tr>
-                    </thead>
-                    <c:forEach items="${listStaff}" var="staff">
-                        <tr>
-                            <td>${staff.getStaff_id()}</td>
-                            <td>${staff.getUsername()}</td>
-                            <td>***********</td>
-                            <c:set var="store_id" value="${staff.getStore_id()}"></c:set>
-                            <td><%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%></td>
-
-                        </tr>
-                    </c:forEach>
-
-                </table>
-
-                <form id="myModal" class="modal" action="AddNewStaffAccount" method="get" >
-                    <div class="modal-content" id="modall" style="width:30%;">
-                        <h2 id="header-modal">Thêm tài khoản nhân viên</h2>
-                        <div  class="container-form">
-                            <div id="employeeForm">
-                                <div class="form-group">
-                                    <label for="username"><i class="fa-solid fa-drumstick-bite"></i></label>
-                                    <input type="text" id="username" name="username" placeholder="Tài khoản" required>
-                                    <span class="form-message" style="color:red;">${tb}</span>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="password" ><i class="fa-solid fa-circle-info"></i></label>
-                                    <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
-                                    <span class="sp-thongbao" id="tbInfor"></span>
-                                </div>
-
-                                <div class="form-group">
-                                    <select name="store_id" class="form-select" aria-label="Default select example">
-                                        <option value="0">Chọn cửa hàng</option>
-                                        <c:forEach var="store" items="${listStore}" >
-                                            <option value="${store.getStore_id()}">${store.getStore_name()}</option>
-                                        </c:forEach>
-                                    </select>
-                                    <span class="sp-thongbao" id="tbSalary"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="footer-modal">
-                            <button type="submit" value="Submit!" name="submit" style="margin-left: 46.5%;" class="submit submit-form" id="them">Thêm</button>
-                            <button class="close-button" onclick="closeForm('myModal')">Đóng</button>
-                        </div>
-                    </div>
-
-                </form> 
-            </div>
-            <div class="modal" id="myModal12">
-                <div class="modal-content2" style="width: 30%;">
-                    <h5 style=" margin-bottom: 20px;">
-                        Bạn có chắc chắn bạn muốn thoát??</h5>
-                    <div class="d-flex btnlogout">
-                        <button onclick="yes()" type="button" class="btn btn-warning">Yes</button>
-                        <button onclick="no()" type="button" class="btn btn-success">No</button>
-                    </div>
-                </div>
+                <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+                <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
 
             </div>
-            <footer id="footer" class="footer">
 
-                <div class="container">
-                    <div class="row gy-3">
-                        <div class="col-lg-3 col-md-6 d-flex">
-                            <i class="bi bi-geo-alt icon"></i>
-                            <div>
-                                <h4>Address</h4>
-                                <p>
-                                    FPT University <br>
-                                    Khu đô thị FPT Đà Nẵng<br>
-                                </p>
+
+        </header><!-- End Header -->
+        <div style="margin:100px 0 150px 0;">
+            <% StoreDAO storeDAO = new StoreDAO();
+
+            %>
+            <div style="text-align: center;">
+                <h1 style=" font-weight: bold;">Danh sách nhân viên</h1>
+                <button type="submit" class="btn btn-secondary mb-4" >
+                    <a style=" color: white;
+                       text-decoration: none;"  href="ListProductServlet">Back</a>
+                </button>
+                <br>
+                <button class="btn btn-secondary mb-4 mt-4" id="btnThem">Thêm tài khoản nhân viên</button><br>
+                <span class="form-message" style="color:red;">${tb}</span>
+            </div>
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID Nhân viên</th>
+                        <th scope="col">Tài khoản</th>
+                        <th scope="col">Mật khẩu</th>
+                        <th scope="col">Tên cửa hàng</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <c:forEach items="${listStaff}" var="staff">
+                    <tr>
+                        <td>${staff.getStaff_id()}</td>
+                        <td>${staff.getUsername()}</td>
+                        <td>***********</td>
+                        <c:set var="store_id" value="${staff.getStore_id()}"></c:set>
+                        <td><%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%></td>
+                        <td>
+                            <div class="product-button d-flex justify-content-center">
+                                <form action="DeleteStaffAccount" method="POST">
+                                    <input type="hidden" name="staff_id" value="${staff.getStaff_id()}"/><!-- comment -->
+                                    <button class="product-delete btn btn-danger"> <i class="fa-solid fa-trash"></i></button>
+                                </form>
+                                <form  action="UpdateStaffAccount" method="POST">
+                                    <input type="hidden" name="staff_id" value="${staff.getStaff_id()}">
+                                    <button  class="btn btn-success" type="button" name="updateButton" value="update" onclick="modaledit.style.display = 'block';
+
+                                            document.getElementById('staff_idd').value = ${staff.getStaff_id()};
+
+                                            document.getElementById('usernamee').value = '${staff.getUsername()}';
+
+                                            document.getElementById('passwordd').value = '${staff.getPassword().trim()}';
+                                            document.getElementById('store_namee').value = '<%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%>';
+                                             "
+                                             ><i class="fa-solid fa-wrench"></i></button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+
+                </c:forEach>
+
+            </table>
+
+            <form id="myModal" class="modal" action="AddNewStaffAccount" method="get" >
+                <div class="modal-content" id="modall" style="width:30%;">
+                    <h2 id="header-modal">Thêm tài khoản nhân viên</h2>
+                    <div  class="container-form">
+                        <div id="employeeForm">
+                            <div class="form-group">
+                                <label for="username"><i class="fa-solid fa-drumstick-bite"></i></label>
+                                <input type="text" id="username" name="username" placeholder="Tài khoản" required>
+
                             </div>
 
-                        </div>
+                            <div class="form-group">
+                                <label for="password" ><i class="fa-solid fa-circle-info"></i></label>
+                                <input type="password" id="password" name="password" placeholder="Mật khẩu" required>
+                                <span class="sp-thongbao" id="tbInfor"></span>
+                            </div>
 
-                        <div class="col-lg-3 col-md-6 footer-links d-flex">
-                            <i class="bi bi-telephone icon"></i>
-                            <div>
-                                <h4>Reservations</h4>
-                                <p>
-                                    <strong>Phone:</strong> (+84) 334807725<br>
-                                    <strong>Email:</strong> haulvdev@gmail.com<br>
-                                </p>
+                            <div class="form-group">
+                                <select name="store_id" class="form-select" aria-label="Default select example">
+                                    <option value="0">Chọn cửa hàng</option>
+                                    <c:forEach var="store" items="${listStore}" >
+                                        <option value="${store.getStore_id()}">${store.getStore_name()}</option>
+                                    </c:forEach>
+                                </select>
+                                <span class="sp-thongbao" id="tbSalary"></span>
                             </div>
                         </div>
-
-                        <div class="col-lg-3 col-md-6 footer-links d-flex">
-                            <i class="bi bi-clock icon"></i>
-                            <div>
-                                <h4>Opening Hours</h4>
-                                <p>
-                                    <strong>Mon-Sat: 11AM</strong> - 23PM<br>
-                                    Sunday: Closed
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6 footer-links">
-                            <h4>Follow Us</h4>
-                            <div class="social-links d-flex">
-                                <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                                <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                                <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                                <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-                            </div>
-                        </div>
-
+                    </div>
+                    <div class="footer-modal">
+                        <button type="submit" value="Submit!" name="submit" style="margin-left: 46.5%;" class="submit submit-form" id="them">Thêm</button>
+                        <button class="close-button" onclick="closeForm('myModal')">Đóng</button>
                     </div>
                 </div>
 
-                <div class="container">
-                    <div class="copyright">
-                        &copy; Copyright <strong><span>420ent</span></strong>. All Rights Reserved
+            </form> 
+            <!--edit-->
+            <form action="UpdateStaffAccount" method="POST" id="myModaledit" class="modal"  enctype="multipart/form-data">
+
+                <div class="modal-content" id="modaledit" style="width:30%;">
+                    <h2 id="header-modaledit">Edit password</h2>
+                    <div  class="container-form">
+                        <div id="employeeFormedit">
+                            <input type="hidden" id="staff_idd"  name="staff_idd" value="${staff.getStaff_id()}">
+                            <div class="form-group">
+                                <label for="usernamee"><i class="fa-solid fa-drumstick-bite"></i></label>
+
+                                <input type="text" id="usernamee" name="usernamee" value="${dish.getUsername()}">
+                                <span class="sp-thongbao" id="tbName"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="passwordd" ><i class="fa-solid fa-circle-info"></i></label>
+                                <input type="text" id="passwordd" name="passwordd" value="${staff.getPassword().trim()}" >
+                                <input type="hidden" id="passwordd" name="passwordd" value="${staff.getPassword().trim()}" >
+                                <span class="sp-thongbao" id="tbInfor"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="store_namee"><i class="fa-solid fa-tag"></i></label>
+                                <input type="text" id="store_namee" name="store_namee" value="<%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%>">
+                                <input type="hidden" id="store_namee" name="store_namee" value="<%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%>">
+                                <span class="sp-thongbao" id="tbType"></span>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="credits">
-                        <!-- All the links in the footer should remain intact. -->
-                        <!-- You can delete the links only if you purchased the pro version. -->
-                        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/ -->
+                    <div class="footer-modal">
+                        <input  class="btn btn-success" type="submit" style="margin-left: 46.5%;" name="submit" value="Sửa món ăn">
+                        <button type="button" class="close-button" onclick="closeForm('myModaledit')">Đóng</button>
                     </div>
                 </div>
+            </form> 
+        </div>
+        <div class="modal" id="myModal12">
+            <div class="modal-content2" style="width: 30%;">
+                <h5 style=" margin-bottom: 20px;">
+                    Bạn có chắc chắn bạn muốn thoát??</h5>
+                <div class="d-flex btnlogout">
+                    <button onclick="yes()" type="button" class="btn btn-warning">Yes</button>
+                    <button onclick="no()" type="button" class="btn btn-success">No</button>
+                </div>
+            </div>
 
-            </footer><!-- End Footer -->
-            <script>
-                const modal = document.getElementById('myModal');
-                const modall = document.getElementById('myModaledit');
-                const btn = document.getElementById('btnThem');
-                btn.addEventListener('click', () => {
-                    modal.style.display = 'block';
-                });
+        </div>
+        <footer id="footer" class="footer">
 
-                window.addEventListener('click', (event) => {
-                    if (event.target === modal) {
-                        modal.style.display = 'none';
+            <div class="container">
+                <div class="row gy-3">
+                    <div class="col-lg-3 col-md-6 d-flex">
+                        <i class="bi bi-geo-alt icon"></i>
+                        <div>
+                            <h4>Address</h4>
+                            <p>
+                                FPT University <br>
+                                Khu đô thị FPT Đà Nẵng<br>
+                            </p>
+                        </div>
 
-                    }
-                });
-                function closeForm(formId) {
-                    const form = document.getElementById(formId);
-                    form.style.display = 'none';
-                }
-                function logout() {
-                    document.getElementById("myModal12").style.display = "block";
-                }
-                function no() {
-                    document.getElementById("myModal12").style.display = "none";
-                }
-                function yes() {
+                    </div>
 
-                    window.location.href = "ListProductGuest";
+                    <div class="col-lg-3 col-md-6 footer-links d-flex">
+                        <i class="bi bi-telephone icon"></i>
+                        <div>
+                            <h4>Reservations</h4>
+                            <p>
+                                <strong>Phone:</strong> (+84) 334807725<br>
+                                <strong>Email:</strong> haulvdev@gmail.com<br>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-links d-flex">
+                        <i class="bi bi-clock icon"></i>
+                        <div>
+                            <h4>Opening Hours</h4>
+                            <p>
+                                <strong>Mon-Sat: 11AM</strong> - 23PM<br>
+                                Sunday: Closed
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Follow Us</h4>
+                        <div class="social-links d-flex">
+                            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="copyright">
+                    &copy; Copyright <strong><span>420ent</span></strong>. All Rights Reserved
+                </div>
+                <div class="credits">
+                    <!-- All the links in the footer should remain intact. -->
+                    <!-- You can delete the links only if you purchased the pro version. -->
+                    <!-- Licensing information: https://bootstrapmade.com/license/ -->
+                    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/ -->
+                </div>
+            </div>
+
+        </footer><!-- End Footer -->
+        <script>
+            const modal = document.getElementById('myModal');
+            const modall = document.getElementById('myModaledit');
+            const btn = document.getElementById('btnThem');
+            btn.addEventListener('click', () => {
+                modal.style.display = 'block';
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+
                 }
-            </script>
-            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-            <script src="vendor/aos/aos.js"></script>
-            <script src="vendor/glightbox/js/glightbox.min.js"></script>
-            <script src="vendor/purecounter/purecounter_vanilla.js"></script>
-            <script src="vendor/swiper/swiper-bundle.min.js"></script>
-            <script src="vendor/php-email-form/validate.js"></script>
-        </body>
-    </html>
+            });
+            function closeForm(formId) {
+                const form = document.getElementById(formId);
+                form.style.display = 'none';
+            }
+            function logout() {
+                document.getElementById("myModal12").style.display = "block";
+            }
+            function no() {
+                document.getElementById("myModal12").style.display = "none";
+            }
+            function yes() {
+
+                window.location.href = "ListProductGuest";
+            }
+        </script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="vendor/aos/aos.js"></script>
+        <script src="vendor/glightbox/js/glightbox.min.js"></script>
+        <script src="vendor/purecounter/purecounter_vanilla.js"></script>
+        <script src="vendor/swiper/swiper-bundle.min.js"></script>
+        <script src="vendor/php-email-form/validate.js"></script>
+    </body>
+</html>

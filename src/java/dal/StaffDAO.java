@@ -187,4 +187,62 @@ public class StaffDAO {
         }
         return null;
     }
+
+    public void delete(int staff_id) {
+        try {
+
+            String sqlCellphone = "DELETE FROM Staff WHERE staff_id = ?;";
+            Connection connection = null;
+
+            connection = db.getConnection();
+            try ( PreparedStatement ps = connection.prepareStatement(sqlCellphone)) {
+                ps.setInt(1, staff_id);
+                ps.execute();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DishDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void update(int staff_id, String username, String password) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+
+        try {
+            String sql = "  update Staff\n"
+                    + "  set username = ?,\n"
+                    + "  password = ?\n"
+                    + "  where staff_id = ?";
+            connection = db.getConnection();
+            ps = connection.prepareStatement(sql);
+
+            // Kiểm tra và đặt các giá trị đầu vào
+            ps.setInt(1, staff_id);
+            ps.setString(2, username);
+            ps.setString(3, password);
+
+            // Thực hiện truy vấn
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(DishDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            // Đóng PreparedStatement và Connection trong khối finally để đảm bảo giải phóng tài nguyên
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    // Xử lý lỗi đóng PreparedStatement
+                    Logger.getLogger(DishDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    // Xử lý lỗi đóng Connection
+                    Logger.getLogger(DishDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
 }

@@ -312,6 +312,18 @@
         <servlet-name>ChangePassServlet</servlet-name>
         <servlet-class>customer.controller.ChangePassServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StatisticByStoreExcel</servlet-name>
+        <servlet-class>admin.controller.StatisticByStoreExcel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteStaffAccount</servlet-name>
+        <servlet-class>Staff.DeleteStaffAccount</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateStaffAccount</servlet-name>
+        <servlet-class>Staff.UpdateStaffAccount</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -615,6 +627,18 @@
     <servlet-mapping>
         <servlet-name>ChangePassServlet</servlet-name>
         <url-pattern>/ChangePassServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatisticByStoreExcel</servlet-name>
+        <url-pattern>/StatisticByStoreExcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteStaffAccount</servlet-name>
+        <url-pattern>/DeleteStaffAccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateStaffAccount</servlet-name>
+        <url-pattern>/UpdateStaffAccount</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
