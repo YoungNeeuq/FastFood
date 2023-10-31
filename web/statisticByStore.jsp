@@ -88,6 +88,13 @@
 
 
     <body>
+        <%  int sum = (int) request.getAttribute("sumByStore");
+            Store storee = (Store) request.getAttribute("storee");
+            List<Order> listOrder = (List<Order>) request.getAttribute("listOrder");
+          
+            int total = listOrder.size();
+            int store_id = (int) request.getAttribute("store_id");
+        %>
         <header id="header" class="header fixed-top d-flex align-items-center" >
             <div class="container d-flex align-items-center justify-content-between">
 
@@ -101,11 +108,18 @@
                     <ul>
                         <li><a href="ListProductServlet">Món ăn</a></li>
                         <li><a href="ListStore">Cửa hàng</a></li>
-                         <li> <a href="ShowConfirmOrder">Xác nhận đơn hàng</a> </li>
+                       
                         <li><a href="Statistic">Xem doanh thu</a></li>
+                            <li><a href="ListStaffAccountServlet">Nhân viên</a></li>
                         
                     </ul>
                 </nav><!-- .navbar -->
+                <div class="export-excel">
+                    <form action="StatisticByStoreExcel" method="GET">
+                        <input type="hidden" name="store_id" value="<%= store_id %>" /><!-- comment -->
+                        <button type="submit">Export to excel</button>
+                    </form>
+                </div>
                 <div> 
                     <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
                 </div>
@@ -128,13 +142,7 @@
         </div>
         <div style="margin:100px 0 150px 0;">
            
-        <%  int sum = (int) request.getAttribute("sumByStore");
-            Store storee = (Store) request.getAttribute("storee");
-            List<Order> listOrder = (List<Order>) request.getAttribute("listOrder");
-          
-            int total = listOrder.size();
-            int store_id = (int) request.getAttribute("store_id");
-        %>
+        
          <div style="text-align: center;">
         <h1 style=" font-weight: bold;"><%= storee.getStore_name()%></h1>
 

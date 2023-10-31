@@ -72,9 +72,8 @@ public class AddNewStaffAccount extends HttpServlet {
                 staffDAO.addStaff(username, password, role, store_id);
                 response.sendRedirect("ListStaffAccountServlet");
             } else {
-                request.setAttribute("tb", "username da ton tai");
+                request.setAttribute("tb", "Username đã tồn tại!");
                 request.getRequestDispatcher("ListStaffAccountServlet").forward(request, response);
-
             }
 
         } catch (Exception ex) {

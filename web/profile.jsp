@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -238,6 +239,9 @@
                             <button type="submit" class="btn btn-outline-primary ms-1 d-none" id="btnsave" onclick="save()">Save Your Profile</button>
 
                         </form>
+                        <c:if test="${errorMessage ne null}">
+                            <p style="color: red;">${errorMessage}</p>
+                        </c:if>
                         <div class="text-center">
 
                             <button type="button" class="btn btn-outline-danger ms-1" id="btnedit" onclick="edit()">Edit Your Profile</button>
@@ -251,9 +255,11 @@
 
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="oldPassword" name="oldPassword"  class="form-control">
+                                        <input type="password" id="oldPassword" name="oldPassword"  class="form-control" required>
 
                                     </div>
+
+
                                 </div>
 
                                 <div class="row">
@@ -262,7 +268,17 @@
 
                                     </div>
                                     <div class="col-sm-9">
-                                        <input type="text" id="newPassword" name="newPassword" class="form-control">
+                                        <input type="password" id="newPassword" name="newPassword" class="form-control" required>
+                                    </div>
+                                </div>  
+
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <p class="mb-0">Nhập lại mật khẩu mới</p>
+
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input type="password" id="re_newPassword" name="re_newPassword" class="form-control" required>
                                     </div>
                                 </div>  
 
