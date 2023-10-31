@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Staff;
+package admin.controller;
 
 import dal.OrderDAO;
 import dal.StoreDAO;
@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Order;
+import model.Store;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -25,7 +26,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author Asus
  */
-public class StatisticByStoreByDateExcel extends HttpServlet {
+public class StatisticAllByMonthExcel extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +45,10 @@ public class StatisticByStoreByDateExcel extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StatisticByStoreByDateExcel</title>");
+            out.println("<title>Servlet StatisticAllByMonthExcel</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StatisticByStoreByDateExcel at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet StatisticAllByMonthExcel at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,61 +69,59 @@ public class StatisticByStoreByDateExcel extends HttpServlet {
 
         try {
             response.setContentType("text/html;charset=UTF-8");
-            int store_id = Integer.parseInt(request.getParameter("store_id"));
+
             StoreDAO storeDAO = new StoreDAO();
             OrderDAO orderDAO = new OrderDAO();
 
             // Lấy dữ liệu từ cơ sở dữ liệu
-            String storeName = storeDAO.getStoreById(store_id).getStore_name();
-            String date = request.getParameter("date");
-            int sumByStore = orderDAO.sumOrderOfStoreByDate(date, store_id);
-            List<Order> listOrder = orderDAO.getOrderOfStoreByDate(date, store_id);
+            int month = Integer.parseInt(request.getParameter("month"));
+            int year = Integer.parseInt(request.getParameter("year"));
+            int sumByStore = orderDAO.sumOrderByMonth(month, year);
+            List<Order> listOrder = orderDAO.getOrderByMonth(month, year);
+            List<Store> listStore = storeDAO.totalPriceOfStoreByMonth(year, month);
 
             // Tạo một tệp Excel bằng Apache POI
             try ( XSSFWorkbook workbook = new XSSFWorkbook();  OutputStream out = response.getOutputStream()) {
-                XSSFSheet sheet = workbook.createSheet("Doanh_Thu_Theo_Ngay");
+                XSSFSheet sheet = workbook.createSheet("Doanh_thu_thang_" + month + "_nam_" + year + "_cua_he_thong");
 
                 // Tạo dòng tiêu đề cho thông tin doanh thu
                 XSSFRow revenueHeaderRow = sheet.createRow(0);
-                revenueHeaderRow.createCell(0).setCellValue("Cửa hàng");
-                revenueHeaderRow.createCell(1).setCellValue("Tổng tiền");
-                revenueHeaderRow.createCell(2).setCellValue("Tổng đơn hàng");
+                revenueHeaderRow.createCell(0).setCellValue("Hệ thống cửa hàng");
+                revenueHeaderRow.createCell(1).setCellValue("Tổng số đơn hàng");
+                revenueHeaderRow.createCell(2).setCellValue("Tổng doanh thu");
 
                 // Điền thông tin doanh thu vào tệp Excel
                 XSSFRow revenueRow = sheet.createRow(1);
-                revenueRow.createCell(0).setCellValue(storeName);
-                revenueRow.createCell(1).setCellValue(sumByStore);
-                revenueRow.createCell(2).setCellValue(listOrder.size());
+
+                revenueRow.createCell(1).setCellValue(listOrder.size());
+                revenueRow.createCell(2).setCellValue(sumByStore);
 
                 // Tạo dòng tiêu đề cho danh sách đơn hàng
                 XSSFRow ordersHeaderRow = sheet.createRow(3);
-                ordersHeaderRow.createCell(0).setCellValue("Mã đơn hàng");
-                ordersHeaderRow.createCell(1).setCellValue("Giá tiền");
-                ordersHeaderRow.createCell(2).setCellValue("Ngày đặt hàng");
-                ordersHeaderRow.createCell(3).setCellValue("Trạng thái");
-                ordersHeaderRow.createCell(4).setCellValue("Trạng thái thanh toán");
+                ordersHeaderRow.createCell(0).setCellValue("Cửa hàng");
+                ordersHeaderRow.createCell(1).setCellValue("Địa chỉ cửa hàng");
+                ordersHeaderRow.createCell(2).setCellValue("Doanh thu");
 
-                int rowIndex = 4;
+                int rowIndex = 2;
 
                 // Điền danh sách đơn hàng vào tệp Excel
-                for (Order order : listOrder) {
+                for (Store store : listStore) {
                     XSSFRow orderRow = sheet.createRow(rowIndex);
-                    orderRow.createCell(0).setCellValue(order.getOrder_id());
-                    orderRow.createCell(1).setCellValue(order.getTotalmoney());
-                    orderRow.createCell(2).setCellValue(order.getDate());
-                    orderRow.createCell(3).setCellValue(order.getStatus());
-                    orderRow.createCell(4).setCellValue(order.getPaymentStatus());
+                    orderRow.createCell(0).setCellValue(store.getStore_name());
+                    orderRow.createCell(1).setCellValue(store.getAddress());
+                    orderRow.createCell(2).setCellValue(store.getRevenue());
+
                     rowIndex++;
                 }
 
                 // Xuất tệp Excel
                 response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-                response.setHeader("Content-Disposition", "attachment; filename=Doanh_thu_theo_ngay_cua" + storeName + ".xlsx");
+                response.setHeader("Content-Disposition", "attachment; filename=Doanh_thu_thang_" + month + "_nam_" + year + "_cua_he_thong.xlsx");
 
                 workbook.write(out);
             }
         } catch (Exception ex) {
-            Logger.getLogger(StatisticByStoreByDateExcel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StatisticAllByMonthExcel.class.getName()).log(Level.SEVERE, null, ex);
 
             response.setContentType("text/html");
             response.getWriter().write("Đã xảy ra lỗi trong quá trình tạo tệp Excel.");

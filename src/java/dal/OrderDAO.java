@@ -630,7 +630,7 @@ public class OrderDAO {
         try {
             String sql = "SELECT order_id, customer_id, store_id, total_price, date, status "
                     + "FROM [KFCStore].[dbo].[Order] "
-                    + "WHERE CONVERT(DATE, date) = ? AND status = 'succeed'";
+                    + "WHERE CONVERT(DATE, date) = ? AND status = 'Succeed'";
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, date);

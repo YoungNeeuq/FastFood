@@ -142,6 +142,14 @@
                         List<Store> listStore = (List) request.getAttribute("listStore");
                         String date = String.valueOf(request.getAttribute("date"));
                     %>
+                <div class="export-excel mb-4">
+                    <form action="StatisticAllByDateExcel" method="GET">
+                        <input type="hidden" name="date" value="<%= date%>"/>
+
+                        <!-- comment -->
+                        <button class="btn btn-warning" type="submit">Xuất ra exel</button>
+                    </form>
+                </div>
                 <form action="RevenueByDateMonthYear" method="Post" style="display: flex; width: fit-content; gap:10px;
                       margin: auto;">
                     <select name="date" id="dateSelected" class="form-select" aria-label="Default select example">
@@ -184,7 +192,7 @@
 
                     </tbody>
                 </table>
-                   <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%=numOfOrder%> đơn</h4>
+                <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%=numOfOrder%> đơn</h4>
                 <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
             </div>
         </div>

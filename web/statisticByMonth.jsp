@@ -159,12 +159,21 @@
                     <%
                         List<Integer> listMonth = (List) request.getAttribute("listMonth");
                         List<Integer> listYear = (List) request.getAttribute("listYear");
-                        List<Order> listOrder = (List)request.getAttribute("listOrder");
+                        List<Order> listOrder = (List) request.getAttribute("listOrder");
                         int numOfOrder = listOrder.size();
                         int sum = (int) request.getAttribute("sum");
                         int month = (int) request.getAttribute("month");
                         int year = (int) request.getAttribute("year");
                     %>
+                <div class="export-excel mb-4">
+                    <form action="StatisticAllByMonthExcel" method="GET">
+                        <input type="hidden" name="month" value="<%= month%>"/>
+                        <input type="hidden" name="year" value="<%= year%>"/>
+
+                        <!-- comment -->
+                        <button class="btn btn-warning" type="submit">Xuất ra exel</button>
+                    </form>
+                </div>
                 <form action="RevenueByDateMonthYear" method="Post" style="display: flex; width: fit-content; gap:10px;
                       margin: auto;">
                     <select name="month" id="monthSelect" class="form-select" aria-label="Default select example">
@@ -222,7 +231,7 @@
 
                 </tbody>
             </table>
-                  <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng:  <%= numOfOrder%> đơn</h4>
+            <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng:  <%= numOfOrder%> đơn</h4>
             <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
         </div>
         <div class="chart" style="display:none;">
@@ -356,7 +365,7 @@
             for (var i = 0; i < nameElements.length; i++) {
                 storeNames.push(nameElements[i].innerText);
             }
-             var day = [];
+            var day = [];
             var Elements = document.getElementsByClassName('dayy');
             for (var i = 0; i < Elements.length; i++) {
                 day.push(Elements[i].innerText);
@@ -372,10 +381,10 @@
                         name: 'Doanh thu',
                         data: doanhthu,
                     },
-    {
-      name: 'Số đơn',
-      data: storeNames,
-    },
+                    {
+                        name: 'Số đơn',
+                        data: storeNames,
+                    },
                 ],
                 chart: {
                     height: 350,
