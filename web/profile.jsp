@@ -206,7 +206,7 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <p class="text-muted mb-0" id="phones">${profile.getPhoneNumber()}</p>
-                                            <input type="text" id="phone" value="${profile.getPhoneNumber().trim()}"  name="phone" class=" d-none form-control">
+                                            <input type="text" id="phone" value="${profile.getPhoneNumber().trim()}"  name="phone" class="d-none form-control">
                                         </div>
                                     </div>
                                     <hr>
@@ -216,8 +216,8 @@
 
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted mb-0" id="addresss">${profile.getAddress()}</p>
-                                            <input type="text" id="address" value="${profile.getAddress().trim()}"  name="address" class=" d-none form-control">
+                                            <p class="text-muted mb-0 " id="addresss">${profile.getAddress()}</p>
+                                            <input type="text" id="address" value="${profile.getAddress().trim()}"  name="address" class=" form-control" style="display:none;">
                                         </div>
                                     </div>
 
@@ -247,11 +247,11 @@
                             <button type="button" class="btn btn-outline-danger ms-1" id="btnedit" onclick="edit()">Edit Your Profile</button>
                             <button id="passwordButton" class="btn btn-primary" onclick="showPasswordForm()">Edit your password</button>
 
-                            <form action="ChangePassServlet" method="POsT" id="changePass" class="d-none">
+                            <form action="ChangePassServlet" method="POsT" id="changePass" class="d-none" style="padding:0 20px">
                                 <input type="hidden" name="customer_id" value="<%= customer_id%>"/>
-                                <div class="row">
+                                <div class="row mb-3 mt-3" style=" text-align: start !important;">
                                     <div class="col-sm-3">
-                                        <p class="mb-0">Mật khẩu cũ</p>
+                                        <p class="mb-0">Mật khẩu cũ : </p>
 
                                     </div>
                                     <div class="col-sm-9">
@@ -262,9 +262,9 @@
 
                                 </div>
 
-                                <div class="row">
+                                <div class="row mb-3" style=" text-align: start !important;">
                                     <div class="col-sm-3">
-                                        <p class="mb-0">Mật khẩu mới</p>
+                                        <p class="mb-0">Mật khẩu mới :</p>
 
                                     </div>
                                     <div class="col-sm-9">
@@ -272,9 +272,9 @@
                                     </div>
                                 </div>  
 
-                                <div class="row">
+                                <div class="row mb-3" style=" text-align: start !important;">
                                     <div class="col-sm-3">
-                                        <p class="mb-0">Nhập lại mật khẩu mới</p>
+                                        <p class="mb-0">Nhập lại mật khẩu :</p>
 
                                     </div>
                                     <div class="col-sm-9">
@@ -282,7 +282,7 @@
                                     </div>
                                 </div>  
 
-                                <button id="passwordButton" class="btn btn-primary" >Save your password</button>
+                                <button id="passwordButton" class="btn btn-danger" >Save your password</button>
 
                             </form>
 
@@ -361,16 +361,16 @@
         function edit() {
             if (document.getElementById("btnedit").innerHTML === "Edit Your Profile")
             {
-                document.getElementById("email").className = "d-none";
-                document.getElementById("phone").className = "d-block";
-                document.getElementById("add").className = "d-none";
-                document.getElementById("address").className = "d-block";
-                document.getElementById("cus_name").className = "d-block";
-                document.getElementById("adds").style.display = "d-block";
+                document.getElementById("email").className = "d-none form-control";
+                document.getElementById("phone").className = "d-block form-control";
+                document.getElementById("add").className = "d-none form-control";
+                document.getElementById("address").className = "d-block form-control";
+                document.getElementById("cus_name").className = "d-block form-control";
+                document.getElementById("adds").style.display = "d-block form-control";
                 document.getElementById("addresss").style.display = "none";
                 document.getElementById("cus_namee").style.display = "none";
                 document.getElementById("phones").style.display = "none";
-                document.getElementById("emails").style.display = "d-none";
+                document.getElementById("emails").style.display = "d-none form-control";
                 document.getElementById("btnedit").innerHTML = "Save Your Profile";
 
 //                 document.getElementById("btnedit").type= "submit";
