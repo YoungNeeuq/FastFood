@@ -35,6 +35,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
         <style>
             td {
                 padding: 10px; /* Adjust the value as needed */
@@ -83,6 +84,29 @@
             table {
                 text-align: center;
             }
+             .charts {
+                display: grid;
+                gap: 20px;
+            }
+
+            .charts-card {
+                background-color: #ffffff;
+                margin-bottom: 20px;
+                padding: 25px;
+                box-sizing: border-box;
+                -webkit-column-break-inside: avoid;
+                border: 1px solid #d2d2d3;
+                border-radius: 5px;
+                box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+            }
+
+            .chart-title {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                font-weight: 600;
+            }
         </style>
     </head>
 
@@ -116,7 +140,9 @@
                     <ul>
 
                         <li> <a href="ShowConfirmOrder?store_id=<%= storeId%>">Xác nhận đơn hàng</a> </li>
-                        <li><a href="RevenueByStoreDMY">Xem doanh thu</a></li>
+                        <li> <a href="ShowSucceedOrder?store_id=<%= storeId%>">Đơn hàng thành công</a> </li><!-- comment -->
+                           <li> <a href="ShowCanceledOrder?store_id=<%= storeId%>">Đơn hàng đã hủy</a> </li>
+                        <li><a href="manageStore.jsp">Xem doanh thu</a></li>
 
                     </ul>
                 </nav><!-- .navbar -->
@@ -149,7 +175,7 @@
 
                     <input type="hidden" name="year" value="${year}"/>
                     <input type="hidden" name="store_id" value="<%= storeId%>" /><!-- comment -->
-                    <button class="btn btn-warning" type="submit">Xuất ra exel</button>
+                    <button class="btn btn-warning mb-4" type="submit">Xuất ra exel</button>
                 </form>
                 <%
                     List<String> listDate = (List) request.getAttribute("listDate");
@@ -170,6 +196,13 @@
 
                     <button type="submit" class="btn btn-info">Xem</button>
                 </form>
+                     <div class="charts container mt-4">
+                    <div class="charts-card">
+                        <p class="chart-title">Doanh thu và số đơn</p>
+                        <div id="area-chart"></div>
+                    </div>
+
+                </div>
                 <table class="table mt-4" style="text-align: center;">
                     <thead  class="thead-dark">
                         <tr>
@@ -202,7 +235,7 @@
                 <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
             </div>
         </div>
-        <div class="chart-revenue">
+        <div class="chart-revenue d-none">
             <table>
                 <thead>
                     <tr>
@@ -215,15 +248,15 @@
                     <c:forEach var="d" items="${listTotal}">
                         <tr>
                             <td>${d.getYear()}</td>
-                            <td>${d.getMonth()}</td>
-                            <td>${d.getTotal()}</td>
+                            <td class="namee">${d.getMonth()}</td>
+                            <td class="revenuee">${d.getTotal()}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
 
             </table>
         </div>
-        <div class="chart-count">
+        <div class="chart-count d-none">
             <table>
                 <thead>
                     <tr>
@@ -237,7 +270,7 @@
                         <tr>
                             <td>${d.getYear()}</td>
                             <td>${d.getMonth()}</td>
-                            <td>${d.getCount()}</td>
+                            <td class="dayy">${d.getCount()}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -335,6 +368,76 @@
                     localStorage.setItem("selectedYear", yearSelect.value);
                 });
             });
+            
+                      var storeNames = [];
+            var nameElements = document.getElementsByClassName('namee');
+            for (var i = 0; i < nameElements.length; i++) {
+                storeNames.push(nameElements[i].innerText);
+            }
+            var day = [];
+            var Elements = document.getElementsByClassName('dayy');
+            for (var i = 0; i < Elements.length; i++) {
+                day.push(Elements[i].innerText);
+            }
+            var doanhthu = [];
+            var dtElements = document.getElementsByClassName('revenuee');
+            for (var i = 0; i < dtElements.length; i++) {
+                doanhthu.push(dtElements[i].innerText);
+            }
+            const areaChartOptions = {
+                series: [
+                    {
+                        name: 'Doanh thu',
+                        data: doanhthu,
+                    },
+                    {
+                        name: 'Số đơn',
+                        data: day,
+                    },
+                ],
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    toolbar: {
+                        show: false,
+                    },
+                },
+                colors: ['#4f35a1', '#246dec'],
+                dataLabels: {
+                    enabled: false,
+                },
+                stroke: {
+                    curve: 'smooth',
+                },
+                labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9',
+                    'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                markers: {
+                    size: 0,
+                },
+                yaxis: [
+                    {
+                        title: {
+                            text: 'Doanh thu',
+                        },
+                    },
+                    {
+                        opposite: true,
+                        title: {
+                            text: 'Số đơn',
+                        },
+                    },
+                ],
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                },
+            };
+
+            const areaChart = new ApexCharts(
+                    document.querySelector('#area-chart'),
+                    areaChartOptions
+                    );
+            areaChart.render();
         </script>
         <!-- Vendor JS Files -->
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -185,15 +185,16 @@
                   
 
             <c:if test="${ comment == null}">
-                <form action="CommentServlet" method="get">
+                <form action="CommentServlet" method="get" class="container mt-4">
+                    <h5>Bạn hãy để lại bình luận :</h5>
                     <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
                     <c:forEach var="dish" items="${listDetail}">
                         <input type="hidden" name="dish_id" value="${dish.getProduct_id()}">
                     </c:forEach>
                     <input type="hidden" name="order_id" value="${order_id}" />
                     <!-- Display the text area for user comment -->
-                    <textarea id="comment_content" name="comment_content" rows="3" cols="40" placeholder="Bình luận..."></textarea>
-                    <button type="submit">Gửi</button>
+                    <textarea class="form-control" aria-label="With textarea" id="comment_content" name="comment_content" rows="3" cols="40" placeholder="Bình luận..."></textarea>
+                    <button type="submit" class="btn btn-warning mt-2">Gửi</button>
                 </form>
             </c:if>
 
