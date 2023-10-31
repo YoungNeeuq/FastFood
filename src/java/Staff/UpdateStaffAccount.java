@@ -77,13 +77,20 @@ public class UpdateStaffAccount extends HttpServlet {
         try {
             StaffDAO staffDAO = new StaffDAO();
             int staff_id = Integer.parseInt(request.getParameter("staff_idd"));
-            String username = request.getParameter("usernamee");
+
             String password = request.getParameter("passwordd");
-            staffDAO.update(staff_id, username, password);
+            staffDAO.update(staff_id, password);
             List<Staff> listStaff = staffDAO.getAll();
             request.setAttribute("listStaff", listStaff);
-            request.getRequestDispatcher("listAddStaff.jsp").forward(request, response);
+            request.getRequestDispatcher("listAllStaff.jsp").forward(request, response);
         } catch (Exception ex) {
+             String errorMessage = ex.getMessage();
+
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(UpdateStaffAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

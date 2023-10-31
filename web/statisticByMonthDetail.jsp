@@ -129,6 +129,16 @@
 
 
         %>
+        <%                        List<String> listDate = (List) request.getAttribute("listDate");
+            List<Order> listOrder = (List) request.getAttribute("listOrder");
+
+            int total = listOrder.size();
+            StoreDAO storeDAO = new StoreDAO();
+            CustomerDAO customerDAO = new CustomerDAO();
+            int month = (int) request.getAttribute("month");
+            int year = (int) request.getAttribute("year");
+            int storeid = (int) request.getAttribute("store_id");
+        %>
         <header id="header" class="header fixed-top d-flex align-items-center" >
             <div class="container d-flex align-items-center justify-content-between">
 
@@ -173,15 +183,15 @@
                 <h2 style=" font-weight: bold;">Thống kê theo tháng</h2>
                 <button class="btn btn-secondary mb-4">  <a style="
                                                             color: white; text-decoration: none;" href="RevenueByDateMonthYear?select=2">Trở về</a> </button>   
-                    <%                        List<String> listDate = (List) request.getAttribute("listDate");
-                        List<Order> listOrder = (List) request.getAttribute("listOrder");
+                <div class="export-excel mb-4">
+                    <form action="StatisticByStoreByMonthExcel" method="GET">
+                        <input type="hidden" name="year" value="<%= year%>"/>
+                        <input type="hidden" name="month" value="<%= month%>"/>
+                        <input type="hidden" name="store_id" value="<%= storeid%>" /><!-- comment -->
+                        <button class="btn btn-warning" type="submit">Xuất ra exel</button>
+                    </form>
+                </div>
 
-                        int total = listOrder.size();
-                        StoreDAO storeDAO = new StoreDAO();
-                        CustomerDAO customerDAO = new CustomerDAO();
-                        int month = (int) request.getAttribute("month");
-                        int year = (int) request.getAttribute("year");
-                    %>
                 <div class="charts container" style="margin-top:20px;">
                     <div class="charts-card">
                         <p class="chart-title">Doanh thu và số đơn</p>

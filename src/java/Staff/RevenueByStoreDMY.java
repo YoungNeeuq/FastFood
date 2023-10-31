@@ -19,7 +19,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.DailyTotal;
+import model.MonthCount;
+import model.MonthlyTotal;
 import model.Order;
+import model.YearCount;
 
 /**
  *
@@ -95,7 +99,7 @@ public class RevenueByStoreDMY extends HttpServlet {
                 int total = listOrder.size();
                 request.setAttribute("total", total);
                 int sum = orderDAO.sumOrderOfStoreByDate(date, store_id);
-
+                request.setAttribute("date", date);
                 request.setAttribute("listOrder", listOrder);
                 request.setAttribute("listDate", listDate);
                 request.setAttribute("sum", sum);
@@ -106,7 +110,12 @@ public class RevenueByStoreDMY extends HttpServlet {
                 SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MM");
                 int year = Integer.parseInt(dateFormatYear.format(date));
                 int month = Integer.parseInt(dateFormatMonth.format(date));
-
+                List<DailyTotal> listTotal = orderDAO.sumOfDayByMonthS(year, month, store_id);
+                request.setAttribute("listTotal", listTotal);
+                request.setAttribute("month", month);
+                request.setAttribute("year", year);
+                List<MonthCount> listCount = orderDAO.getNumberOfOrderByMonthS(year, month, store_id);
+                request.setAttribute("listCount", listCount);
                 List<Order> listOrder = orderDAO.getOrderOfStoreByMonth(month, year, store_id);
                 int sum = orderDAO.sumOrderOfStoreByMonth(month, year, store_id);
                 request.setAttribute("listMonth", listMonth);
@@ -122,8 +131,13 @@ public class RevenueByStoreDMY extends HttpServlet {
                 int year = Integer.parseInt(dateFormatYear.format(date));
                 List<Order> listOrder = orderDAO.getOrderOfStoreByYear(year, store_id);
                 int sum = orderDAO.sumOrderOfStoreByYear(year, store_id);
+                List<MonthlyTotal> listTotal = orderDAO.sumOfMonthByYearS(year, store_id);
+                request.setAttribute("listTotal", listTotal);
+                List<YearCount> listCount = orderDAO.getNumberOfOrderByYearS(year, store_id);
+                request.setAttribute("listCount", listCount);
                 request.setAttribute("listYear", listYear);
                 int total = listOrder.size();
+                request.setAttribute("year", year);
                 request.setAttribute("total", total);
                 request.setAttribute("listOrder", listOrder);
                 request.setAttribute("sum", sum);
@@ -182,7 +196,7 @@ public class RevenueByStoreDMY extends HttpServlet {
                 int total = listOrder.size();
                 request.setAttribute("total", total);
                 int sum = orderDAO.sumOrderOfStoreByDate(date, store_id);
-
+                request.setAttribute("date", date);
                 request.setAttribute("listOrder", listOrder);
                 request.setAttribute("listDate", listDate);
                 request.setAttribute("sum", sum);
@@ -195,7 +209,13 @@ public class RevenueByStoreDMY extends HttpServlet {
                 int sum = orderDAO.sumOrderOfStoreByMonth(month, year, store_id);
                 request.setAttribute("listMonth", listMonth);
                 request.setAttribute("listYear", listYear);
+                List<DailyTotal> listTotal = orderDAO.sumOfDayByMonthS(year, month, store_id);
+                request.setAttribute("listTotal", listTotal);
+                List<MonthCount> listCount = orderDAO.getNumberOfOrderByMonthS(year, month, store_id);
+                request.setAttribute("listCount", listCount);
                 int total = listOrder.size();
+                request.setAttribute("month", month);
+                request.setAttribute("year", year);
                 request.setAttribute("total", total);
                 request.setAttribute("listOrder", listOrder);
                 request.setAttribute("sum", sum);
@@ -207,7 +227,13 @@ public class RevenueByStoreDMY extends HttpServlet {
                 List<Order> listOrder = orderDAO.getOrderOfStoreByYear(year, store_id);
                 int sum = orderDAO.sumOrderOfStoreByYear(year, store_id);
                 request.setAttribute("listYear", listYear);
+                List<MonthlyTotal> listTotal = orderDAO.sumOfMonthByYearS(year, store_id);
+                request.setAttribute("listTotal", listTotal);
+                List<YearCount> listCount = orderDAO.getNumberOfOrderByYearS(year, store_id);
+                request.setAttribute("listCount", listCount);
                 int total = listOrder.size();
+
+                request.setAttribute("year", year);
                 request.setAttribute("total", total);
                 request.setAttribute("listOrder", listOrder);
                 request.setAttribute("sum", sum);

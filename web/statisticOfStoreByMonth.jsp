@@ -146,26 +146,34 @@
                 <h2 style=" font-weight: bold;">Thống kê theo tháng</h2>
                 <button class="btn btn-secondary mb-4">  <a style="
                                                             color: white; text-decoration: none;" href="manageStore.jsp">Trở về</a> </button>
-                    <%            List<Integer> listMonth = (List) request.getAttribute("listMonth");
-                        List<Integer> listYear = (List) request.getAttribute("listYear");
-                        List<Order> listOrder = (List) request.getAttribute("listOrder");
-                        int sum = (int) request.getAttribute("sum");
+                <form action="StatisticByStoreByMonthExcel" method="GET">
+                    <input type="hidden" name="month" value="${month}"/>
+                    <input type="hidden" name="year" value="${year}"/>
+                    <input type="hidden" name="store_id" value="<%= storeId%>" /><!-- comment -->
+                    <button class="btn btn-warning" type="submit">Xuất ra exel</button>
+                </form>
+                <%            List<Integer> listMonth = (List) request.getAttribute("listMonth");
+                    List<Integer> listYear = (List) request.getAttribute("listYear");
+                    List<Order> listOrder = (List) request.getAttribute("listOrder");
+                    int sum = (int) request.getAttribute("sum");
 
-                    %>
-                <form action="RevenueByStoreDMY" method="Post" style="display: flex; width: fit-content; gap:10px;
+                %>
+                <form action="RevenueByDateMonthYear" method="Post" style="display: flex; width: fit-content; gap:10px;
                       margin: auto;">
-                    <select name="month" class="form-select" aria-label="Default select example">
-                        <c:forEach var="month" items="<%= listMonth%>" >
+                    <select name="month" id="monthSelect" class="form-select" aria-label="Default select example">
+                        <c:forEach var="month" items="${listMonth}">
                             <option value="${month}">${month}</option>
                         </c:forEach>
                     </select>
-                    <select name="year" class="form-select" aria-label="Default select example" style="width:100px;">
-                        <c:forEach var="year" items="<%= listYear%>" >
+
+                    <select name="year" id="yearSelect" class="form-select" aria-label="Default select example" style="width:100px;">
+                        <c:forEach var="year" items="${listYear}">
                             <option value="${year}">${year}</option>
                         </c:forEach>
                     </select>
+
                     <input type="hidden" name="type" value="2" />
-                    <input type="hidden" name="store_id" value="<%= storeId%>" />
+                    <input type="hidden" name="store_id" value="<%= storeId%>"/>
                     <button type="submit" class="btn btn-info">Xem</button>
                 </form>
             </div>
@@ -197,6 +205,50 @@
                 </tbody>
             </table>
             <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
+        </div>
+        <div class="chart-revenue">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Month</td>
+                        <td>Date</td>
+                        <td>Total</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="d" items="${listTotal}">
+                        <tr>
+                            <td>${d.getMonth()}</td>
+                            <td>${d.getDate()}</td>
+                            <td>${d.getTotal()}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+
+            </table>
+        </div>
+        <div class="chart-count">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Year</td>
+                        <td>Month</td>
+                        <td>Date</td>
+                        <td>Count</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="d" items="${listCount}">
+                        <tr>
+                            <td>${d.getYear()}</td>
+                            <td>${d.getMonth()}</td>
+                            <td>${d.getDate()}</td>
+                            <td>${d.getCount()}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+
+            </table>
         </div>
         <footer id="footer" class="footer">
 
@@ -273,6 +325,28 @@
 
                 window.location.href = "ListProductGuest";
             }
+            document.addEventListener("DOMContentLoaded", function () {
+                var monthSelect = document.getElementById("monthSelect");
+                var yearSelect = document.getElementById("yearSelect");
+                // Xem nếu đã có tháng và năm đã lưu trong Local Storage
+                var savedMonth = localStorage.getItem("selectedMonth");
+                var savedYear = localStorage.getItem("selectedYear");
+                // Nếu có, thiết lập giá trị tháng và năm đã chọn
+                if (savedMonth) {
+                    monthSelect.value = savedMonth;
+                }
+                if (savedYear) {
+                    yearSelect.value = savedYear;
+                }
+
+                // Lắng nghe sự kiện thay đổi tháng và năm và cập nhật giá trị trong Local Storage
+                monthSelect.addEventListener("change", function () {
+                    localStorage.setItem("selectedMonth", monthSelect.value);
+                });
+                yearSelect.addEventListener("change", function () {
+                    localStorage.setItem("selectedYear", yearSelect.value);
+                });
+            });
         </script>
         <!-- Vendor JS Files -->
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

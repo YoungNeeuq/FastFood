@@ -152,8 +152,8 @@
                                 <form  action="UpdateStaffAccount" method="POST">
                                     <input type="hidden" name="staff_id" value="${staff.getStaff_id()}">
                                     <button  class="btn btn-success" type="button" name="updateButton" value="update" onclick="
-                                         
-                                        modall.style.display = 'block';
+
+                                            modall.style.display = 'block';
 
                                             document.getElementById('staff_idd').value = ${staff.getStaff_id()};
 
@@ -208,7 +208,7 @@
 
             </form> 
             <!--edit-->
-            <form action="UpdateStaffAccount" method="POST" id="myModaledit" class="modal"  enctype="multipart/form-data">
+            <form action="UpdateStaffAccount" method="POST" id="myModaledit" class="modal"  >
 
                 <div class="modal-content" id="modaledit" style="width:30%;">
                     <h2 id="header-modaledit">Edit password</h2>
@@ -218,12 +218,12 @@
                             <div class="form-group">
                                 <label for="usernamee"><i class="fa-solid fa-drumstick-bite"></i></label>
 
-                                <input type="text" id="usernamee" name="usernamee" value="${dish.getUsername()}" readonly>
+                                <input type="text" id="usernamee" name="usernamee" value="${staff.getUsername()}" readonly>
                                 <span class="sp-thongbao" id="tbName"></span>
                             </div>
                             <div class="form-group">
                                 <label for="passwordd" ><i class="fa-solid fa-circle-info"></i></label>
-                                <input type="text" id="passwordd" name="passwordd" value="${staff.getPassword().trim()}" >
+                                <input type="password" id="passwordd" name="passwordd" value="${staff.getPassword().trim()}" >
                                 <input type="hidden" id="passwordd" name="passwordd" value="${staff.getPassword().trim()}" >
                                 <span class="sp-thongbao" id="tbInfor"></span>
                             </div>
