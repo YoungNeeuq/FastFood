@@ -336,6 +336,18 @@
         <servlet-name>StatisticByStoreByDateExcel</servlet-name>
         <servlet-class>Staff.StatisticByStoreByDateExcel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StatisticAllByDateExcel</servlet-name>
+        <servlet-class>admin.controller.StatisticAllByDateExcel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StatisticAllByMonthExcel</servlet-name>
+        <servlet-class>admin.controller.StatisticAllByMonthExcel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StatisticAllByYearExcel</servlet-name>
+        <servlet-class>admin.controller.StatisticAllByYearExcel</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -663,6 +675,18 @@
     <servlet-mapping>
         <servlet-name>StatisticByStoreByDateExcel</servlet-name>
         <url-pattern>/StatisticByStoreByDateExcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatisticAllByDateExcel</servlet-name>
+        <url-pattern>/StatisticAllByDateExcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatisticAllByMonthExcel</servlet-name>
+        <url-pattern>/StatisticAllByMonthExcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatisticAllByYearExcel</servlet-name>
+        <url-pattern>/StatisticAllByYearExcel</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

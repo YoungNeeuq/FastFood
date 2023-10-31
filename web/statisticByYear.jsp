@@ -164,8 +164,18 @@
                         int sum = (int) request.getAttribute("sum");
                         int numOfOrder = listOrder.size();
                         List<MonthlyTotal> list = (List) request.getAttribute("listTotal");
+                        int yearr = (int) request.getAttribute("year");
 
                     %>
+                <div class="export-excel mb-4">
+                    <form action="StatisticAllByYearExcel" method="GET">
+
+                        <input type="hidden" name="year" value="<%= yearr%>"/>
+
+                        <!-- comment -->
+                        <button class="btn btn-warning" type="submit">Xuất ra exel</button>
+                    </form>
+                </div>
                 <form action="RevenueByDateMonthYear" method="Post" style="display: flex; width: fit-content; gap:20px;
                       margin: auto;">
                     <select name="year" id="yearSelect" class="form-select" aria-label="Default select example">
@@ -280,7 +290,7 @@
 
                 </tbody>
             </table>
-                  <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%= numOfOrder%> đơn</h4>
+            <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%= numOfOrder%> đơn</h4>
             <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
         </div>
         <footer id="footer" class="footer">
