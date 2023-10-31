@@ -130,6 +130,14 @@
 
 
         %>
+        <%                        List<Order> listOrder = (List) request.getAttribute("listOrder");
+
+            int total = listOrder.size();
+            StoreDAO storeDAO = new StoreDAO();
+            CustomerDAO customerDAO = new CustomerDAO();
+            int year = (int) request.getAttribute("year");
+            int store_id = (int) request.getAttribute("store_id");
+        %>
         <header id="header" class="header fixed-top d-flex align-items-center" >
             <div class="container d-flex align-items-center justify-content-between">
 
@@ -174,13 +182,14 @@
                 <h2 style=" font-weight: bold;">Thống kê theo năm</h2>
                 <button class="btn btn-secondary mb-4">  <a style="
                                                             color: white; text-decoration: none;" href="RevenueByDateMonthYear?select=3">Trở về</a> </button>   
-                    <%                        List<Order> listOrder = (List) request.getAttribute("listOrder");
+                <div class="export-excel mb-4">
+                    <form action="StatisticByStoreByYearExcel" method="GET">
+                        <input type="hidden" name="year" value="<%= year%>"/>
+                        <input type="hidden" name="store_id" value="<%= store_id%>" /><!-- comment -->
+                        <button class="btn btn-warning" type="submit">Xuất ra exel</button>
+                    </form>
+                </div>
 
-                        int total = listOrder.size();
-                        StoreDAO storeDAO = new StoreDAO();
-                        CustomerDAO customerDAO = new CustomerDAO();
-                        int year = (int) request.getAttribute("year");
-                    %>
                 <div class="charts container">
                     <div class="charts-card">
                         <p class="chart-title">Doanh thu và số đơn</p>
@@ -232,7 +241,7 @@
                     </tbody>
                 </table>
                 <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%= total%> đơn</h4>
-                   <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${totalMoney} đ</h4>
+                <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${totalMoney} đ</h4>
             </div> 
         </div>
         <div class="chart" style="display:none;">

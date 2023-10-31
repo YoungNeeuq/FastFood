@@ -6,6 +6,7 @@ package customer.controller;
 
 import dal.AdminDAO;
 import dal.CustomerDAO;
+import dal.OrderDAO;
 import dal.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -81,7 +82,7 @@ public class LoginCustomer extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            
+
             String userInput = request.getParameter("username");
             String passInput = request.getParameter("password");
             CustomerDAO customerDAO = new CustomerDAO();
@@ -112,11 +113,11 @@ public class LoginCustomer extends HttpServlet {
             } else if (admin != null) {
                 role = "a";
                 request.setAttribute("role", role);
-                
+
                 response.sendRedirect("ListProductServlet");
             } else if (staff != null) {
                 int store_id = staff.getStore_id();
-                
+
                 Cookie store_idCookie = new Cookie("store_id", String.valueOf(store_id));
                 role = "s";
 
@@ -126,6 +127,8 @@ public class LoginCustomer extends HttpServlet {
                 // Thêm cookie vào HTTP response
                 response.addCookie(store_idCookie);
                 request.setAttribute("store_id", store_id);
+                OrderDAO orderDAO = new OrderDAO();
+                
 //                request.getRequestDispatcher("manageStore.jsp").forward(request, response);
                 response.sendRedirect("manageStore.jsp");
             } else {
@@ -133,7 +136,7 @@ public class LoginCustomer extends HttpServlet {
                 // return back login.jsp using Servlet (method GET)
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
-            
+
         } catch (Exception ex) {
             response.sendRedirect("error.jsp");
             Logger.getLogger(LoginCustomer.class.getName()).log(Level.SEVERE, null, ex);

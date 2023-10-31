@@ -69,6 +69,7 @@ public class StatisticByYearDetail extends HttpServlet {
 
             int year = Integer.parseInt(request.getParameter("year"));
             request.setAttribute("year", year);
+            request.setAttribute("store_id", store_id);
             List<Order> listOrder = orderDAO.getOrderOfStoreByYear(year, store_id);
             List<MonthlyTotal> listMonthly = orderDAO.sumOfMonthByYearS(year, store_id);
             request.setAttribute("listMonthly", listMonthly);

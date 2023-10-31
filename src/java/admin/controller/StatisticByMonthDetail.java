@@ -70,6 +70,7 @@ public class StatisticByMonthDetail extends HttpServlet {
             int year = Integer.parseInt(request.getParameter("year"));
             request.setAttribute("month", month);
             request.setAttribute("year", year);
+            request.setAttribute("store_id", store_id);
             List<DailyTotal> listDaily = orderDAO.sumOfDayByMonthS(year, month, store_id);
             request.setAttribute("listDaily", listDaily);
             List<MonthCount> listCount = orderDAO.getNumberOfOrderByMonthS(year, month, store_id);
@@ -80,6 +81,13 @@ public class StatisticByMonthDetail extends HttpServlet {
             request.setAttribute("listOrder", listOrder);
             request.getRequestDispatcher("statisticByMonthDetail.jsp").forward(request, response);
         } catch (Exception ex) {
+             String errorMessage = ex.getMessage();
+
+            // Đặt thông báo lỗi vào request
+            request.setAttribute("errorMessage", errorMessage + "loi2");
+
+            // Chuyển hướng người dùng đến trang error.jsp
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(StatisticByDateDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
 

@@ -147,6 +147,13 @@
                 <h2 style=" font-weight: bold;">Thống kê theo ngày</h2>
                 <button class="btn btn-secondary mb-4">  <a style="
                                                             color: white; text-decoration: none;" href="manageStore.jsp">Trở về</a> </button>
+                                                             <div class="export-excel mb-4">
+                    <form action="StatisticByStoreByDateExcel" method="GET">
+                        <input type="hidden" name="date" value="${date}"/>
+                        <input type="hidden" name="store_id" value="<%= storeId%>" /><!-- comment -->
+                        <button class="btn btn-warning" type="submit">Xuất ra exel</button>
+                    </form>
+                </div>
                     <%                        List<String> listDate = (List) request.getAttribute("listDate");
                         List<Order> listOrder = (List) request.getAttribute("listOrder");
                         int sum = (int) request.getAttribute("sum");
@@ -156,14 +163,13 @@
                     %>
                 <form action="RevenueByStoreDMY" method="Post" style="display: flex; width: fit-content; gap:10px;
                       margin: auto;">
-                    <select name="date" class="form-select" aria-label="Default select example">
+                    <select name="date" id="dateSelected" class="form-select" aria-label="Default select example">
                         <c:forEach var="date" items="<%= listDate%>" >
                             <option value="${date}">${date}</option>
                         </c:forEach>
                     </select>
+                    <input type="hidden" name="store_id" value="<%= storeId%>"/>
                     <input type="hidden" name="type" value="1" />
-                    <input type="hidden" name="store_id" value="<%= storeId%>" />
-
                     <button type="submit" class="btn btn-info">Xem</button>
                 </form>
                 <table class="table mt-4" style="text-align: center;">
@@ -277,6 +283,22 @@
 
                 window.location.href = "ListProductGuest";
             }
+            document.addEventListener("DOMContentLoaded", function () {
+                var dateSelected = document.getElementById("dateSelected");
+
+                // Xem nếu đã có một năm đã lưu trong Local Storage
+                var savedDate = localStorage.getItem("selectedDate");
+
+                // Nếu có, thiết lập giá trị năm đã chọn
+                if (savedDate) {
+                    dateSelected.value = savedDate;
+                }
+
+                // Lắng nghe sự kiện thay đổi năm và cập nhật giá trị trong Local Storage
+                dateSelected.addEventListener("change", function () {
+                    localStorage.setItem("selectedDate", dateSelected.value);
+                });
+            });
         </script>
         <!-- Vendor JS Files -->
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

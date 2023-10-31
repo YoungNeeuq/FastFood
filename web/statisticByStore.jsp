@@ -144,12 +144,7 @@
         <button type="submit" class="btn btn-secondary mb-4" >
             <a href="Statistic" style=" color: white; text-decoration: none;" >Trở về</a> </button>
             
-            <div class="export-excel mb-4">
-                    <form action="StatisticByStoreExcel" method="GET">
-                        <input type="hidden" name="store_id" value="<%= store_id %>" /><!-- comment -->
-                        <button class="btn btn-warning" type="submit">Xuất ra exel</button>
-                    </form>
-                </div>
+          
 
          </div>
         

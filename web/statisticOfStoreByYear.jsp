@@ -145,14 +145,31 @@
                 <h2 style=" font-weight: bold;">Thống kê theo năm</h2>
                 <button class="btn btn-secondary mb-4">  <a style="
                                                             color: white; text-decoration: none;" href="manageStore.jsp">Trở về</a> </button>
-                    <%
-                        List<String> listDate = (List) request.getAttribute("listDate");
-                        List<Order> listOrder = (List) request.getAttribute("listOrder");
-                        int sum = (int) request.getAttribute("sum");
-                        int total = (int) request.getAttribute("total");
+                <form action="StatisticByStoreByYearExcel" method="GET">
 
-                    %>
+                    <input type="hidden" name="year" value="${year}"/>
+                    <input type="hidden" name="store_id" value="<%= storeId%>" /><!-- comment -->
+                    <button class="btn btn-warning" type="submit">Xuất ra exel</button>
+                </form>
+                <%
+                    List<String> listDate = (List) request.getAttribute("listDate");
+                    List<Order> listOrder = (List) request.getAttribute("listOrder");
+                    int sum = (int) request.getAttribute("sum");
+                    int total = (int) request.getAttribute("total");
 
+                %>
+                <form action="RevenueByStoreDMY" method="Post" style="display: flex; width: fit-content; gap:20px;
+                      margin: auto;">
+                    <select name="year" id="yearSelect" class="form-select" aria-label="Default select example">
+                        <c:forEach var="year" items="${listYear}">
+                            <option value="${year}">${year}</option>
+                        </c:forEach>
+                    </select>
+                    <input type="hidden" name="store_id" value="<%=storeId%>"/>
+                    <input type="hidden" name="type" value="3" />
+
+                    <button type="submit" class="btn btn-info">Xem</button>
+                </form>
                 <table class="table mt-4" style="text-align: center;">
                     <thead  class="thead-dark">
                         <tr>
@@ -184,6 +201,48 @@
                 </table>
                 <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
             </div>
+        </div>
+        <div class="chart-revenue">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Year</td>
+                        <td>Month</td>
+                        <td>Total</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="d" items="${listTotal}">
+                        <tr>
+                            <td>${d.getYear()}</td>
+                            <td>${d.getMonth()}</td>
+                            <td>${d.getTotal()}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+
+            </table>
+        </div>
+        <div class="chart-count">
+            <table>
+                <thead>
+                    <tr>
+                        <td>Year</td>
+                        <td>Month</td>
+                        <td>Count</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach var="d" items="${listCount}">
+                        <tr>
+                            <td>${d.getYear()}</td>
+                            <td>${d.getMonth()}</td>
+                            <td>${d.getCount()}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+
+            </table>
         </div>
         <footer id="footer" class="footer">
 
@@ -260,6 +319,22 @@
 
                 window.location.href = "ListProductGuest";
             }
+            document.addEventListener("DOMContentLoaded", function () {
+                var yearSelect = document.getElementById("yearSelect");
+
+                // Xem nếu đã có một năm đã lưu trong Local Storage
+                var savedYear = localStorage.getItem("selectedYear");
+
+                // Nếu có, thiết lập giá trị năm đã chọn
+                if (savedYear) {
+                    yearSelect.value = savedYear;
+                }
+
+                // Lắng nghe sự kiện thay đổi năm và cập nhật giá trị trong Local Storage
+                yearSelect.addEventListener("change", function () {
+                    localStorage.setItem("selectedYear", yearSelect.value);
+                });
+            });
         </script>
         <!-- Vendor JS Files -->
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

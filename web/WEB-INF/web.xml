@@ -324,6 +324,18 @@
         <servlet-name>UpdateStaffAccount</servlet-name>
         <servlet-class>Staff.UpdateStaffAccount</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>StatisticByStoreByMonthExcel</servlet-name>
+        <servlet-class>Staff.StatisticByStoreByMonthExcel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StatisticByStoreByYearExcel</servlet-name>
+        <servlet-class>Staff.StatisticByStoreByYearExcel</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>StatisticByStoreByDateExcel</servlet-name>
+        <servlet-class>Staff.StatisticByStoreByDateExcel</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -639,6 +651,18 @@
     <servlet-mapping>
         <servlet-name>UpdateStaffAccount</servlet-name>
         <url-pattern>/UpdateStaffAccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatisticByStoreByMonthExcel</servlet-name>
+        <url-pattern>/StatisticByStoreByMonthExcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatisticByStoreByYearExcel</servlet-name>
+        <url-pattern>/StatisticByStoreByYearExcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>StatisticByStoreByDateExcel</servlet-name>
+        <url-pattern>/StatisticByStoreByDateExcel</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

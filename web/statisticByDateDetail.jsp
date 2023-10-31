@@ -105,6 +105,15 @@
 
 
         %>
+        <%                        List<String> listDate = (List) request.getAttribute("listDate");
+            List<Order> listOrder = (List) request.getAttribute("listOrder");
+
+            int total = listOrder.size();
+            StoreDAO storeDAO = new StoreDAO();
+            CustomerDAO customerDAO = new CustomerDAO();
+            String date = String.valueOf(request.getAttribute("date"));
+            int store_id = (int) request.getAttribute("store_id");
+        %>
         <header id="header" class="header fixed-top d-flex align-items-center" >
             <div class="container d-flex align-items-center justify-content-between">
 
@@ -149,14 +158,15 @@
                 <h2 style=" font-weight: bold;">Thống kê theo ngày</h2>
                 <button class="btn btn-secondary mb-4">  <a style="
                                                             color: white; text-decoration: none;" href="RevenueByDateMonthYear?select=1">Trở về</a> </button>
-                    <%                        List<String> listDate = (List) request.getAttribute("listDate");
-                        List<Order> listOrder = (List) request.getAttribute("listOrder");
+                <div class="export-excel mb-4">
+                    <form action="StatisticByStoreByDateExcel" method="GET">
+                        <input type="hidden" name="date" value="<%= date%>"/>
 
-                        int total = listOrder.size();
-                        StoreDAO storeDAO = new StoreDAO();
-                        CustomerDAO customerDAO = new CustomerDAO();
-                        String date = String.valueOf(request.getAttribute("date"));
-                    %>
+                        <input type="hidden" name="store_id" value="<%= store_id%>" /><!-- comment -->
+                        <button class="btn btn-warning" type="submit">Xuất ra exel</button>
+                    </form>
+                </div>
+
 
                 <table class="table mt-4" style="text-align: center;">
                     <thead  class="thead-dark">
@@ -202,7 +212,7 @@
                     </tbody>
                 </table>
                 <h4 style="text-align: end;  padding-right: 40px;">Tổng số đơn hàng: <%= total%></h4>
-                  <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${totalMoney} đ</h4>
+                <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${totalMoney} đ</h4>
             </div>
         </div>
         <footer id="footer" class="footer">

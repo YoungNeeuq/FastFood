@@ -178,7 +178,7 @@
                 <h1 style=" font-weight: bold;"> <%= store_name%></h1>
                 <h3 style=" font-weight:600;">Doanh thu :  <%= sum%> đ</h3>
         <h4>Tổng số đơn hàng thành công: <%= numOfSucceedOrder%> đơn</h4>
-        <form action="RevenueByStoreDMY" method="GET"style="display: flex; width: fit-content; gap:20px;
+        <form action="RevenueByStoreDMY" method="GET" style="display: flex; width: fit-content; gap:20px;
                       margin: auto;" >
             <input type="hidden" name="store_id" value="<%= storeId%>"/>
             <select name="select" class="form-select" aria-label="Default select example">

@@ -204,22 +204,20 @@ public class StaffDAO {
         }
     }
 
-    public void update(int staff_id, String username, String password) {
+    public void update(int staff_id,  String password) {
         Connection connection = null;
         PreparedStatement ps = null;
 
         try {
             String sql = "  update Staff\n"
-                    + "  set username = ?,\n"
-                    + "  password = ?\n"
+                    + "  set password = ?\n"
                     + "  where staff_id = ?";
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
 
             // Kiểm tra và đặt các giá trị đầu vào
-            ps.setInt(1, staff_id);
-            ps.setString(2, username);
-            ps.setString(3, password);
+            ps.setString(1, password);
+            ps.setInt(2, staff_id);
 
             // Thực hiện truy vấn
             ps.executeUpdate();
