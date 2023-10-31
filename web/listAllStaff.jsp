@@ -151,7 +151,9 @@
                                 </form>
                                 <form  action="UpdateStaffAccount" method="POST">
                                     <input type="hidden" name="staff_id" value="${staff.getStaff_id()}">
-                                    <button  class="btn btn-success" type="button" name="updateButton" value="update" onclick="modaledit.style.display = 'block';
+                                    <button  class="btn btn-success" type="button" name="updateButton" value="update" onclick="
+                                         
+                                        modall.style.display = 'block';
 
                                             document.getElementById('staff_idd').value = ${staff.getStaff_id()};
 
@@ -216,7 +218,7 @@
                             <div class="form-group">
                                 <label for="usernamee"><i class="fa-solid fa-drumstick-bite"></i></label>
 
-                                <input type="text" id="usernamee" name="usernamee" value="${dish.getUsername()}">
+                                <input type="text" id="usernamee" name="usernamee" value="${dish.getUsername()}" readonly>
                                 <span class="sp-thongbao" id="tbName"></span>
                             </div>
                             <div class="form-group">
@@ -229,8 +231,8 @@
 
                             <div class="form-group">
                                 <label for="store_namee"><i class="fa-solid fa-tag"></i></label>
-                                <input type="text" id="store_namee" name="store_namee" value="<%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%>">
-                                <input type="hidden" id="store_namee" name="store_namee" value="<%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%>">
+                                <input type="text" id="store_namee" name="store_namee" value="<%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%>" readonly>
+                                <input type="hidden" id="store_namee" name="store_namee" value="<%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%>" >
                                 <span class="sp-thongbao" id="tbType"></span>
                             </div>
 
