@@ -117,23 +117,15 @@
                         }
                     %>
                     <nav id="navbar" class="navbar">
-                        <ul>
-                            <li> <form action="ShowConfirmOrder" method="get">
-                                    <input type="hidden" name ="store_id" value="<%= storeId%>" />
-                                    <button class="btt" type="submit">Xác nhận đơn hàng</button>
-                                </form></li>
-                            <li><form action="ShowSucceedOrder" method="get">
-                                    <input type="hidden" name ="store_id" value="<%=storeId%>" />
-                                    <button class="btt" type="submit">Đơn hàng thành công</button>
-                                </form></li>
+                    <ul>
 
-                            <li> <form action="ShowCanceledOrder" method="get">
-                                    <input type="hidden" name ="store_id" value="<%=storeId%>" />
-                                    <button class="btt" type="submit">Đơn hàng đã hủy</button>
-                                </form></li>
+                        <li> <a href="ShowConfirmOrder?store_id=<%= storeId%>">Xác nhận đơn hàng</a> </li>
+                        <li> <a href="ShowSucceedOrder?store_id=<%= storeId%>">Đơn hàng thành công</a> </li><!-- comment -->
+                           <li> <a href="ShowCanceledOrder?store_id=<%= storeId%>">Đơn hàng đã hủy</a> </li>
+                        <li><a href="manageStore.jsp">Xem doanh thu</a></li>
 
-                        </ul> 
-                    </nav><!-- .navbar -->
+                    </ul>
+                </nav><!-- .navbar -->
                     <div> 
                         <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000;
                                                                        margin-left: 20px;"></i></a>
