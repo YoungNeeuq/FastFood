@@ -68,6 +68,7 @@ public class CookieAddToCart extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             int dish_id = Integer.parseInt(request.getParameter("dish_id"));
             String action = request.getParameter("action");
+
             DishDAO dishDAO = new DishDAO();
             Dish dish = dishDAO.getDish(dish_id);
             HttpSession session = request.getSession();

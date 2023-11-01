@@ -119,7 +119,7 @@
                     <nav id="navbar" class="navbar">
                         <ul>
                             <li> <form action="ShowConfirmOrder" method="get">
-                                    <input type="hidden" name ="store_id" value="<%= storeId %>" />
+                                    <input type="hidden" name ="store_id" value="<%= storeId%>" />
                                     <button class="btt" type="submit">Xác nhận đơn hàng</button>
                                 </form></li>
                             <li><form action="ShowSucceedOrder" method="get">
@@ -128,7 +128,7 @@
                                 </form></li>
 
                             <li> <form action="ShowCanceledOrder" method="get">
-                                    <input type="hidden" name ="store_id" value="<%=storeId %>" />
+                                    <input type="hidden" name ="store_id" value="<%=storeId%>" />
                                     <button class="btt" type="submit">Đơn hàng đã hủy</button>
                                 </form></li>
 
@@ -197,11 +197,10 @@
                         <c:forEach var="order" items="${listOrder}">
                             <tr>
                                 <c:set var="customer_id" value="${order.getCustomer_id()}"></c:set>
-                                <td><%= customerDAO.getCustomer((int) pageContext.getAttribute("customer_id")).getUsername()%></td>
-
+                                <td>${order.getReceiver_name()}</td>
                                 <td>${order.getOrder_id()}</td>
-                                <td>${order.getCustomer_phone()}</td>
-                                <td style="width:20%;">${order.getCustomer_address()}</td>
+                                <td>${order.getReceiver_phone()}</td>
+                                <td style="width:20%;">${order.getReceiver_address()}</td>
                                 <td>${order.getDate()}</td>
                                 <td>${order.getTotalmoney()}</td>
                                 <td>${order.getStatus()}</td>   

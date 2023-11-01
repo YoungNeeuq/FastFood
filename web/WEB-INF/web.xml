@@ -348,6 +348,10 @@
         <servlet-name>StatisticAllByYearExcel</servlet-name>
         <servlet-class>admin.controller.StatisticAllByYearExcel</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PreparingOrderServlet</servlet-name>
+        <servlet-class>customer.controller.PreparingOrderServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -687,6 +691,10 @@
     <servlet-mapping>
         <servlet-name>StatisticAllByYearExcel</servlet-name>
         <url-pattern>/StatisticAllByYearExcel</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PreparingOrderServlet</servlet-name>
+        <url-pattern>/PreparingOrderServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

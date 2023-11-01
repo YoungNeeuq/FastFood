@@ -330,164 +330,164 @@
                             </a>
                         </li><!-- End tab nav item -->
 
-<!--                        <div style="display:flex;gap:0px; margin-left: 20px;">-->
+                        <!--                        <div style="display:flex;gap:0px; margin-left: 20px;">-->
 
-                            <!-- End tab nav item -->
-                            <form class="box" action="searchAjax" method="get" style="display:flex; gap:5px; margin-left: 15px; ">
-                                
-                                <input class="form-control" aria-label="Text input with segmented dropdown button" type="text" id="searchInput" value="" oninput="searchByName()" name="txt" />
-                                <button class="btn btn-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                            </form>
+                        <!-- End tab nav item -->
+                        <form class="box" action="searchAjax" method="get" style="display:flex; gap:5px; margin-left: 15px; ">
+
+                            <input class="form-control" aria-label="Text input with segmented dropdown button" type="text" id="searchInput" value="" oninput="searchByName()" name="txt" />
+                            <button class="btn btn-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </form>
+                </div>
+                </ul>
+
+
+                <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+
+                    <div class="tab-pane fade active show" id="menu-starters">
+
+                        <div class="tab-header text-center" >
+                            <p>Menu</p>
+                            <h3>Tất cả</h3>
                         </div>
-                    </ul>
+                        <div class="row gy-5" id="content" >
+                            <c:forEach var="dish" items="${listss}" >
+                                <div class="col-lg-4 menu-item" >
+                                    <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
+                                    <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
 
+                                    <p class="ingredients">
+                                        ${dish.getInfor()}
+                                    </p>
+                                    <p class="price" >
+                                        ${dish.getPrice()} đ
+                                    </p>           
+                                </div><!-- Menu Item -->
 
-                    <div class="tab-content" data-aos="fade-up" data-aos-delay="300">
+                            </c:forEach>
 
-                        <div class="tab-pane fade active show" id="menu-starters">
-
-                            <div class="tab-header text-center" >
-                                <p>Menu</p>
-                                <h3>Tất cả</h3>
-                            </div>
-                            <div class="row gy-5" id="content" >
-                                <c:forEach var="dish" items="${listss}" >
-                                    <div class="col-lg-4 menu-item" >
-                                        <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
-
-                                        <p class="ingredients">
-                                            ${dish.getInfor()}
-                                        </p>
-                                        <p class="price" >
-                                            ${dish.getPrice()} đ
-                                        </p>           
-                                    </div><!-- Menu Item -->
-
-                                </c:forEach>
-
-                            </div>
-
-                        </div><!-- End Starter Menu Content -->
-
-                        <div class="tab-pane fade" id="menu-food">
-
-                            <div class="tab-header text-center">
-                                <p>Menu</p>
-                                <h3>Food</h3>
-                            </div>
-
-                            <div class="row gy-5" id="content1">
-
-
-                                <c:forEach var="dish" items="${listTypeF}" >
-
-                                    <div class="col-lg-4 menu-item" >
-                                        <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
-                                        <p class="ingredients">
-                                            ${dish.getInfor()}
-                                        </p>
-                                        <p class="price" >
-                                            $ ${dish.getPrice()}
-                                        </p>           
-                                    </div><!-- Menu Item -->
-                                </c:forEach>
-                                <c:if test="${empty listTypeF}">
-                                    <p>Danh sách món ăn hiện đang trống.</p>
-                                </c:if>
-                            </div>
-                        </div><!-- End Breakfast Menu Content -->
-
-                        <div class="tab-pane fade" id="menu-drink">
-
-                            <div class="tab-header text-center">
-                                <p>Menu</p>
-                                <h3>Drink</h3>
-                            </div>
-
-                            <div class="row gy-5" id="content2">
-
-                                <c:forEach var="dish" items="${listPriceD}" >
-
-                                    <div class="col-lg-4 menu-item" >
-                                        <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
-                                        <p class="ingredients">
-                                            ${dish.getInfor()}
-                                        </p>
-                                        <p class="price" >
-                                            $ ${dish.getPrice()}
-                                        </p>           
-                                    </div><!-- Menu Item -->
-                                </c:forEach>
-                                <c:if test="${empty listPriceD}">
-                                    <p>Danh sách món ăn hiện đang trống.</p>
-                                </c:if>
-
-                            </div>
-                        </div><!-- End Lunch Menu Content -->
-
-                        <div class="tab-pane fade" id="menu-ice">
-
-                            <div class="tab-header text-center">
-                                <p>Menu</p>
-                                <h3>Ice cream</h3>
-                            </div>
-
-                            <div class="row gy-5" id="content3">
-
-                                <c:forEach var="dish" items="${listPriceI}" >
-
-                                    <div class="col-lg-4 menu-item" >
-                                        <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
-                                        <p class="ingredients">
-                                            ${dish.getInfor()}
-                                        </p>
-                                        <p class="price" >
-                                            $ ${dish.getPrice()}
-                                        </p>           
-                                    </div><!-- Menu Item -->
-                                </c:forEach>
-                                <c:if test="${empty listPriceD}">
-                                    <p>Danh sách món ăn hiện đang trống.</p>
-                                </c:if>
-
-                            </div>
                         </div>
-                        <div class="tab-pane fade" id="menu-combo">
 
-                            <div class="tab-header text-center">
-                                <p>Menu</p>
-                                <h3>Combo</h3>
-                            </div>
+                    </div><!-- End Starter Menu Content -->
 
-                            <div class="row gy-5" id="content4">
+                    <div class="tab-pane fade" id="menu-food">
 
-                                <c:forEach var="dish" items="${listTypeC}" >   
-
-                                    <div class="col-lg-4 menu-item"  >
-
-                                        <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
-                                        <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
-                                        <p class="ingredients">
-                                            ${dish.getInfor()}
-                                        </p>
-                                        <p class="price" >
-                                            $ ${dish.getPrice()}
-                                        </p>   
-                                    </div><!-- Menu Item -->
-                                </c:forEach>
-                                <c:if test="${empty listTypeC}">
-                                    <p>Danh sách món ăn hiện đang trống.</p>
-                                </c:if>
-
-                            </div>
+                        <div class="tab-header text-center">
+                            <p>Menu</p>
+                            <h3>Food</h3>
                         </div>
-                        <!-- End Dinner Menu Content -->
 
+                        <div class="row gy-5" id="content1">
+
+
+                            <c:forEach var="dish" items="${listTypeF}" >
+
+                                <div class="col-lg-4 menu-item" >
+                                    <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
+                                    <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
+                                    <p class="ingredients">
+                                        ${dish.getInfor()}
+                                    </p>
+                                    <p class="price" >
+                                        $ ${dish.getPrice()}
+                                    </p>           
+                                </div><!-- Menu Item -->
+                            </c:forEach>
+                            <c:if test="${empty listTypeF}">
+                                <p>Danh sách món ăn hiện đang trống.</p>
+                            </c:if>
+                        </div>
+                    </div><!-- End Breakfast Menu Content -->
+
+                    <div class="tab-pane fade" id="menu-drink">
+
+                        <div class="tab-header text-center">
+                            <p>Menu</p>
+                            <h3>Drink</h3>
+                        </div>
+
+                        <div class="row gy-5" id="content2">
+
+                            <c:forEach var="dish" items="${listPriceD}" >
+
+                                <div class="col-lg-4 menu-item" >
+                                    <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
+                                    <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
+                                    <p class="ingredients">
+                                        ${dish.getInfor()}
+                                    </p>
+                                    <p class="price" >
+                                        $ ${dish.getPrice()}
+                                    </p>           
+                                </div><!-- Menu Item -->
+                            </c:forEach>
+                            <c:if test="${empty listPriceD}">
+                                <p>Danh sách món ăn hiện đang trống.</p>
+                            </c:if>
+
+                        </div>
+                    </div><!-- End Lunch Menu Content -->
+
+                    <div class="tab-pane fade" id="menu-ice">
+
+                        <div class="tab-header text-center">
+                            <p>Menu</p>
+                            <h3>Ice cream</h3>
+                        </div>
+
+                        <div class="row gy-5" id="content3">
+
+                            <c:forEach var="dish" items="${listPriceI}" >
+
+                                <div class="col-lg-4 menu-item" >
+                                    <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
+                                    <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
+                                    <p class="ingredients">
+                                        ${dish.getInfor()}
+                                    </p>
+                                    <p class="price" >
+                                        $ ${dish.getPrice()}
+                                    </p>           
+                                </div><!-- Menu Item -->
+                            </c:forEach>
+                            <c:if test="${empty listPriceD}">
+                                <p>Danh sách món ăn hiện đang trống.</p>
+                            </c:if>
+
+                        </div>
                     </div>
+                    <div class="tab-pane fade" id="menu-combo">
+
+                        <div class="tab-header text-center">
+                            <p>Menu</p>
+                            <h3>Combo</h3>
+                        </div>
+
+                        <div class="row gy-5" id="content4">
+
+                            <c:forEach var="dish" items="${listTypeC}" >   
+
+                                <div class="col-lg-4 menu-item"  >
+
+                                    <a href="img/${dish.getImage()}" class="glightbox"><img src="img/${dish.getImage()}" class="menu-img img-fluid" alt=""></a>
+                                    <h4><a href="DetailProduct?pid=${dish.getDish_id()}&customer_id=<%=customer_id%>" title="View Product">${dish.getName()}</a></h4>
+                                    <p class="ingredients">
+                                        ${dish.getInfor()}
+                                    </p>
+                                    <p class="price" >
+                                        $ ${dish.getPrice()}
+                                    </p>   
+                                </div><!-- Menu Item -->
+                            </c:forEach>
+                            <c:if test="${empty listTypeC}">
+                                <p>Danh sách món ăn hiện đang trống.</p>
+                            </c:if>
+
+                        </div>
+                    </div>
+                    <!-- End Dinner Menu Content -->
+
+                </div>
 
                 </div>
             </section><!-- End Menu Section -->

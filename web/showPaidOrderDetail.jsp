@@ -98,17 +98,37 @@
                     <!-- <img src="assets/img/logo.png" alt=""> -->
                     <img class="img-navbar" src="img/logo.jpg" alt="">
                 </a>
+  <%
+                        Cookie[] cookies = request.getCookies(); // Get the array of cookies from the request
+                        int storeId = 0;
+                        if (cookies != null) {
+                            for (Cookie cookie : cookies) {
+                                if ("store_id".equals(cookie.getName())) {
+                                    String storeIdValue = cookie.getValue();
+                                    storeId = Integer.parseInt(storeIdValue);
 
-                <nav id="navbar" class="navbar">
-                    <ul>
-                        <li><a href="ListProductServlet">Món ăn</a></li>
-                        <li><a href="ListStore">Cửa hàng</a></li>
-                        <li> <a href="ShowConfirmOrder">Xác nhận đơn hàng</a> </li>
-                        <li><a href="Statistic">Xem doanh thu</a></li>
+                                }
+                            }
+                        }
+                    %>
+                 <nav id="navbar" class="navbar">
+                        <ul>
+                            <li> <form action="ShowConfirmOrder" method="get">
+                                    <input type="hidden" name ="store_id" value="<%= storeId%>" />
+                                    <button class="btt" type="submit">Xác nhận đơn hàng</button>
+                                </form></li>
+                            <li><form action="ShowSucceedOrder" method="get">
+                                    <input type="hidden" name ="store_id" value="<%=storeId%>" />
+                                    <button class="btt" type="submit">Đơn hàng thành công</button>
+                                </form></li>
 
-                    </ul>
-                </nav><!-- .navbar -->
-                <div> 
+                            <li> <form action="ShowCanceledOrder" method="get">
+                                    <input type="hidden" name ="store_id" value="<%=storeId%>" />
+                                    <button class="btt" type="submit">Đơn hàng đã hủy</button>
+                                </form></li>
+
+                        </ul> 
+                    </nav><!-- .navbar -->                <div> 
                     <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
                 </div>
                 <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
@@ -128,19 +148,7 @@
             </div>
 
         </div>
-        <%
-            Cookie[] cookies = request.getCookies(); // Get the array of cookies from the request
-            int storeId = 0;
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if ("store_id".equals(cookie.getName())) {
-                        String storeIdValue = cookie.getValue();
-                        storeId = Integer.parseInt(storeIdValue);
-
-                    }
-                }
-            }
-        %>
+        
         <div style="margin:100px 0 150px 0;">
             <div style="text-align: center;">
                 <h1 style=" font-weight: bold;">Chi tiết đơn hàng</h1>

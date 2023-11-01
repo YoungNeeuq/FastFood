@@ -151,6 +151,10 @@
                                 <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
                                 <button class="btn btn-primary" type="submit">Chờ xác nhận </button>
                             </form>
+                                <form action="PreparingOrderServlet" method="GET">
+                                <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
+                                <button class="btn btn-dark" type="submit">Đơn hàng đã xác nhận</button>
+                            </form>
                             <form action="DeliveringOrderServlet" method="GET">
                                 <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
                                 <button class="btn btn-warning" type="submit">Đang giao hàng </button>

@@ -190,11 +190,11 @@
                         <c:forEach var="order" items="${cancelList}">
                             <tr>
                                 <c:set var="customer_id" value="${order.getCustomer_id()}"></c:set>
-                                <td><%= customerDAO.getCustomer((int) pageContext.getAttribute("customer_id")).getUsername()%></td>
+                                <td>${order.getReceiver_name()}</td>
 
                                 <td>${order.getOrder_id()}</td>
-                                <td>${order.getCustomer_phone()}</td>
-                                <td>${order.getCustomer_address()}</td>
+                                <td>${order.getReceiver_phone()}</td>
+                                <td>${order.getReceiver_address()}</td>
                                 <td>${order.getDate()}</td>
                                 <td>${order.getTotalmoney()}</td>
                                 <td>${order.getStatus()}</td>   

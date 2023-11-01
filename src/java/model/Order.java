@@ -16,64 +16,25 @@ public class Order {
     private int totalmoney;
     private int store_id;
     private String status;
-    private String customer_address;
-    private String customer_phone;
+    private String receiver_name;
+    private String receiver_phone;
+    private String receiver_address;
     private String paymentStatus;
 
-    public Order(int order_id, String date, int customer_id, int totalmoney,
-            int store_id, String status, String customer_address, String customer_phone, String paymentStatus) {
+    public Order() {
+    }
+
+    public Order(int order_id, String date, int customer_id, int totalmoney, int store_id, String status, String receiver_name, String receiver_phone, String receiver_address, String paymentStatus) {
         this.order_id = order_id;
         this.date = date;
         this.customer_id = customer_id;
         this.totalmoney = totalmoney;
         this.store_id = store_id;
         this.status = status;
-        this.customer_address = customer_address;
-        this.customer_phone = customer_phone;
+        this.receiver_name = receiver_name;
+        this.receiver_phone = receiver_phone;
+        this.receiver_address = receiver_address;
         this.paymentStatus = paymentStatus;
-    }
-
-    public Order() {
-    }
-
-    public String getCustomer_address() {
-        return customer_address;
-    }
-
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
-
-    public String getCustomer_phone() {
-        return customer_phone;
-    }
-
-    public void setCustomer_phone(String customer_phone) {
-        this.customer_phone = customer_phone;
-    }
-
-    public void setCustomer_address(String customer_address) {
-        this.customer_address = customer_address;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public int getStore_id() {
-        return store_id;
-    }
-
-    public void setStore_id(int store_id) {
-        this.store_id = store_id;
     }
 
     public int getOrder_id() {
@@ -108,9 +69,57 @@ public class Order {
         this.totalmoney = totalmoney;
     }
 
+    public int getStore_id() {
+        return store_id;
+    }
+
+    public void setStore_id(int store_id) {
+        this.store_id = store_id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getReceiver_name() {
+        return receiver_name;
+    }
+
+    public void setReceiver_name(String receiver_name) {
+        this.receiver_name = receiver_name;
+    }
+
+    public String getReceiver_phone() {
+        return receiver_phone;
+    }
+
+    public void setReceiver_phone(String receiver_phone) {
+        this.receiver_phone = receiver_phone;
+    }
+
+    public String getReceiver_address() {
+        return receiver_address;
+    }
+
+    public void setReceiver_address(String receiver_address) {
+        this.receiver_address = receiver_address;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
     @Override
     public String toString() {
-        return "Order{" + "order_id=" + order_id + ", date=" + date + ", customer_id=" + customer_id + ", totalmoney=" + totalmoney + '}';
+        return "Order{" + "order_id=" + order_id + ", date=" + date + ", customer_id=" + customer_id + ", totalmoney=" + totalmoney + ", store_id=" + store_id + ", status=" + status + ", receiver_name=" + receiver_name + ", receiver_phone=" + receiver_phone + ", receiver_address=" + receiver_address + ", paymentStatus=" + paymentStatus + '}';
     }
 
 }

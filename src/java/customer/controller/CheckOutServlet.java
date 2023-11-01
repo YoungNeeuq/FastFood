@@ -69,7 +69,7 @@ public class CheckOutServlet extends HttpServlet {
             HttpSession session = request.getSession();
             int paymentMethod = Integer.parseInt(request.getParameter("cod"));
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
-
+            String receiver_name = request.getParameter("name");
             String phone = request.getParameter("phone");
 
             String address = request.getParameter("address");
@@ -120,7 +120,7 @@ public class CheckOutServlet extends HttpServlet {
                     } else {
                         try {
                             OrderDAO orderDAO = new OrderDAO();
-                            orderDAO.addOrder(c, cart, store_id, address, phone, pStatus);
+                            orderDAO.addOrder(c, cart, store_id, receiver_name, phone, address, pStatus);
                             session.removeAttribute("cart6");
                             Cookie cartCookie = null;
                             for (Cookie cookie : cookies) {
@@ -185,10 +185,10 @@ public class CheckOutServlet extends HttpServlet {
         try {
             HttpSession session = request.getSession();
             int paymentMethod = Integer.parseInt(request.getParameter("cod"));
-
+            String receiver_name = request.getParameter("name");
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
             String phone = request.getParameter("phone");
-         //   String customer_name = request.getParameter("customer_name");
+            //   String customer_name = request.getParameter("customer_name");
             String address = request.getParameter("address");
             // Lấy giá trị phone và address từ request
 
@@ -235,7 +235,7 @@ public class CheckOutServlet extends HttpServlet {
                     } else {
                         try {
                             OrderDAO orderDAO = new OrderDAO();
-                            orderDAO.addOrder(c, cart, store_id, address, phone, pStatus);
+                            orderDAO.addOrder(c, cart, store_id, receiver_name, phone, address, pStatus);
                             session.removeAttribute("cart6");
                             Cookie cartCookie = null;
                             for (Cookie cookie : cookies) {
