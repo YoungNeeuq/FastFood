@@ -1,3 +1,5 @@
+<%@page import="model.Order"%>
+<%@page import="java.util.List"%>
 <%@page import="dal.StoreDAO"%>
 <%@page import="model.Customer"%>
 <%@page import="dal.CustomerDAO"%>
@@ -79,6 +81,45 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <style>
+            .totall{
+                margin-bottom: 30px;
+                text-align: center;
+                font-weight: 500;
+                font-family: revert;
+                color: maroon;
+            }
+            .modal{
+                position: fixed;
+                z-index: 1;
+                top:0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0,0,0,0.4);
+                background-clip: padding-box;
+            }
+            .modal-content{
+                text-align: center;
+                padding: 40px;
+                position: absolute;
+                top: 30% !important;
+                left: 35% !important;
+                background-color: #fefefe;
+                margin: 2% auto;
+                border: 1px solid #888;
+                width: 30%;
+                width: 480px;
+                height: auto;
+                border-radius: 4px;
+                animation: slideDown 0.5s forwards;
+            }
+            .btnlogout{
+                margin: auto;
+                gap: 20px;
+            }
+        </style>
     </head>
     <body>
         <%
@@ -139,7 +180,7 @@
             </div>
 
         </div>
-        <div style="margin:90px 0 150px 0">
+        <div style="margin:120px 0 250px 0">
             <!--        <a href="ListProductCustomer">List Product</a> -->
 
             <!--        <form action="OrderHistoryServlet" method="GET">
@@ -153,9 +194,11 @@
             </div>
             <%
             StoreDAO storeDAO = new StoreDAO();
+            List<Order> listTracking = (List)request.getAttribute("listTracking");
+            int num = listTracking.size();
             %>
 
-            <c:if test="${not empty listTracking}">
+          <h2 class="totall">Tổng số đơn hàng đang chờ xác nhận: <%= num%> đơn  </h2>
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -224,12 +267,10 @@
                     </c:forEach>
                     </tbody>
                 </table>
-            </c:if>
-
-            <c:if test="${empty listTracking}">
-                <p>No orders found.</p>
-            </c:if>
+           
+ <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${sum} đ</h4>
         </div>
+                 
         <footer id="footer" class="footer">
 
             <div class="container">

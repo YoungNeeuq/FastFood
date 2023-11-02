@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="dal.OrderDAO"%>
 <%@page import="dal.CustomerDAO"%>
 <%@page import="dal.StoreDAO"%>
 <%@page import="model.Order"%>
@@ -85,6 +86,26 @@
             table {
                 text-align: center;
             }
+            .btt{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 3px;
+                font-family: var(--font-secondary);
+                font-size: 16px;
+                font-weight: 600;
+                color: #7f7f90;
+                white-space: nowrap;
+                transition: 0.3s;
+                position: relative;
+                text-decoration: none;
+                background-color: transparent;
+                border: none;
+            }
+            .btt:hover{
+                border-bottom: 3px red solid;
+                color: black;
+            }
         </style>
     </head>
 
@@ -118,7 +139,16 @@
                     <ul>
 
                         <li> <a href="ShowConfirmOrder?store_id=<%= storeId%>">Xác nhận đơn hàng</a> </li>
-                        <li><a href="RevenueByStoreDMY">Xem doanh thu</a></li>
+                        <li><a href="manageStore.jsp">Xem doanh thu</a></li>
+                        <li><form action="ShowSucceedOrder" method="get">
+                                <input type="hidden" name="store_id" value="<%= storeId%>"/>
+                                <button class="btt" type="submit">Đơn hàng thành công</button>
+                            </form></li>
+
+                        <li> <form action="ShowCanceledOrder" method="get">
+                                <input type="hidden" name="store_id" value="<%= storeId%>"/>
+                                <button class="btt" type="submit">Đơn hàng đã hủy</button>
+                            </form></li>
 
                     </ul>
                 </nav><!-- .navbar -->
@@ -147,20 +177,21 @@
                 <h2 style=" font-weight: bold;">Thống kê theo ngày</h2>
                 <button class="btn btn-secondary mb-4">  <a style="
                                                             color: white; text-decoration: none;" href="manageStore.jsp">Trở về</a> </button>
-                                                             <div class="export-excel mb-4">
+                <div class="export-excel mb-4">
                     <form action="StatisticByStoreByDateExcel" method="GET">
                         <input type="hidden" name="date" value="${date}"/>
                         <input type="hidden" name="store_id" value="<%= storeId%>" /><!-- comment -->
                         <button class="btn btn-warning" type="submit">Xuất ra exel</button>
                     </form>
                 </div>
-                    <%                        List<String> listDate = (List) request.getAttribute("listDate");
-                        List<Order> listOrder = (List) request.getAttribute("listOrder");
-                        int sum = (int) request.getAttribute("sum");
-                        int total = (int) request.getAttribute("total");
-                        StoreDAO storeDAO = new StoreDAO();
-                        CustomerDAO customerDAO = new CustomerDAO();
-                    %>
+                <%                        List<String> listDate = (List) request.getAttribute("listDate");
+                    List<Order> listOrder = (List) request.getAttribute("listOrder");
+                    int sum = (int) request.getAttribute("sum");
+                    int total = (int) request.getAttribute("total");
+                    StoreDAO storeDAO = new StoreDAO();
+                    CustomerDAO customerDAO = new CustomerDAO();
+                    OrderDAO orderDAO = new OrderDAO();
+                %>
                 <form action="RevenueByStoreDMY" method="Post" style="display: flex; width: fit-content; gap:10px;
                       margin: auto;">
                     <select name="date" id="dateSelected" class="form-select" aria-label="Default select example">
@@ -174,33 +205,27 @@
                 </form>
                 <table class="table mt-4" style="text-align: center;">
                     <thead  class="thead-dark">
-                        <tr>
+                                 </thead>
+                    <tbody>    <tr>
                             <th scope="col">Mã đơn hàng</th>
-                            <th scope="col">Tên cửa hàng</th>
-                            <th scope="col">Người mua </th>
+                            <th scope="col">Tên người nhận hàng  </th>
+                            <th scope="col">Địa chỉ</th>
                             <th scope="col">Giá tiền</th>
                             <th scope="col">Trạng thái</th>
                             <th scope="col">Ngày mua hàng</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                        </tr>       
 
                         <c:forEach var="order" items="<%= listOrder%>" >
-                            <tr>
+                             <tr>
+                            <td>${order.getOrder_id()}</td>
+                            <c:set var="order_id" value="${order.getOrder_id()}"></c:set>
+                            <td><%= orderDAO.getOrderById((int) pageContext.getAttribute("order_id")).getReceiver_name() %></td>
+                           <td><%= orderDAO.getOrderById((int) pageContext.getAttribute("order_id")).getReceiver_address()%></td>                       
+                            <td>${order.getTotalmoney()}</td>
+                            <td>${order.getStatus()}</td>
+                            <td>${order.getDate()}</td>
 
-                                <td>${order.getOrder_id()}</td>
-                                <c:set var="store_id" value="${order.getStore_id()}"></c:set>
-                                <td><%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%></td>
-                                <c:set var="customer_id" value="${order.getCustomer_id()}"></c:set>
-                                <td><%= customerDAO.getCustomer((int) pageContext.getAttribute("customer_id")).getUsername()%></td>
-
-                                <td>${order.getTotalmoney()}</td>
-                                <td>${order.getStatus()}</td>
-                                <td>${order.getDate()}</td>
-
-
-
-                            </tr>
+                        </tr>
                         </c:forEach>
 
                     </tbody>

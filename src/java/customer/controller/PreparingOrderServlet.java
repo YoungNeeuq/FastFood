@@ -64,6 +64,8 @@ public class PreparingOrderServlet extends HttpServlet {
         try {
             OrderDAO orderDAO = new OrderDAO();
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
+            int sum = orderDAO.sumOrderCus(customer_id, "Preparing");
+            request.setAttribute("sum",sum);
             List<Order> listPreparing = orderDAO.getOrderByStatusID("Preparing", customer_id);
             request.setAttribute("listPreparing", listPreparing);
             request.getRequestDispatcher("preparingOrder.jsp").forward(request, response);
@@ -87,6 +89,7 @@ public class PreparingOrderServlet extends HttpServlet {
             int order_id = Integer.parseInt(request.getParameter("order_id"));
 
             OrderDAO orderDAO = new OrderDAO();
+            
             List<OrderDetail> listDetail = orderDAO.getItemById(order_id);
             request.setAttribute("listDetail", listDetail);
 

@@ -65,6 +65,8 @@ public class OrderTracking extends HttpServlet {
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
             OrderDAO orderDAO = new OrderDAO();
             List<Order> list = new ArrayList<>();
+            int sum  = orderDAO.sumOrderCus(customer_id, "Pending");
+            request.setAttribute("sum", sum);
             list = orderDAO.getOrderByStatusID("Pending", customer_id);
             request.setAttribute("listTracking", list);
             request.getRequestDispatcher("orderTracking.jsp").forward(request, response);

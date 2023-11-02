@@ -159,7 +159,7 @@
                     num = 0;
                 }
             %>
-            <h2 class="totall">Tổng số đơn hàng đang giao: <%= num%>  </h2>
+            <h2 class="totall">Tổng số đơn hàng đang giao: <%= num%> đơn  </h2>
             <table class="table" style="text-align: center;">
                 <thead class="thead-dark">
                     <tr>
@@ -192,8 +192,9 @@
                     </c:forEach>
                 </tbody>
             </table>
-
+<h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${sum} đ</h4>
         </div>
+              
         <footer id="footer" class="footer">
 
             <div class="container">

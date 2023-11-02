@@ -157,18 +157,19 @@
 
             CustomerDAO customerDAO = new CustomerDAO();
         %>
-      
+
         <div style="margin:100px 0 210px 0; text-align: center;">
 
             <h1 style="font-weight: bold;">Xác nhận đơn hàng
             </h1>
+            <h4 style="color: blueviolet;" class="mb-4">Tổng đơn hàng:  ${num} đơn</h4>
 
             <button type="submit" class="btn btn-secondary mb-4" > <a style=" color: white; text-decoration: none;" href="manageStore.jsp">Trở về </a></button>
-
+            
             <table class="table" style=" text-align: center;">
                 <thead class="thead-dark" >
 
-                <th style=" text-align: center; vertical-align: middle;" scope="col">Người mua hàng</th>
+                <th style=" text-align: center; vertical-align: middle;" scope="col">Người nhận hàng</th>
                 <th style=" text-align: center; vertical-align: middle;" scope="col">ID Đơn hàng</th>
                 <th style=" text-align: center; vertical-align: middle;" scope="col">Số điện thoại</th>
                 <th style=" text-align: center; vertical-align: middle;" scope="col">Địa chỉ</th>

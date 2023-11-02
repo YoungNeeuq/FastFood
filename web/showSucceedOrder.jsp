@@ -148,11 +148,11 @@
                 </div>
 
             </div>
-            <div style="margin:100px 0 150px 0;">
+            <div style="margin:100px 0 180px 0;">
                 <div style=" text-align: center;
                      margin-bottom: 30px;">
                     <h1 style=" font-weight: bold;">Đơn hàng thành công</h1>
-
+<h4 style="color: blueviolet;" class="mb-4">Tổng đơn hàng:  ${num} đơn</h4>
                     <%
                         CustomerDAO customerDAO = new CustomerDAO();
                     %>
@@ -161,12 +161,13 @@
                         <a style=" color: white;
                            text-decoration: none;"  href="manageStore.jsp">Trở về </a>
                     </button>
+<!--                    <h4 style="text-align: end;  padding-right: 40px;">Tổng đơn hàng:  ${num} đơn</h4>-->
                 </div>
                 <table class="table" style=" text-align: center;">
                     <thead class="thead-dark" >
 
                     <th style=" text-align: center;
-                        vertical-align: middle;" scope="col">Người mua hàng</th>
+                        vertical-align: middle;" scope="col">Người nhận hàng</th>
                     <th style=" text-align: center;
                         vertical-align: middle;" scope="col">ID Đơn hàng</th>
                     <th style=" text-align: center;
@@ -210,6 +211,8 @@
 
                     </tbody>
                 </table>
+                    <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${sum} đ</h4>
+                    
             </div>
             <footer id="footer" class="footer">
 

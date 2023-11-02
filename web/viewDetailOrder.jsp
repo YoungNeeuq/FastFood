@@ -246,7 +246,7 @@
                         <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn từ chối ?</h5>
                         <div class="d-flex btnlogout">
                             <button onclick="yes2(<%=order_id%>,<%=value%>, <%= storeId%>)" type="button" class="btn btn-warning">Yes</button>
-                            <button onclick="no2(${loop.index})" type="button" class="btn btn-success">No</button>
+                            <button onclick="no2()" type="button" class="btn btn-success">No</button>
                         </div>
                     </div><!-- comment -->
 
@@ -256,7 +256,7 @@
                         <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn xác nhận ?</h5>
                         <div class="d-flex btnlogout">
                             <button onclick="yes1(<%=order_id%>,<%= storeId%>,<%=value1%>)" type="button" class="btn btn-warning">Yes</button>
-                            <button onclick="no1(${loop.index})" type="button" class="btn btn-success">No</button>
+                            <button onclick="no1()" type="button" class="btn btn-success">No</button>
                         </div>
                     </div><!-- comment -->
 
@@ -357,8 +357,8 @@
                                 }
 
                                 //khac me chi o tren dau ma k duoc ta dcm
-                                function no2(index) {
-                                    var modal = document.getElementById("modaldelete" + index);
+                                function no2() {
+                                    var modal = document.getElementById("modaldelete");
                                     modal.style.display = "none";
                                 }
                                 function confirm() {
@@ -371,8 +371,8 @@
                                 }
 
                                 //khac me chi o tren dau ma k duoc ta dcm
-                                function no1(index) {
-                                    var modal = document.getElementById("modaldelete" + index);
+                                function no1() {
+                                    var modal = document.getElementById("modalconfirm");
                                     modal.style.display = "none";
                                 }
             </script>

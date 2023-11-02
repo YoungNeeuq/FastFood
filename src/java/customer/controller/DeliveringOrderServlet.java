@@ -66,6 +66,8 @@ public class DeliveringOrderServlet extends HttpServlet {
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
             List<Order> deliveringList = orderDAO.getOrderByStatusID("Delivering", customer_id);
             int num = deliveringList.size();
+            int sum = orderDAO.sumOrderCus(customer_id, "Delivering");
+            request.setAttribute("sum", sum);
             request.setAttribute("deliveringList", deliveringList);
             request.setAttribute("num", num);
             request.getRequestDispatcher("deliveringOrderCus.jsp").forward(request, response);

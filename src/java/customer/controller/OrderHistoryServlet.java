@@ -64,6 +64,8 @@ public class OrderHistoryServlet extends HttpServlet {
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
             OrderDAO orderDAO = new OrderDAO();
             List<Order> list = orderDAO.getOrderByStatusID("succeed", customer_id);
+            int sum = orderDAO.sumOrderCus(customer_id, "Succeed");
+            request.setAttribute("sum", sum);
             request.setAttribute("list", list);
             request.getRequestDispatcher("orderHistory.jsp").forward(request, response);
         } catch (Exception ex) {

@@ -161,7 +161,7 @@
                 <div style=" text-align: center;
                      margin-bottom: 30px;">
                     <h1 style=" font-weight: bold;">Đơn hàng đã hủy</h1>
-
+<h4 style="color: blueviolet;" class="mb-4">Tổng đơn hàng:  ${num} đơn</h4>
                     <%
 
                         CustomerDAO customerDAO = new CustomerDAO();
@@ -175,7 +175,7 @@
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
-                            <th scope="col">Người mua hàng</th>
+                            <th scope="col">Người nhận hàng</th>
                             <th scope="col">ID Đơn hàng</th>
                             <th scope="col">Số điện thoại</th>
                             <th scope="col">Địa chỉ</th>

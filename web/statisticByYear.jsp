@@ -261,10 +261,10 @@
             <table class="table mt-4" style="text-align: center;">
                 <thead  class="thead-dark">
                     <tr>
-                        <th scope="col">Store name</th>
-                        <th scope="col">Store Address</th>
-                        <th scope="col">Revenue </th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Tên cửa hàng</th>
+                        <th scope="col">Địa chỉ cửa hàng</th>
+                        <th scope="col">Doanh thu </th>
+                        <th scope="col">Hành động</th>
 
                     </tr>
                 </thead>
@@ -275,7 +275,7 @@
 <!--                                <td>${store.getStore_id()}</td>-->
                             <td>${store.getStore_name()}</td>
                             <td>${store.getAddress()}</td>
-                            <td>${store.getRevenue()}</td>
+                            <td>${store.getRevenue()} đ</td>
                             <td>
                                 <form action="StatisticByYearDetail" method="GET">
                                     <button type="submit" class="btn btn-success">

@@ -120,20 +120,20 @@
                 <h1 style=" font-weight: bold;">Danh sách nhân viên</h1>
                 <button type="submit" class="btn btn-secondary mb-4" >
                     <a style=" color: white;
-                       text-decoration: none;"  href="ListProductServlet">Back</a>
+                       text-decoration: none;"  href="ListProductServlet">Trở về</a>
                 </button>
                 <br>
                 <button class="btn btn-secondary mb-4 mt-4" id="btnThem">Thêm tài khoản nhân viên</button><br>
                 <span class="form-message" style="color:red;">${tb}</span>
             </div>
             <table class="table">
-                <thead class="thead-dark">
+                <thead class="thead-dark" style="text-align: center;">
                     <tr>
                         <th scope="col">ID Nhân viên</th>
                         <th scope="col">Tài khoản</th>
                         <th scope="col">Mật khẩu</th>
                         <th scope="col">Tên cửa hàng</th>
-                        <th scope="col">Action</th>
+                        <th scope="col">Hành động</th>
                     </tr>
                 </thead>
                 <c:forEach items="${listStaff}" var="staff">

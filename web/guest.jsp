@@ -330,7 +330,7 @@
                             <!-- End tab nav item -->
                             <form action="searchAjax" method="get" style="display:flex; gap:5px; margin-left: 15px; ">
                                 <input class="form-control" aria-label="Text input with segmented dropdown button" type="text" id="searchInput" value="" oninput="searchByName()" name="txt" />
-                                <button class="btn btn-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                <button class="btn btn-light" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
                             </form>
                         </div>
                     </ul>

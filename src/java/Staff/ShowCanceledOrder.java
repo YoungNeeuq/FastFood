@@ -67,6 +67,8 @@ public class ShowCanceledOrder extends HttpServlet {
             String status = "Canceled";
             List<Order> cancelList = orderDAO.getOrderByStore_idStatus(store_id, status);
             request.setAttribute("cancelList", cancelList);
+            int num = cancelList.size();
+            request.setAttribute("num", num);
             request.getRequestDispatcher("canceledOrderStaff.jsp").forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(ShowCanceledOrder.class.getName()).log(Level.SEVERE, null, ex);

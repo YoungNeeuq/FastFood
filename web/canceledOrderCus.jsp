@@ -153,7 +153,7 @@
                 int total = canceledList.size();
                 StoreDAO storeDAO = new StoreDAO();
             %>
-            <h2 class="totall">Tổng số đơn hàng đã hủy: <%= total%>  </h2>
+            <h2 class="totall">Tổng số đơn hàng đã hủy: <%= total%> đơn  </h2>
             <table class="table" style="text-align: center;">
                 <thead class="thead-dark">
                     <tr>
@@ -186,8 +186,9 @@
                     </c:forEach>
                 </tbody>
             </table>
-
+  <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${sum} đ</h4>
         </div>
+           
         <footer id="footer" class="footer">
 
             <div class="container">

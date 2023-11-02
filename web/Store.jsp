@@ -142,7 +142,7 @@
                         <th scope="col" style=" vertical-align: middle;">Giờ đóng, mở cửa</th>
                         <th scope="col" style=" vertical-align: middle;">Địa chỉ</th><!-- comment -->
                         <th scope="col" style=" vertical-align: middle;">Số điện thoại</th>
-                        <th scope="col" style=" vertical-align: middle;">Hoạt động</th>
+                        <th scope="col" style=" vertical-align: middle;">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>

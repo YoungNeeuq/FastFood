@@ -94,6 +94,8 @@ public class CancelOrderServlet extends HttpServlet {
             int customer_id = Integer.parseInt(request.getParameter("customer_id"));
             List<Order> canceledList = orderDAO.getOrderByStatusID("Canceled", customer_id);
             request.setAttribute("canceledList", canceledList);
+            int sum = orderDAO.sumOrderCus(customer_id, "Canceled");
+            request.setAttribute("sum", sum);
             request.getRequestDispatcher("canceledOrderCus.jsp").forward(request, response);
         } catch (Exception ex) {
              String errorMessage = ex.getMessage();

@@ -124,6 +124,7 @@
                 List<Order> listSucceedOrder = orderDAO.getOrderByStoreId(storeId);
 
                 LocalDate date = LocalDate.now();
+             
 
             %>
             <header id="header" class="header fixed-top d-flex align-items-center" >
@@ -174,21 +175,22 @@
                 </div>
 
             </div>
-            <div style="margin:120px 0 190px 0;">
+            <div style="margin:120px 0 240px 0;">
                 <div style=" text-align: center;
                     margin-bottom: 30px;">
                     <h1 style=" font-weight: bold;"> <%= store_name%></h1>
                     <h3 style=" font-weight:600;">Doanh thu :  <%= sum%> đ</h3>
-                  
+                    
+                 
                     <form action="RevenueByStoreDMY" method="GET" style="display: flex;
                           width: fit-content;
                           gap:20px;
                           margin: auto;" >
                         <input type="hidden" name="store_id" value="<%= storeId%>"/>
                         <select name="select" class="form-select" aria-label="Default select example">
-                            <option value="3">Year</option>
-                            <option value="2">Month</option>
-                            <option value="1">Date</option>
+                            <option value="3">Năm</option>
+                            <option value="2">Tháng</option>
+                            <option value="1">Ngày</option>
 
 
                         </select>

@@ -11,6 +11,7 @@ import dal.StaffDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Base64;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.Customer;
+import model.Order;
 import model.Staff;
 
 /**
@@ -127,7 +129,12 @@ public class LoginCustomer extends HttpServlet {
                 // Thêm cookie vào HTTP response
                 response.addCookie(store_idCookie);
                 request.setAttribute("store_id", store_id);
+                
                 OrderDAO orderDAO = new OrderDAO();
+                List<Order> listOrder = orderDAO.getOrderByStoreId(store_id);
+                int num = listOrder.size();
+                
+                request.setAttribute("num", num);
                 
 //                request.getRequestDispatcher("manageStore.jsp").forward(request, response);
                 response.sendRedirect("manageStore.jsp");

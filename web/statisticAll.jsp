@@ -175,9 +175,9 @@
                 <form action="RevenueByDateMonthYear" method="GET" style="display: flex; width: fit-content; gap:20px;
                       margin: auto;">
                     <select name="select" class="form-select" aria-label="Default select example">
-                        <option value="1">Date</option>
-                        <option value="2">Month</option>
-                        <option value="3">Year</option>
+                        <option value="1">Ngày</option>
+                        <option value="2">Tháng</option>
+                        <option value="3">Năm</option>
                     </select>
                     <button  class="btn btn-info" type="submit">Xem</button>
                 </form>

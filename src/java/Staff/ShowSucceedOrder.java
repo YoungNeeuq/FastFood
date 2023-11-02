@@ -65,6 +65,10 @@ public class ShowSucceedOrder extends HttpServlet {
             OrderDAO orderDAO = new OrderDAO();
             int store_id = Integer.parseInt(request.getParameter("store_id"));
             List<Order> listOrder = orderDAO.getOrderByStoreId(store_id);
+            int sum = orderDAO.sumOrderByStore(store_id);
+            int num  = listOrder.size();
+            request.setAttribute("sum", sum);
+            request.setAttribute("num", num);
             request.setAttribute("listOrder", listOrder);
             request.getRequestDispatcher("showSucceedOrder.jsp").forward(request, response);
         } catch (Exception ex) {

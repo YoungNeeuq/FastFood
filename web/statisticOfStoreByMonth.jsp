@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="dal.OrderDAO"%>
 <%@page import="model.Order"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -34,6 +35,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
         <title>FastFood</title>
         <style>
             td {
@@ -83,6 +85,49 @@
             table {
                 text-align: center;
             }
+            .charts {
+                display: grid;
+                gap: 20px;
+            }
+
+            .charts-card {
+                background-color: #ffffff;
+                margin-bottom: 20px;
+                padding: 25px;
+                box-sizing: border-box;
+                -webkit-column-break-inside: avoid;
+                border: 1px solid #d2d2d3;
+                border-radius: 5px;
+                box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+            }
+
+            .chart-title {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                font-weight: 600;
+            }
+            .btt{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 3px;
+                font-family: var(--font-secondary);
+                font-size: 16px;
+                font-weight: 600;
+                color: #7f7f90;
+                white-space: nowrap;
+                transition: 0.3s;
+                position: relative;
+                text-decoration: none;
+                background-color: transparent;
+                border: none;
+            }
+            .btt:hover{
+                border-bottom: 3px red solid;
+                color: black;
+            }
         </style>
     </head>
 
@@ -116,7 +161,16 @@
                     <ul>
 
                         <li> <a href="ShowConfirmOrder?store_id=<%= storeId%>">Xác nhận đơn hàng</a> </li>
-                        <li><a href="RevenueByStoreDMY">Xem doanh thu</a></li>
+                        <li><a href="manageStore.jsp">Xem doanh thu</a></li>
+                        <li><form action="ShowSucceedOrder" method="get">
+                                <input type="hidden" name="store_id" value="<%= storeId%>"/>
+                                <button class="btt" type="submit">Đơn hàng thành công</button>
+                            </form></li>
+
+                        <li> <form action="ShowCanceledOrder" method="get">
+                                <input type="hidden" name="store_id" value="<%= storeId%>"/>
+                                <button class="btt" type="submit">Đơn hàng đã hủy</button>
+                            </form></li>
 
 
                     </ul>
@@ -150,13 +204,13 @@
                     <input type="hidden" name="month" value="${month}"/>
                     <input type="hidden" name="year" value="${year}"/>
                     <input type="hidden" name="store_id" value="<%= storeId%>" /><!-- comment -->
-                    <button class="btn btn-warning" type="submit">Xuất ra exel</button>
+                    <button class="btn btn-warning mb-3" type="submit">Xuất ra exel</button>
                 </form>
                 <%            List<Integer> listMonth = (List) request.getAttribute("listMonth");
                     List<Integer> listYear = (List) request.getAttribute("listYear");
                     List<Order> listOrder = (List) request.getAttribute("listOrder");
                     int sum = (int) request.getAttribute("sum");
-
+                    OrderDAO orderDAO = new OrderDAO();
                 %>
                 <form action="RevenueByDateMonthYear" method="Post" style="display: flex; width: fit-content; gap:10px;
                       margin: auto;">
@@ -177,12 +231,18 @@
                     <button type="submit" class="btn btn-info">Xem</button>
                 </form>
             </div>
+            <div class="charts container" style="margin-top:20px;">
+                <div class="charts-card">
+                    <p class="chart-title">Doanh thu và số đơn</p>
+                    <div id="area-chart"></div>
+                </div>
+            </div>
             <table class="table mt-4" style="text-align: center;">
                 <thead  class="thead-dark">
                     <tr>
                         <th scope="col">Mã đơn hàng</th>
-                        <th scope="col">Mã cửa hàng</th>
-                        <th scope="col">Người mua </th>
+                        <th scope="col">Tên người nhận hàng  </th>
+                        <th scope="col">Địa chỉ</th>
                         <th scope="col">Giá tiền</th>
                         <th scope="col">Trạng thái</th>
                         <th scope="col">Ngày mua hàng</th>
@@ -193,8 +253,9 @@
                     <c:forEach var="order" items="<%= listOrder%>" >
                         <tr>
                             <td>${order.getOrder_id()}</td>
-                            <td>${order.getStore_id()}</td>
-                            <td>${order.getCustomer_id()}</td>
+                            <c:set var="order_id" value="${order.getOrder_id()}"></c:set>
+                            <td><%= orderDAO.getOrderById((int) pageContext.getAttribute("order_id")).getReceiver_name() %></td>
+                           <td><%= orderDAO.getOrderById((int) pageContext.getAttribute("order_id")).getReceiver_address()%></td>                       
                             <td>${order.getTotalmoney()}</td>
                             <td>${order.getStatus()}</td>
                             <td>${order.getDate()}</td>
@@ -206,7 +267,7 @@
             </table>
             <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: <%= sum%> đ</h4>
         </div>
-        <div class="chart-revenue">
+        <div class="chart-revenue d-none">
             <table>
                 <thead>
                     <tr>
@@ -219,15 +280,15 @@
                     <c:forEach var="d" items="${listTotal}">
                         <tr>
                             <td>${d.getMonth()}</td>
-                            <td>${d.getDate()}</td>
-                            <td>${d.getTotal()}</td>
+                            <td class="namee">${d.getDate()}</td>
+                            <td class="revenuee">${d.getTotal()}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
 
             </table>
         </div>
-        <div class="chart-count">
+        <div class="chart-count d-none">
             <table>
                 <thead>
                     <tr>
@@ -242,8 +303,8 @@
                         <tr>
                             <td>${d.getYear()}</td>
                             <td>${d.getMonth()}</td>
-                            <td>${d.getDate()}</td>
-                            <td>${d.getCount()}</td>
+                            <td class="dayy">${d.getDate()}</td>
+                            <td class="quan">${d.getCount()}</td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -347,6 +408,74 @@
                     localStorage.setItem("selectedYear", yearSelect.value);
                 });
             });
+            var storeNames = [];
+            var nameElements = document.getElementsByClassName('quan');
+            for (var i = 0; i < nameElements.length; i++) {
+                storeNames.push(nameElements[i].innerText);
+            }
+            var day = [];
+            var Elements = document.getElementsByClassName('dayy');
+            for (var i = 0; i < Elements.length; i++) {
+                day.push(Elements[i].innerText);
+            }
+            var doanhthu = [];
+            var dtElements = document.getElementsByClassName('revenuee');
+            for (var i = 0; i < dtElements.length; i++) {
+                doanhthu.push(dtElements[i].innerText);
+            }
+            const areaChartOptions = {
+                series: [
+                    {
+                        name: 'Doanh thu',
+                        data: doanhthu,
+                    },
+                    {
+                        name: 'Số đơn',
+                        data: storeNames,
+                    },
+                ],
+                chart: {
+                    height: 350,
+                    type: 'area',
+                    toolbar: {
+                        show: false,
+                    },
+                },
+                colors: ['#4f35a1', '#246dec'],
+                dataLabels: {
+                    enabled: false,
+                },
+                stroke: {
+                    curve: 'smooth',
+                },
+                labels: day,
+                markers: {
+                    size: 0,
+                },
+                yaxis: [
+                    {
+                        title: {
+                            text: 'Doanh thu',
+                        },
+                    },
+                    {
+                        opposite: true,
+                        title: {
+                            text: 'Số đơn',
+                        },
+                    },
+                ],
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                },
+            };
+
+            const areaChart = new ApexCharts(
+                    document.querySelector('#area-chart'),
+                    areaChartOptions
+                    );
+            areaChart.render();
         </script>
         <!-- Vendor JS Files -->
         <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

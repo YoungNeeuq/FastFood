@@ -494,6 +494,28 @@ public class OrderDAO {
 
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
+    // sum cancel order
+     public int sumOrderCus(int customer_id, String status) {
+        String sql = "SELECT SUM(total_price) as total_succeed_price\n"
+                + "FROM [KFCStore].[dbo].[Order]\n"
+                + "WHERE status = ? and customer_id = ?";
+
+        try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, status);
+            statement.setInt(2, customer_id); // Gán tham số store_id
+            try ( ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("total_succeed_price");
+                }
+            }
+
+        } catch (SQLException ex) {
+            // Xử lý lỗi nếu cần
+            ex.printStackTrace();
+        }
+
+        return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
+    }
 //---------------------------list succeed order by store (store statistic)-------------
 
     public ArrayList<Order> getOrderByStoreId(int store_id) {
@@ -1012,7 +1034,7 @@ public class OrderDAO {
                 + "COUNT(order_id) AS order_count\n"
                 + "FROM [KFCStore].[dbo].[Order]\n"
                 + "WHERE CONVERT(DATE, date) = ? \n"
-                + "AND status = 'succeed'";
+                + "AND status = 'Succeed'";
 
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -1500,7 +1522,8 @@ public class OrderDAO {
         Order order = null;
 
         try {
-            String sql = "SELECT order_id, customer_id, store_id, total_price, date, status FROM [KFCStore].[dbo].[Order] WHERE order_id = ?";
+            String sql = "SELECT order_id, customer_id, store_id, total_price, date, status, pStatus, receiver_name,"
+                    + "receiver_address, receiver_phone FROM [KFCStore].[dbo].[Order] WHERE order_id = ?";
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setInt(1, order_id);
@@ -1515,6 +1538,9 @@ public class OrderDAO {
                 order.setTotalmoney(rs.getInt("total_price"));
                 order.setDate(rs.getString("date"));
                 order.setStatus(rs.getString("status"));
+                order.setReceiver_address(rs.getString("receiver_address"));
+                order.setReceiver_name(rs.getString("receiver_name"));
+                order.setReceiver_phone(rs.getString("receiver_phone"));
             }
         } catch (SQLException ex) {
 

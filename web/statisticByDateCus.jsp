@@ -4,6 +4,8 @@
     Author     : Asus
 --%>
 
+<%@page import="dal.StoreDAO"%>
+<%@page import="dal.OrderDAO"%>
 <%@page import="model.Order"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -140,7 +142,8 @@
                     }
                 }
             }
-
+            OrderDAO orderDAO = new OrderDAO();
+            StoreDAO storeDAO = new StoreDAO();
         %>
          <button class="btn btn-secondary mb-4">  <a style=" 
          color: white; text-decoration: none;" href="OrderHistoryServlet?customer_id=<%=customer_id%>">Trở về</a> </button>
@@ -158,29 +161,34 @@
             </div>
          <table class="table mt-4" style="text-align: center;">
             <thead  class="thead-dark">
-                <tr>
-                    <th scope="col">Mã đơn hàng</th>
-                    <th scope="col">Mã người mua</th>
-                    <th scope="col">Giá tiền </th>
-                    <th scope="col">Ngày mua hàng</th>
-                    <th scope="col">Trạng thái</th>
-                    <th scope="col">Hoạt động</th>
-                </tr>
+                   <tr>
+                            <th scope="col">Mã đơn hàng</th>
+                            <th scope="col">Cửa hàng</th>
+                            <th scope="col">Tên người nhận hàng  </th>
+                            <th scope="col">Địa chỉ</th>
+                            <th scope="col">Giá tiền</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col">Ngày mua hàng</th>
+                            <th scope="col">Hoạt động</th>
+                        </tr>       
             </thead>
             <tbody>
 
                 <c:forEach var="order" items="<%= listOrder%>" >
                     <tr>
-                        <td>${order.getOrder_id()}</td>
-                        <td>${order.getCustomer_id()}</td>
-
-                        <td>${order.getTotalmoney()}</td>
-                        <td>${order.getDate()}</td>
-                        <td>${order.getStatus()}</td>
+                         <td>${order.getOrder_id()}</td>
+                         <c:set var="store_id" value="${order.getStore_id()}"></c:set>
+                            <td><%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%></td>
+                            <c:set var="order_id" value="${order.getOrder_id()}"></c:set>
+                            <td><%= orderDAO.getOrderById((int) pageContext.getAttribute("order_id")).getReceiver_name() %></td>
+                           <td><%= orderDAO.getOrderById((int) pageContext.getAttribute("order_id")).getReceiver_address()%></td>                       
+                            <td>${order.getTotalmoney()}</td>
+                            <td>${order.getStatus()}</td>
+                            <td>${order.getDate()}</td>
                          <td>
                             <form action="ViewOrderHistoryDetail" method="GET">
                                 <input type="hidden" name="order_id" value="${order.getOrder_id()}"/>
-                                <button type="submit"class="btn btn-success" > Xem chi tiết </button>
+                                <button type="submit" class="btn btn-success" > Xem chi tiết </button>
                             </form>
                         </td>
                     </tr>
