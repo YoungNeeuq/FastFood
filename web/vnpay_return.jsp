@@ -191,9 +191,12 @@
                                 }
                             }
                         }
+                        String name = String.valueOf(session.getAttribute("name"));
+                       
                     %>
                     <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
                     <c:forEach var="dish" items="${cart6.getCartItems()}" varStatus="loop">
+                        <input type="hidden" name="name" value="<%= name%>">
                         <input type="hidden" name="dish_id" value="${dish.getDish().getDish_id()}">
                         <input type="hidden" name="quantity" value="${dish.getQuantity()}">
                         <input type="hidden" name="total" value="${cart6.getTotal()}">

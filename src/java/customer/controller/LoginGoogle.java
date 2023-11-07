@@ -108,7 +108,6 @@ public class LoginGoogle extends HttpServlet {
                     try {
                         if (customer == null) {
                             customerDAO.add(email, password, email, phoneNumber, role, customer_name, customer_address);
-
                         } else {
                             int customer_id = customerDAO.getCustomerEmail(email).getCustomer_id();
                             Customer c = customerDAO.getCustomer(customer_id);
@@ -153,15 +152,12 @@ public class LoginGoogle extends HttpServlet {
 
             } else {
                 request.setAttribute("tbsubmit", "tài khoan email khong hop le");
-
                 request.getRequestDispatcher("login.jsp").forward(request, response);
             }
-
         } catch (Exception ex) {
             String errorMessage = ex.getMessage();
 
             request.setAttribute("errorMessage", errorMessage + "1");
-
             request.getRequestDispatcher("error.jsp").forward(request, response);
             Logger.getLogger(LoginGoogle.class.getName()).log(Level.SEVERE, null, ex);
         }

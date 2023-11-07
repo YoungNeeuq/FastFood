@@ -212,7 +212,7 @@
                     int sum = (int) request.getAttribute("sum");
                     OrderDAO orderDAO = new OrderDAO();
                 %>
-                <form action="RevenueByDateMonthYear" method="Post" style="display: flex; width: fit-content; gap:10px;
+                <form action="RevenueByStoreDMY" method="Post" style="display: flex; width: fit-content; gap:10px;
                       margin: auto;">
                     <select name="month" id="monthSelect" class="form-select" aria-label="Default select example">
                         <c:forEach var="month" items="${listMonth}">
@@ -254,8 +254,8 @@
                         <tr>
                             <td>${order.getOrder_id()}</td>
                             <c:set var="order_id" value="${order.getOrder_id()}"></c:set>
-                            <td><%= orderDAO.getOrderById((int) pageContext.getAttribute("order_id")).getReceiver_name() %></td>
-                           <td><%= orderDAO.getOrderById((int) pageContext.getAttribute("order_id")).getReceiver_address()%></td>                       
+                            <td><%= orderDAO.getOrderById((int) pageContext.getAttribute("order_id")).getReceiver_name()%></td>
+                            <td><%= orderDAO.getOrderById((int) pageContext.getAttribute("order_id")).getReceiver_address()%></td>                       
                             <td>${order.getTotalmoney()}</td>
                             <td>${order.getStatus()}</td>
                             <td>${order.getDate()}</td>
