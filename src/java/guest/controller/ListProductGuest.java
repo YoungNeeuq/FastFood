@@ -5,7 +5,10 @@ package guest.controller;
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 import admin.controller.ListProductServlet;
+import dal.CustomerDAO;
 import dal.DishDAO;
+import dal.StaffDAO;
+import dal.StoreDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,7 +19,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.Customer;
 import model.Dish;
+import model.Staff;
+import model.Store;
 
 /**
  *
@@ -63,8 +69,22 @@ public class ListProductGuest extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            DishDAO dishDao = new DishDAO();
+           DishDAO dishDao = new DishDAO();
+            StaffDAO staffDAO = new StaffDAO();
+            StoreDAO storeDAO = new StoreDAO();
+            CustomerDAO customerDAO = new CustomerDAO();
             ArrayList<Dish> list = dishDao.getAll();
+            int products = list.size();
+            ArrayList<Staff> workerList = staffDAO.getAll();
+            int workers = workerList.size();
+            ArrayList<Store> storeList = storeDAO.getAll();
+            int stores = storeList.size();
+            ArrayList<Customer> customerList = customerDAO.getAllCustomer();
+            int customers = customerList.size();
+             request.setAttribute("products", products);
+             request.setAttribute("workers", workers);
+             request.setAttribute("stores", stores);
+             request.setAttribute("customers", customers);
             request.setAttribute("listss", list); // request scope
 //            ArrayList<Dish> breakfast = dishDao.getAll();
             List<Dish> listTypeF = dishDao.getDishByType("f");

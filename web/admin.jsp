@@ -118,7 +118,7 @@
             <div class="container" style="margin:100px auto;
                  text-align: center;">
                 <button class="btn btn-secondary mb-4 mt-4" id="btnThem">Thêm món ăn</button>
-                <div class="row">
+                <div class="row www">
                     <c:forEach var="dish" items="${list}" >
                         <div class="product col-md-3 mx-3 mb-4">
 

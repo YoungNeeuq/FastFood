@@ -93,7 +93,7 @@
 
                 <nav id="navbar" class="navbar">
                     <ul>
-                        <li><a href="#">Món ăn</a></li>
+                        <li><a href="ListProductServlet">Món ăn</a></li>
                         <li><a href="ListStore">Cửa hàng</a></li>
 
                         <li><a href="Statistic">Xem doanh thu</a></li>

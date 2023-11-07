@@ -207,7 +207,7 @@
 
                     <div class="address">
                         <label for="address3">Địa chỉ:</label>
-                        <input type="text" id="address3" name="address3" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"/>
+                        <input type="text" id="address3" name="address3" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" required/>
                     </div>
                 </div>
 
