@@ -241,13 +241,25 @@
                                 <input type="hidden" id="pricee" name="pricee" value="${dish.getPrice()}">
                                 <span class="sp-thongbao" id="tbPrice"></span>
                             </div>
+                                 
+                                 <div class="form-group">
+                                <label for="typeOfDishh"><i class="fa-solid fa-tag"></i></label>
 
-                            <div class="form-group">
+                                <select name="typeOfDishh" id="typeOfDishh" require>
+                                    <option value="f">Food</option>
+                                    <option value="d">Drink</option>
+                                    <option value="c">Combo</option>
+                                    <option value="i">Icecream</option>
+                                </select>
+                                <span class="sp-thongbao" id="tbType"></span>
+                            </div>
+                                
+<!--                            <div class="form-group">
                                 <label for="typeOfDishh"><i class="fa-solid fa-tag"></i></label>
                                 <input type="text" id="typeOfDishh" name="typeOfDishh"value="${dish.getTypeOfDish()}">
                                 <input type="hidden" id="typeOfDishh" name="typeOfDishh"value="${dish.getTypeOfDish()}">
                                 <span class="sp-thongbao" id="tbType"></span>
-                            </div>
+                            </div>-->
 
                             <div class="form-group">
                                 <label for="imagee"><i class="fa-solid fa-image"></i></label>                       
