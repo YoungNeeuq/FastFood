@@ -1,8 +1,12 @@
 *{
     font-family: Oswald,sans-serif;
 }
-.row{
+body{
+    overflow-x: hidden;
+}
+.www{
     width:130%;
+    
 }
 .product{
     box-shadow: 0 0 8px 0 rgba(0,0,0,.2);
