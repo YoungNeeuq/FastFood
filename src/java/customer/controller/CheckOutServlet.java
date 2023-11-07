@@ -79,7 +79,7 @@ public class CheckOutServlet extends HttpServlet {
             phoneCookie.setMaxAge(24 * 60 * 60); // Thời gian sống là 24 giờ
             response.addCookie(phoneCookie);
             Cookie addressCookie = new Cookie("addresss", address);
-
+            session.setAttribute("name", receiver_name);
             addressCookie.setMaxAge(24 * 60 * 60);
 
             response.addCookie(addressCookie);
