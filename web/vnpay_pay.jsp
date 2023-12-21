@@ -42,7 +42,6 @@
                         String address = String.valueOf(request.getAttribute("address"));
                     %>
                     <div class="form-group">
-
                         <input type="hidden" name="customer_id" id="customer_id" value="<%= customer_id%>">
 
                         <%

@@ -160,22 +160,15 @@ public class ConfirmOrderServlet extends HttpServlet {
 //                    request.getRequestDispatcher("error.jsp").forward(request, response);
                     throw new RuntimeException(ex);
                 }
-                orderDAO.resetStatus(order_id, "Preparing");
+                orderDAO.resetStatus(order_id, "Preparing", 1);
                 //------------------------------------------
             } else if (value == 2) {
-                orderDAO.resetStatus(order_id, "Delivering");
+                orderDAO.resetStatus(order_id, "Waiting for delivery", 1);
 //                List<Order> listOrder = orderDAO.getOrderByStoreIdAndStatus(order_id, "Succeed");
 //                request.setAttribute("listOrder", listOrder);
                 response.sendRedirect("ShowConfirmOrder?store_id=" + store_id);
-            } else if (value == 3) {
-                orderDAO.resetStatus(order_id, "Succeed");
-                orderDAO.resetStatusPaymentStatus(order_id, "Paid");
-//                List<Order> listOrder = orderDAO.getOrderByStoreIdAndStatus(order_id, "Succeed");
-//                request.setAttribute("listOrder", listOrder);
-                response.sendRedirect("ShowConfirmOrder?store_id=" + store_id);
-
             } else {
-                orderDAO.resetStatus(order_id, "Canceled");
+                orderDAO.resetStatus(order_id, "Canceled", 1);
                 List<Order> listOrder = orderDAO.getOrderByStoreIdAndStatus(order_id, "Succeed");
                 request.setAttribute("listOrder", listOrder);
                 response.sendRedirect("ShowConfirmOrder?store_id=" + store_id);

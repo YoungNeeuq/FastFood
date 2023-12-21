@@ -131,24 +131,10 @@
                     <!-- <img src="assets/img/logo.png" alt=""> -->
                     <img class="img-navbar" src="img/logo.jpg" alt="">
                 </a>
-                <nav id="navbar" class="navbar">
-                    <ul>
-                        <li> <form action="ShowConfirmOrder" method="get">
-                                <input type="hidden" name ="store_id" value="<%= storeId%>" />
-                                <button class="btt" type="submit">Xác nhận đơn hàng</button>
-                            </form></li>
-                        <li><form action="ShowSucceedOrder" method="get">
-                                <input type="hidden" name ="store_id" value="<%=storeId%>" />
-                                <button class="btt" type="submit">Đơn hàng thành công</button>
-                            </form></li>
 
-                        <li> <form action="ShowCanceledOrder" method="get">
-                                <input type="hidden" name ="store_id" value="<%=storeId%>" />
-                                <button class="btt" type="submit">Đơn hàng đã hủy</button>
-                            </form></li>
-
-                    </ul> 
-                </nav><!-- .navbar -->           
+                <div>
+                    <h1>Xin chào ${deliveryPerson.getName()}</h1>
+                </div>     
                 <div> 
                     <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
                 </div>
@@ -174,7 +160,7 @@
             <div style="text-align: center;">
                 <h1 style=" font-weight: bold;">Chi tiết đơn hàng</h1>
                 <button type="submit" class="btn btn-secondary mb-4" >
-                    <a href="ShowConfirmOrder?store_id=<%= storeId%>" style=" color: white; text-decoration: none;" >Trở về</a> </button>
+                    <a href="DeliveredOrderServlet?delivery_id=${deliveryPerson.getDelivery_id()}" style=" color: white; text-decoration: none;" >Trở về</a> </button>
             </div>
             <table class="table">
                 <thead class="thead-dark">
@@ -201,68 +187,21 @@
                         </c:forEach>
 
 
-                        <% List<OrderDetail> list = (List) request.getAttribute("listDetail");
-                            int order_id = list.get(0).getOrder_id();
-                        %>
-                        <% String role = String.valueOf(request.getAttribute("role"));%>
 
 
 
 
 
-
-                        </td>
+                    </tr>
                 </tbody>
             </table>
-            <div style="display:flex; gap:26px; justify-content: end; margin-right: 50px;">
+
+            <% int value = 2;
+                int value1 = 1;
+            %>
 
 
 
-
-                <% int value = 4;
-                    int value1 = 1;
-                    OrderDAO orderDAO = new OrderDAO();
-                    String status = orderDAO.getOrderById(order_id).getStatus().trim();
-
-                    if (status.equals("Pending")) {
-
-
-                %>
-                <input type="hidden" name="order_id" value="<%= order_id%>">
-                <input type="hidden" name="store_id" value="<%= storeId%>">
-                <button class="btn btn-success" type="submit" name="viewButton" value="1" onclick="confirm()">
-                    Xác nhận
-                </button>
-                <input type="hidden" name="order_id" value="<%= order_id%>">
-                <input type="hidden" name="store_id" value="<%= storeId%>">
-                <button type="submit" name="viewButton" value="2" class="btn btn-danger" onclick="delete1()">
-                    Từ chối
-                </button>
-                <% }%>
-
-
-                <div class="modal" id="modaldelete">
-                    <div class="modal-content" style="width: 30%;">
-                        <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn từ chối ?</h5>
-                        <div class="d-flex btnlogout">
-                            <button onclick="yes2(<%=order_id%>,<%=value%>, <%= storeId%>)" type="button" class="btn btn-warning">Yes</button>
-                            <button onclick="no2()" type="button" class="btn btn-success">No</button>
-                        </div>
-                    </div><!-- comment -->
-
-                </div>
-                <div class="modal" id="modalconfirm">
-                    <div class="modal-content" style="width: 30%;">
-                        <h5 style=" margin-bottom: 20px;">Bạn có chắc chắn muốn xác nhận ?</h5>
-                        <div class="d-flex btnlogout">
-                            <button onclick="yes1(<%=order_id%>,<%= storeId%>,<%=value1%>)" type="button" class="btn btn-warning">Yes</button>
-                            <button onclick="no1()" type="button" class="btn btn-success">No</button>
-                        </div>
-                    </div><!-- comment -->
-
-                </div>
-
-            </div>
         </div>
         <footer id="footer" class="footer">
 
@@ -338,43 +277,43 @@
         <!-- Template Main JS File -->
         <script src="js/main.js"></script>
         <script> function logout() {
-                                    document.getElementById("myModal").style.display = "block";
-                                }
-                                function no() {
-                                    document.getElementById("myModal").style.display = "none";
-                                }
-                                function yes() {
+                            document.getElementById("myModal").style.display = "block";
+                        }
+                        function no() {
+                            document.getElementById("myModal").style.display = "none";
+                        }
+                        function yes() {
 
-                                    window.location.href = "ListProductGuest";
-                                }
-                                function delete1() {
-                                    var modal = document.getElementById("modaldelete");
-                                    modal.style.display = "block";
-                                }
+                            window.location.href = "ListProductGuest";
+                        }
+                        function delete1() {
+                            var modal = document.getElementById("modaldelete");
+                            modal.style.display = "block";
+                        }
 
-                                function yes2(order_id, value, store_id) {
-                                    window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value + "&store_id=" + store_id;
-                                }
+                        function yes2(order_id, store_id, value) {
+                            window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value + "&store_id=" + store_id;
+                        }
 
-                                //khac me chi o tren dau ma k duoc ta dcm
-                                function no2() {
-                                    var modal = document.getElementById("modaldelete");
-                                    modal.style.display = "none";
-                                }
-                                function confirm() {
-                                    var modal = document.getElementById("modalconfirm");
-                                    modal.style.display = "block";
-                                }
+                        //khac me chi o tren dau ma k duoc ta dcm
+                        function no2(index) {
+                            var modal = document.getElementById("modaldelete" + index);
+                            modal.style.display = "none";
+                        }
+                        function confirm() {
+                            var modal = document.getElementById("modalconfirm");
+                            modal.style.display = "block";
+                        }
 
-                                function yes1(order_id, store_id, value) {
-                                    window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value + "&store_id=" + store_id;
-                                }
+                        function yes1(order_id, store_id, value) {
+                            window.location.href = "ConfirmOrderServlet?order_id=" + order_id + "&viewButton=" + value + "&store_id=" + store_id;
+                        }
 
-                                //khac me chi o tren dau ma k duoc ta dcm
-                                function no1() {
-                                    var modal = document.getElementById("modalconfirm");
-                                    modal.style.display = "none";
-                                }
+                        //khac me chi o tren dau ma k duoc ta dcm
+                        function no1(index) {
+                            var modal = document.getElementById("modaldelete" + index);
+                            modal.style.display = "none";
+                        }
         </script>
     </body>
 </html>

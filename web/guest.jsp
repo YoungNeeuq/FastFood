@@ -513,7 +513,7 @@
                                 <i class="icon bi bi-envelope flex-shrink-0"></i>
                                 <div>
                                     <h3>Email Us</h3>
-                                    <p>haulvdev@gmail.com</p>
+                                    <p>fastfoodstore@gmail.com</p>
                                 </div>
                             </div>
                         </div><!-- End Info Item -->
@@ -523,7 +523,7 @@
                                 <i class="icon bi bi-telephone flex-shrink-0"></i>
                                 <div>
                                     <h3>Call Us</h3>
-                                    <p>+84 334807725</p>
+                                    <p>+84 799306086</p>
                                 </div>
                             </div>
                         </div><!-- End Info Item -->
@@ -568,8 +568,8 @@
                         <div>
                             <h4>Reservations</h4>
                             <p>
-                                <strong>Phone:</strong> (+84) 334807725<br>
-                                <strong>Email:</strong> haulvdev@gmail.com<br>
+                                <strong>Phone:</strong> (+84) 799306086<br>
+                                <strong>Email:</strong> fastfoodstore.@gmail.com<br>
                             </p>
                         </div>
                     </div>

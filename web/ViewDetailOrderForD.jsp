@@ -131,24 +131,7 @@
                     <!-- <img src="assets/img/logo.png" alt=""> -->
                     <img class="img-navbar" src="img/logo.jpg" alt="">
                 </a>
-                <nav id="navbar" class="navbar">
-                    <ul>
-                        <li> <form action="ShowConfirmOrder" method="get">
-                                <input type="hidden" name ="store_id" value="<%= storeId%>" />
-                                <button class="btt" type="submit">Xác nhận đơn hàng</button>
-                            </form></li>
-                        <li><form action="ShowSucceedOrder" method="get">
-                                <input type="hidden" name ="store_id" value="<%=storeId%>" />
-                                <button class="btt" type="submit">Đơn hàng thành công</button>
-                            </form></li>
-
-                        <li> <form action="ShowCanceledOrder" method="get">
-                                <input type="hidden" name ="store_id" value="<%=storeId%>" />
-                                <button class="btt" type="submit">Đơn hàng đã hủy</button>
-                            </form></li>
-
-                    </ul> 
-                </nav><!-- .navbar -->           
+                <h1>Hello ${deliveryPerson.getName()}</h1>    
                 <div> 
                     <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
                 </div>
@@ -174,7 +157,8 @@
             <div style="text-align: center;">
                 <h1 style=" font-weight: bold;">Chi tiết đơn hàng</h1>
                 <button type="submit" class="btn btn-secondary mb-4" >
-                    <a href="ShowConfirmOrder?store_id=<%= storeId%>" style=" color: white; text-decoration: none;" >Trở về</a> </button>
+                    <a href="GetDeliveryOrderServlet" 
+                       style=" color: white; text-decoration: none;" >Trở về</a> </button>
             </div>
             <table class="table">
                 <thead class="thead-dark">

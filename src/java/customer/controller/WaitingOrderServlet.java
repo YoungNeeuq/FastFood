@@ -15,12 +15,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.Order;
+import model.OrderDetail;
 
 /**
  *
  * @author Asus
  */
-public class CancelOrderServlet extends HttpServlet {
+public class WaitingOrderServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +40,10 @@ public class CancelOrderServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CancelOrderServlet</title>");
+            out.println("<title>Servlet WaitingOrderServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CancelOrderServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet WaitingOrderServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,20 +62,24 @@ public class CancelOrderServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            int order_id = Integer.parseInt(request.getParameter("order_id"));
-            int customer_id = Integer.parseInt(request.getParameter("customer_id"));
             OrderDAO orderDAO = new OrderDAO();
-            orderDAO.resetStatus(order_id, "Canceled",0);
-            response.sendRedirect("OrderTracking?customer_id=" + customer_id);
+            int customer_id = Integer.parseInt(request.getParameter("customer_id"));
+            List<Order> waitingList = orderDAO.getOrderByStatusID("Waiting for delivery", customer_id);
+            int num = waitingList.size();
+            int sum = orderDAO.sumOrderCus(customer_id, "Delivering");
+            request.setAttribute("sum", sum);
+            request.setAttribute("waitingList", waitingList);
+            request.setAttribute("num", num);
+            request.getRequestDispatcher("waitingOrderCus.jsp").forward(request, response);
         } catch (Exception ex) {
-             String errorMessage = ex.getMessage();
+            String errorMessage = ex.getMessage();
 
             // Đặt thông báo lỗi vào request
-            request.setAttribute("errorMessage", errorMessage + "loi2");
+            request.setAttribute("errorMessage", errorMessage + "loi1");
 
             // Chuyển hướng người dùng đến trang error.jsp
             request.getRequestDispatcher("error.jsp").forward(request, response);
-            Logger.getLogger(CancelOrderServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WaitingOrderServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -91,21 +96,12 @@ public class CancelOrderServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             OrderDAO orderDAO = new OrderDAO();
-            int customer_id = Integer.parseInt(request.getParameter("customer_id"));
-            List<Order> canceledList = orderDAO.getOrderByStatusID("Canceled", customer_id);
-            request.setAttribute("canceledList", canceledList);
-            int sum = orderDAO.sumOrderCus(customer_id, "Canceled");
-            request.setAttribute("sum", sum);
-            request.getRequestDispatcher("canceledOrderCus.jsp").forward(request, response);
+            int order_id = Integer.parseInt(request.getParameter("order_id"));
+            List<OrderDetail> waitingOrderDetail = orderDAO.getItemById(order_id);
+            request.setAttribute("waitingOrderDetail", waitingOrderDetail);
+            request.getRequestDispatcher("waitingOrderDetailCus.jsp").forward(request, response);
         } catch (Exception ex) {
-             String errorMessage = ex.getMessage();
-
-            // Đặt thông báo lỗi vào request
-            request.setAttribute("errorMessage", errorMessage + "loi2");
-
-            // Chuyển hướng người dùng đến trang error.jsp
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-            Logger.getLogger(CancelOrderServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WaitingOrderServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -4,7 +4,6 @@
  */
 package admin.controller;
 
-
 import dal.DishDAO;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,11 +25,10 @@ import javax.servlet.annotation.WebServlet;
 
 import model.Dish;
 
-
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024,  // 1 MB
-    maxFileSize = 1024 * 1024 * 10,  // 10 MB
-    maxRequestSize = 1024 * 1024 * 50  // 50 MB
+        fileSizeThreshold = 1024 * 1024, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 50 // 50 MB
 )
 public class addServlet extends HttpServlet {
 
@@ -51,7 +49,7 @@ public class addServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet addServlet</title>");            
+            out.println("<title>Servlet addServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet addServlet at " + request.getContextPath() + "</h1>");
@@ -71,9 +69,9 @@ public class addServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-          processRequest(request, response);
-          response.setContentType("text/html;charset=UTF-8");
-request.setCharacterEncoding("utf-8");
+        processRequest(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
     }
 
     /**
@@ -84,36 +82,35 @@ request.setCharacterEncoding("utf-8");
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   
-      @Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       response.setContentType("text/html;charset=UTF-8");
-request.setCharacterEncoding("utf-8");
-      
-            String name = request.getParameter("name");
-            String infor = request.getParameter("infor");
-            int price = Integer.parseInt(request.getParameter("price"));
-            String comment = request.getParameter("comment");
-            String typeOfDish = request.getParameter("typeOfDish");
-            Part part=request.getPart("image");
-            String realPath = request.getServletContext().getRealPath("/img");
-            String image = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-           part.write(realPath + "/" + image);
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("utf-8");
 
-            try {
-             Dish dish = new Dish(name,infor,price,image,comment,typeOfDish);
-                DishDAO dishDAO = new DishDAO();
+        String name = request.getParameter("name");
+        String infor = request.getParameter("infor");
+        int price = Integer.parseInt(request.getParameter("price"));
+        String comment = request.getParameter("comment");
+        String typeOfDish = request.getParameter("typeOfDish");
+        Part part = request.getPart("image");
+        String realPath = request.getServletContext().getRealPath("/img");
+        String image = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+        part.write(realPath + "/" + image);
+
+        try {
+            Dish dish = new Dish(name, infor, price, image, comment, typeOfDish);
+            DishDAO dishDAO = new DishDAO();
 
 // add person
-           dishDAO.add(name,infor,price,image,comment,typeOfDish);
+            dishDAO.add(name, infor, price, image, comment, typeOfDish);
             response.sendRedirect("ListProductServlet");
-            } catch (Exception ex) {
-             response.sendRedirect("success.jsp");
-                Logger.getLogger(addServlet.class.getName()).log(Level.SEVERE, null,
-                        ex);
-            }
-        
+        } catch (Exception ex) {
+            response.sendRedirect("success.jsp");
+            Logger.getLogger(addServlet.class.getName()).log(Level.SEVERE, null,
+                    ex);
+        }
+
     }
 
     /**

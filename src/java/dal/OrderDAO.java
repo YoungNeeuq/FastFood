@@ -296,19 +296,19 @@ public class OrderDAO {
     }
 //-------------- set status (for admin)----------------------------
 
-    public void resetStatus(int order_id, String status) {
+    public void resetStatus(int order_id, String status, int delivery_id) {
         Connection connection = null;
         PreparedStatement ps = null;
 
         try {
-            String sql = "update [KFCStore].[dbo].[Order] set status = ? where order_id = ?";
+            String sql = "update [KFCStore].[dbo].[Order] set status = ?, delivery_id = ? where order_id = ?";
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
 
             // Kiểm tra và đặt các giá trị đầu vào
             ps.setString(1, status);
-            ps.setInt(2, order_id);
-
+            ps.setInt(2, delivery_id);
+            ps.setInt(3, order_id);
             // Thực hiện truy vấn
             ps.executeUpdate();
         } catch (SQLException ex) {
@@ -336,7 +336,9 @@ public class OrderDAO {
 //----------------------------- display order by status (pending, succeed, cancel)---------------
 
     public List<Order> getOrderByStatus(String status) {
-        try ( Connection connection = db.getConnection();  PreparedStatement ps = connection.prepareStatement("SELECT order_id, customer_id, store_id, total_price, date, status FROM [KFCStore].[dbo].[Order] WHERE status=?")) {
+        try ( Connection connection = db.getConnection();  PreparedStatement ps = connection.prepareStatement("SELECT order_id, customer_id, "
+                + "store_id, receiver_address, receiver_phone,receiver_name,pStatus,"
+                + " total_price, date, status FROM [KFCStore].[dbo].[Order] WHERE status=?")) {
             ps.setString(1, status);
 
             try ( ResultSet rs = ps.executeQuery()) {
@@ -348,6 +350,10 @@ public class OrderDAO {
                     order.setCustomer_id(rs.getInt("customer_id"));
                     order.setStore_id(rs.getInt("store_id"));
                     order.setTotalmoney(rs.getInt("total_price"));
+                    order.setReceiver_address(rs.getString("receiver_address"));
+                    order.setReceiver_phone(rs.getString("receiver_phone"));
+                    order.setReceiver_name(rs.getString("receiver_name"));
+                    order.setPaymentStatus(rs.getString("pStatus"));
                     order.setDate(rs.getString("date"));
                     order.setStatus(rs.getString("status"));
                     list.add(order);
@@ -494,8 +500,9 @@ public class OrderDAO {
 
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
+
     // sum cancel order
-     public int sumOrderCus(int customer_id, String status) {
+    public int sumOrderCus(int customer_id, String status) {
         String sql = "SELECT SUM(total_price) as total_succeed_price\n"
                 + "FROM [KFCStore].[dbo].[Order]\n"
                 + "WHERE status = ? and customer_id = ?";
@@ -2167,5 +2174,105 @@ public class OrderDAO {
         }
 
         return countList;
+    }
+
+    // get order for shipping (delivery person)
+    public List<Order> getOrderByStatusD(String status1, String status2) {
+        try ( Connection connection = db.getConnection();  PreparedStatement ps = connection.prepareStatement("SELECT order_id, customer_id, "
+                + "store_id, receiver_address, receiver_phone,receiver_name,pStatus,"
+                + " total_price, date, status FROM [KFCStore].[dbo].[Order] WHERE status=? or status= ?")) {
+            ps.setString(1, status1);
+            ps.setString(2, status2);
+
+            try ( ResultSet rs = ps.executeQuery()) {
+                List<Order> list = new ArrayList<>();
+
+                while (rs.next()) {
+                    Order order = new Order();
+                    order.setOrder_id(rs.getInt("order_id"));
+                    order.setCustomer_id(rs.getInt("customer_id"));
+                    order.setStore_id(rs.getInt("store_id"));
+                    order.setTotalmoney(rs.getInt("total_price"));
+                    order.setReceiver_address(rs.getString("receiver_address"));
+                    order.setReceiver_phone(rs.getString("receiver_phone"));
+                    order.setReceiver_name(rs.getString("receiver_name"));
+                    order.setPaymentStatus(rs.getString("pStatus"));
+                    order.setDate(rs.getString("date"));
+                    order.setStatus(rs.getString("status"));
+                    list.add(order);
+                }
+
+                return list;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+
+    // get orders of delivery person
+    public ArrayList<Order> getOrderByDeliveryId(int delivery_id) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = " Select order_id, total_price, date, customer_id, store_id,\n"
+                    + "status, receiver_name, receiver_phone,receiver_address, pStatus \n"
+                    + "from [KFCStore].[dbo].[Order] where delivery_id = ? and status  =  'Succeed' ";
+            connection = db.getConnection();
+            ps = connection.prepareStatement(sql);
+            ps.setInt(1, delivery_id);
+
+            ArrayList<Order> deliveredList = new ArrayList<>();
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Order order = new Order();
+                order.setOrder_id(rs.getInt("order_id"));
+                order.setCustomer_id(rs.getInt("customer_id"));
+                order.setTotalmoney(rs.getInt("total_price"));
+                order.setDate(rs.getString("date"));
+                order.setStore_id(rs.getInt("store_id"));
+                order.setStatus(rs.getString("status"));
+                order.setReceiver_phone(rs.getString("receiver_phone"));
+                order.setReceiver_name(rs.getString("receiver_name"));
+                order.setReceiver_address(rs.getString("receiver_address"));
+                order.setPaymentStatus(rs.getString("pStatus"));
+                deliveredList.add(order);
+            }
+
+            return deliveredList;
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+            // Xử lý lỗi ở đây nếu cần thiết, ví dụ: throw một ngoại lệ tùy chỉnh
+        } finally {
+            // Đảm bảo đóng tất cả các tài nguyên trong khối finally
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        return null;
     }
 }

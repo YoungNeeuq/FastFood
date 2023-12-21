@@ -6,6 +6,7 @@ package customer.controller;
 
 import dal.AdminDAO;
 import dal.CustomerDAO;
+import dal.DeliveryPersonDAO;
 import dal.OrderDAO;
 import dal.StaffDAO;
 import java.io.IOException;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Admin;
 import model.Customer;
+import model.DeliveryPerson;
 import model.Order;
 import model.Staff;
 
@@ -84,7 +86,7 @@ public class LoginCustomer extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-
+            HttpSession session = request.getSession();
             String userInput = request.getParameter("username");
             String passInput = request.getParameter("password");
             CustomerDAO customerDAO = new CustomerDAO();
@@ -95,12 +97,15 @@ public class LoginCustomer extends HttpServlet {
             Customer customer = customerDAO.getCustomer(userInput, encodePass);
             StaffDAO staffDAO = new StaffDAO();
             Staff staff = staffDAO.getStaff(userInput, passInput);
+            DeliveryPerson deliveryPerson = new DeliveryPerson();
+            DeliveryPersonDAO deliveryPersonDAO = new DeliveryPersonDAO();
+            deliveryPerson = deliveryPersonDAO.getDeliveryPerson(userInput, passInput);
             String role = "";
             if (customer != null) {
                 // neu la customer thi chuyen toi trang hone.jsp
                 int customerId;
                 customerId = customer.getCustomer_id();
-                HttpSession session = request.getSession();
+
                 Customer c = customerDAO.getCustomer(userInput, passInput);
                 session.setAttribute("account", c);
                 Cookie customerIdCookie = new Cookie("customer_idd", String.valueOf(customerId));
@@ -129,15 +134,18 @@ public class LoginCustomer extends HttpServlet {
                 // Thêm cookie vào HTTP response
                 response.addCookie(store_idCookie);
                 request.setAttribute("store_id", store_id);
-                
+
                 OrderDAO orderDAO = new OrderDAO();
                 List<Order> listOrder = orderDAO.getOrderByStoreId(store_id);
                 int num = listOrder.size();
-                
+
                 request.setAttribute("num", num);
-                
+
 //                request.getRequestDispatcher("manageStore.jsp").forward(request, response);
                 response.sendRedirect("manageStore.jsp");
+            } else if (deliveryPerson != null) {
+                session.setAttribute("deliveryPerson", deliveryPerson);
+                response.sendRedirect("GetDeliveryOrderServlet");
             } else {
                 request.setAttribute("tbsubmit", "Tài khoản hoặc mật khẩu không đúng");
                 // return back login.jsp using Servlet (method GET)

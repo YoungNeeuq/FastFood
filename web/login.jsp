@@ -56,7 +56,7 @@
   <div class="container py-5 h-100">
     <div class="row d-flex align-items-center justify-content-center h-100">
       <div class="col-md-8 col-lg-7 col-xl-6">
-        <img src="https://cdna.artstation.com/p/assets/images/images/030/222/824/large/as-creative-labs-banner-test.jpg?1599974284"
+        <img src="https://static.kfcvietnam.com.vn/images/web/signin/lg/register.jpg?v=3JQN1g"
           class="img-fluid" alt="Phone image">
       </div>
       <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">

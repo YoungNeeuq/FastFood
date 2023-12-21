@@ -1,4 +1,5 @@
 
+<%@page import="model.DeliveryPerson"%>
 <%@page import="dal.CustomerDAO"%>
 <%-- 
     Document   : confirmOrder
@@ -101,37 +102,11 @@
                     <!-- <img src="assets/img/logo.png" alt=""> -->
                     <img class="img-navbar" src="img/logo.jpg" alt="">
                 </a>
-                <%
-                    Cookie[] cookies = request.getCookies(); // Get the array of cookies from the request
-                    int storeId = 0;
-                    if (cookies != null) {
-                        for (Cookie cookie : cookies) {
-                            if ("store_id".equals(cookie.getName())) {
-                                String storeIdValue = cookie.getValue();
-                                storeId = Integer.parseInt(storeIdValue);
 
-                            }
-                        }
-                    }
-                %>
-                <nav id="navbar" class="navbar">
-                    <ul>
-                        <li> <form action="ShowConfirmOrder" method="get">
-                                <input type="hidden" name ="store_id" value="<%= storeId%>" />
-                                <button class="btt" type="submit">Xác nhận đơn hàng</button>
-                            </form></li>
-                        <li><form action="ShowSucceedOrder" method="get">
-                                <input type="hidden" name ="store_id" value="<%=storeId%>" />
-                                <button class="btt" type="submit">Đơn hàng thành công</button>
-                            </form></li>
+                <div>
+                    <h1>Xin chào ${deliveryPerson.getName()}</h1>
+                </div>
 
-                        <li> <form action="ShowCanceledOrder" method="get">
-                                <input type="hidden" name ="store_id" value="<%=storeId%>" />
-                                <button class="btt" type="submit">Đơn hàng đã hủy</button>
-                            </form></li>
-
-                    </ul> 
-                </nav><!-- .navbar -->
                 <div> 
                     <a href="#" id="logout" onclick="logout()"> <i class="fa-solid fa-right-from-bracket fa-2xl" style="color: #ff0000; margin-left: 20px;"></i></a>
                 </div>
@@ -154,18 +129,17 @@
 
         </div>
         <%
-
             CustomerDAO customerDAO = new CustomerDAO();
         %>
 
         <div style="margin:100px 0 210px 0; text-align: center;">
 
-            <h1 style="font-weight: bold;">Xác nhận đơn hàng
-            </h1>
-            <h4 style="color: blueviolet;" class="mb-4">Tổng đơn hàng:  ${num} đơn</h4>
-
-            <button type="submit" class="btn btn-secondary mb-4" > <a style=" color: white; text-decoration: none;" href="manageStore.jsp">Trở về </a></button>
-
+            <div style="text-align: center;">
+                <h1 style=" font-weight: bold;">Xác nhận giao hàng</h1>
+                <button type="submit" class="btn btn-secondary mb-4" >
+                    <a href="DeliveredOrderServlet?delivery_id=${deliveryPerson.getDelivery_id()}"
+                       style=" color: white; text-decoration: none;" >Đơn hàng đã giao</a> </button>
+            </div>
             <table class="table" style=" text-align: center;">
                 <thead class="thead-dark" >
 
@@ -195,35 +169,33 @@
                             <td>${order.getPaymentStatus()}</td>   
 
                             <td style="display:flex; gap: 10px;">
-                                <form action="ViewDetailOrder" method="GET">
+                                <form action="ViewDetailOrderForD" method="GET">
                                     <input type="hidden" name="order_id" value="${order.getOrder_id()}">
                                     <button type="submit" name="viewButton" value="view" class="btn btn-success">Xem chi tiết</button>
+                                    <input type="hidden" name="store_id" value="${order.getStore_id()}"/>
                                 </form>
                                 <c:set var = "status" scope = "session" value = "${order.getStatus().trim()}"/>
-                                <c:if test="${status eq 'Preparing' }">
-
-                                    <form action="ConfirmOrderServlet" method="GET">
-                                        <input type="hidden" name="store_id" value="<%= storeId%>"/>
+                                <c:if test="${status eq 'Waiting for delivery' }">
+                                    <form action="ConfirmDeliverOrderServlet" method="GET">
+                                        <input type="hidden" name="store_id" value="${order.getStore_id()}"/>
                                         <input type="hidden" name="order_id" value="${order.getOrder_id()}">
-                                            <input type="hidden" name="delivery_id" value="${deliveryPerson.getDelivery_id()}" />
-                                        <button type="submit" name="viewButton" class="btn btn-primary" value="2"  >
-                                            Finish
+                                        <input type="hidden" name="delivery_id" value="${deliveryPerson.getDelivery_id()}" />
+                                        <button type="submit" name="viewButton" class="btn btn-warning" value="3"  >
+                                            Deliver
                                         </button>
                                     </form>
                                 </c:if>
-                                <%--<c:if test="${status eq 'Waiting for delivery' }">--%>
-
-                                <!--                                    <form action="ConfirmOrderServlet" method="GET">
-                                                                        <input type="hidden" name="store_id" value="<%= storeId%>"/>
-                                                                        <input type="hidden" name="order_id" value="${order.getOrder_id()}">
-                                                                        <button type="submit" name="viewButton" class="btn btn-warning" value="3"  >
-                                                                            Confirm succeed
-                                                                        </button>
-                                                                    </form>-->
-                                <%--</c:if>--%>
+                                <c:if test="${status eq 'Delivering' }">
+                                    <form action="ConfirmDeliverOrderServlet" method="GET">
+                                        <input type="hidden" name="store_id" value="${order.getStore_id()}"/>
+                                        <input type="hidden" name="order_id" value="${order.getOrder_id()}">
+                                        <input type="hidden" name="delivery_id" value="${deliveryPerson.getDelivery_id()}" />
+                                        <button type="submit" name="viewButton" class="btn btn-warning" value="4"  >
+                                            Confirm succeed
+                                        </button>
+                                    </form>
+                                </c:if>
                             </td>
-
-
                         </tr>
                     </c:forEach>
 
@@ -232,7 +204,6 @@
 
         </div>
         <footer id="footer" class="footer">
-
             <div class="container">
                 <div class="row gy-3">
                     <div class="col-lg-3 col-md-6 d-flex">
@@ -246,7 +217,6 @@
                         </div>
 
                     </div>
-
                     <div class="col-lg-3 col-md-6 footer-links d-flex">
                         <i class="bi bi-telephone icon"></i>
                         <div>
@@ -286,12 +256,7 @@
                 <div class="copyright">
                     &copy; Copyright <strong><span>420ent</span></strong>. All Rights Reserved
                 </div>
-                <div class="credits">
-                    <!-- All the links in the footer should remain intact. -->
-                    <!-- You can delete the links only if you purchased the pro version. -->
-                    <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                    <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/yummy-bootstrap-restaurant-website-template/ -->
-                </div>
+
             </div>
 
         </footer><!-- End Footer -->

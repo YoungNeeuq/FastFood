@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package customer.controller;
+package deliveryController;
 
 import dal.OrderDAO;
+import dal.StoreDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -14,13 +15,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Order;
+import model.OrderDetail;
+import model.Store;
 
 /**
  *
  * @author Asus
  */
-public class CancelOrderServlet extends HttpServlet {
+public class ViewDetailOrderForD extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +41,10 @@ public class CancelOrderServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CancelOrderServlet</title>");
+            out.println("<title>Servlet ViewDetailOrderForD</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CancelOrderServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ViewDetailOrderForD at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,19 +64,21 @@ public class CancelOrderServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             int order_id = Integer.parseInt(request.getParameter("order_id"));
-            int customer_id = Integer.parseInt(request.getParameter("customer_id"));
+
             OrderDAO orderDAO = new OrderDAO();
-            orderDAO.resetStatus(order_id, "Canceled",0);
-            response.sendRedirect("OrderTracking?customer_id=" + customer_id);
+            List<OrderDetail> listDetail = orderDAO.getItemById(order_id);
+            request.setAttribute("listDetail", listDetail);
+
+            request.getRequestDispatcher("ViewDetailOrderForD.jsp").forward(request, response);
         } catch (Exception ex) {
-             String errorMessage = ex.getMessage();
+            String errorMessage = ex.getMessage();
 
             // Đặt thông báo lỗi vào request
-            request.setAttribute("errorMessage", errorMessage + "loi2");
+            request.setAttribute("errorMessage", errorMessage);
 
             // Chuyển hướng người dùng đến trang error.jsp
             request.getRequestDispatcher("error.jsp").forward(request, response);
-            Logger.getLogger(CancelOrderServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ViewDetailOrderForD.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -87,26 +91,10 @@ public class CancelOrderServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            OrderDAO orderDAO = new OrderDAO();
-            int customer_id = Integer.parseInt(request.getParameter("customer_id"));
-            List<Order> canceledList = orderDAO.getOrderByStatusID("Canceled", customer_id);
-            request.setAttribute("canceledList", canceledList);
-            int sum = orderDAO.sumOrderCus(customer_id, "Canceled");
-            request.setAttribute("sum", sum);
-            request.getRequestDispatcher("canceledOrderCus.jsp").forward(request, response);
-        } catch (Exception ex) {
-             String errorMessage = ex.getMessage();
-
-            // Đặt thông báo lỗi vào request
-            request.setAttribute("errorMessage", errorMessage + "loi2");
-
-            // Chuyển hướng người dùng đến trang error.jsp
-            request.getRequestDispatcher("error.jsp").forward(request, response);
-            Logger.getLogger(CancelOrderServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

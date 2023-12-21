@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/src/java/customer/controller/ViewOrderHistoryDetail.java</file>
-            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/src/java/customer/controller/UpdateProfileServlet.java</file>
-            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/orderHistory.jsp</file>
-            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/src/java/dal/CommentDAO.java</file>
-            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/src/java/customer/controller/ChangePassServlet.java</file>
-            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/OrderHistoryDetail.jsp</file>
-            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/src/java/customer/controller/CommentServlet.java</file>
+            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/statisticByStore.jsp</file>
+            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/statisticByMonthDetail.jsp</file>
+            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/succeedOrderDetail.jsp</file>
+            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/vnpay_pay.jsp</file>
         </group>
     </open-files>
 </project-private>

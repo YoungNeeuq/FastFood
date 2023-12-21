@@ -2,13 +2,11 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <welcome-file-list>
         <welcome-file>ListProductGuest</welcome-file>
-    </welcome-file-list>   
+    </welcome-file-list>
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>guest.controller.RegisterServlet</servlet-class>
     </servlet>
-   
-
     <servlet>
         <servlet-name>VerifyServlet</servlet-name>
         <servlet-class>VerifyServlet</servlet-class>
@@ -357,6 +355,26 @@
         <servlet-name>PreparingOrderServlet</servlet-name>
         <servlet-class>customer.controller.PreparingOrderServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GetDeliveryOrderServlet</servlet-name>
+        <servlet-class>deliveryController.GetDeliveryOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewDetailOrderForD</servlet-name>
+        <servlet-class>deliveryController.ViewDetailOrderForD</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>WaitingOrderServlet</servlet-name>
+        <servlet-class>customer.controller.WaitingOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConfirmDeliverOrderServlet</servlet-name>
+        <servlet-class>deliveryController.ConfirmDeliverOrderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeliveredOrderServlet</servlet-name>
+        <servlet-class>deliveryController.DeliveredOrderServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/RegisterServlet</url-pattern>
@@ -700,6 +718,26 @@
     <servlet-mapping>
         <servlet-name>PreparingOrderServlet</servlet-name>
         <url-pattern>/PreparingOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetDeliveryOrderServlet</servlet-name>
+        <url-pattern>/GetDeliveryOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewDetailOrderForD</servlet-name>
+        <url-pattern>/ViewDetailOrderForD</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>WaitingOrderServlet</servlet-name>
+        <url-pattern>/WaitingOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfirmDeliverOrderServlet</servlet-name>
+        <url-pattern>/ConfirmDeliverOrderServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeliveredOrderServlet</servlet-name>
+        <url-pattern>/DeliveredOrderServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
