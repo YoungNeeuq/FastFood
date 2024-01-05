@@ -20,11 +20,13 @@ public class Order {
     private String receiver_phone;
     private String receiver_address;
     private String paymentStatus;
-
+private int delivery_id;
     public Order() {
     }
 
-    public Order(int order_id, String date, int customer_id, int totalmoney, int store_id, String status, String receiver_name, String receiver_phone, String receiver_address, String paymentStatus) {
+    public Order(int order_id, String date, int customer_id, int totalmoney, 
+            int store_id, String status, String receiver_name, String receiver_phone,
+            String receiver_address, String paymentStatus, int delivery_id) {
         this.order_id = order_id;
         this.date = date;
         this.customer_id = customer_id;
@@ -35,6 +37,7 @@ public class Order {
         this.receiver_phone = receiver_phone;
         this.receiver_address = receiver_address;
         this.paymentStatus = paymentStatus;
+        this.delivery_id = delivery_id;
     }
 
     public int getOrder_id() {
@@ -51,6 +54,14 @@ public class Order {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public int getDelivery_id() {
+        return delivery_id;
+    }
+
+    public void setDelivery_id(int delivery_id) {
+        this.delivery_id = delivery_id;
     }
 
     public int getCustomer_id() {

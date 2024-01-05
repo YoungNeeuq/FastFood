@@ -19,15 +19,15 @@ import model.DeliveryPerson;
  * @author Asus
  */
 public class DeliveryPersonDAO {
-    
+
     private final DBContext db;
-    
+
     public DeliveryPersonDAO() throws Exception {
         db = new DBContext();
     }
-    
+
     public ArrayList<DeliveryPerson> getAll() {
-        
+
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -36,11 +36,11 @@ public class DeliveryPersonDAO {
                     + "deliveryUnit FROM DeliveryPerson";
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
-            
+
             ArrayList<DeliveryPerson> deliverList = new ArrayList<>();
-            
+
             rs = ps.executeQuery();
-            
+
             while (rs.next()) {
                 DeliveryPerson d = new DeliveryPerson();
                 d.setDelivery_id(rs.getInt("delivery_id"));
@@ -55,9 +55,9 @@ public class DeliveryPersonDAO {
             return deliverList;
         } catch (SQLException ex) {
             Logger.getLogger(DeliveryPersonDAO.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         } finally {
-            
+
             if (rs != null) {
                 try {
                     rs.close();
@@ -80,24 +80,24 @@ public class DeliveryPersonDAO {
                 }
             }
         }
-        
+
         return null;
-        
+
     }
-    
+
     public DeliveryPerson getDeliveryPerson(String username, String password) {
         try {
             String sql = "SELECT * FROM DeliveryPerson WHERE username = ? AND password = ?;";
             Connection connection = null;
-            
+
             connection = db.getConnection();
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, password);
-            
+
             ResultSet rs = ps.executeQuery();
             DeliveryPerson d = new DeliveryPerson();
-            
+
             while (rs.next()) {
                 d.setDelivery_id(rs.getInt("delivery_id"));
                 d.setName(rs.getString("name"));
@@ -106,17 +106,57 @@ public class DeliveryPersonDAO {
                 d.setUsername(rs.getString("username"));
                 d.setPassword(rs.getString("password"));
                 d.setRole(rs.getString("role"));
-                
+
                 return d;
             }
-            
+
             rs.close();
             ps.close();
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(DeliveryPersonDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
+
+    public String getNameById(int delivery_id) {
+        try {
+            String sql = "SELECT delivery_id, name FROM DeliveryPerson WHERE delivery_id = ?";
+            Connection connection = db.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, delivery_id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String name = rs.getString("name");
+                return name;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DeliveryPersonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public String getPhoneById(int delivery_id) {
+        try {
+            String sql = "SELECT delivery_id, phoneNumber FROM DeliveryPerson WHERE delivery_id = ?";
+            Connection connection = db.getConnection();
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, delivery_id);
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String phone = rs.getString("phoneNumber");
+                return phone;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(DeliveryPersonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
 }

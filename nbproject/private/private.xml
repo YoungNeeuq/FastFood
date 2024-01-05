@@ -3,10 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/statisticByStore.jsp</file>
-            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/statisticByMonthDetail.jsp</file>
             <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/succeedOrderDetail.jsp</file>
-            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/vnpay_pay.jsp</file>
+            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/delivery.jsp</file>
+            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/src/java/deliveryController/DeliveredOrderServlet.java</file>
+            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/WEB-INF/web.xml</file>
+            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/deliveredOrderDetail.jsp</file>
+            <file>file:/D:/FPT%20Nam%203/FINAL%20PROJECT/web/deliveredOrder.jsp</file>
         </group>
     </open-files>
 </project-private>

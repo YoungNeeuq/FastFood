@@ -29,9 +29,9 @@ import model.YearCount;
  * @author Asus
  */
 public class OrderDAO {
-
+    
     private final DBContext db;
-
+    
     public OrderDAO() throws Exception {
         db = new DBContext();
     }
@@ -76,9 +76,9 @@ public class OrderDAO {
                     st2.executeUpdate();
                 }
             }
-
+            
         } catch (Exception ex) {
-
+            
         }
     }
 //------------------------ get item by order id--------------------------
@@ -88,7 +88,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "  SELECT od.order_id, od.dish_id, od.numberOfDish, d.name, od.price\n"
                     + "FROM OrderDetail od\n"
@@ -98,10 +98,10 @@ public class OrderDAO {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 OrderDetail orderDetail = new OrderDetail();
-
+                
                 orderDetail.setOrder_id(rs.getInt("order_id"));
                 orderDetail.setProduct_id(rs.getInt("dish_id"));
                 orderDetail.setQuantity(rs.getInt("numberOfDish"));
@@ -109,7 +109,7 @@ public class OrderDAO {
                 orderDetail.setName(rs.getString("name"));
                 list.add(orderDetail);
             }
-
+            
             return list;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -146,16 +146,16 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = " Select order_id, customer_id, store_id, total_price, date, status from [KFCStore].[dbo].[Order]";
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
-
+            
             ArrayList<Order> list = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -164,10 +164,10 @@ public class OrderDAO {
                 order.setTotalmoney(rs.getInt("total_price"));
                 order.setDate(rs.getString("date"));
                 order.setStatus(rs.getString("status"));
-
+                
                 list.add(order);
             }
-
+            
             return list;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -196,7 +196,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 //--------------------------- get item by order_id --------------------------
@@ -205,17 +205,17 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "select order_id, dish_id, numberOfDish, price,name, image from OrderDetail where order_id = ?";
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
-
+            
             ArrayList<OrderDetail> list = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.setOrder_id(rs.getInt("order_id"));
@@ -226,7 +226,7 @@ public class OrderDAO {
                 orderDetail.setImage(rs.getString("image"));
                 list.add(orderDetail);
             }
-
+            
             return list;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -255,7 +255,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 //--------------------- get name of dish by order_id --------------------
@@ -267,10 +267,10 @@ public class OrderDAO {
                     + "FROM OrderDetail od\n"
                     + "JOIN Dish d ON od.dish_id = d.dish_id\n"
                     + "where d.dish_id = ? and od.order_id = ?";
-
+            
             Connection connection = null;
             ResultSet rs = null;
-
+            
             connection = db.getConnection();
             try ( PreparedStatement ps = connection.prepareStatement(sqlCellphone)) {
                 ps.setInt(1, dish_id);
@@ -278,7 +278,7 @@ public class OrderDAO {
                 rs = ps.executeQuery();
                 if (rs.next()) {
                     name = rs.getString("d.name");
-
+                    
                 }
                 return name;
             } catch (SQLException ex) {
@@ -288,7 +288,7 @@ public class OrderDAO {
                     rs.close();
                 }
             }
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(DishDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -299,7 +299,7 @@ public class OrderDAO {
     public void resetStatus(int order_id, String status, int delivery_id) {
         Connection connection = null;
         PreparedStatement ps = null;
-
+        
         try {
             String sql = "update [KFCStore].[dbo].[Order] set status = ?, delivery_id = ? where order_id = ?";
             connection = db.getConnection();
@@ -340,10 +340,10 @@ public class OrderDAO {
                 + "store_id, receiver_address, receiver_phone,receiver_name,pStatus,"
                 + " total_price, date, status FROM [KFCStore].[dbo].[Order] WHERE status=?")) {
             ps.setString(1, status);
-
+            
             try ( ResultSet rs = ps.executeQuery()) {
                 List<Order> list = new ArrayList<>();
-
+                
                 while (rs.next()) {
                     Order order = new Order();
                     order.setOrder_id(rs.getInt("order_id"));
@@ -358,26 +358,26 @@ public class OrderDAO {
                     order.setStatus(rs.getString("status"));
                     list.add(order);
                 }
-
+                
                 return list;
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         return null;
     }
 //----------------------getOrderByStatusID (order history)-----------------
 
     public List<Order> getOrderByStatusID(String status, int customer_id) {
         try ( Connection connection = db.getConnection();  PreparedStatement ps = connection.prepareStatement("SELECT order_id, customer_id, store_id,"
-                + " total_price, date, status FROM [KFCStore].[dbo].[Order] WHERE status=? and customer_id =?")) {
+                + " total_price, date, status, delivery_id FROM [KFCStore].[dbo].[Order] WHERE status=? and customer_id =?")) {
             ps.setString(1, status);
             ps.setInt(2, customer_id);
-
+            
             try ( ResultSet rs = ps.executeQuery()) {
                 List<Order> list = new ArrayList<>();
-
+                
                 while (rs.next()) {
                     Order order = new Order();
                     order.setOrder_id(rs.getInt("order_id"));
@@ -386,15 +386,16 @@ public class OrderDAO {
                     order.setTotalmoney(rs.getInt("total_price"));
                     order.setDate(rs.getString("date"));
                     order.setStatus(rs.getString("status"));
+                    order.setDelivery_id(rs.getInt("delivery_id"));
                     list.add(order);
                 }
-
+                
                 return list;
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         return null;
     }
 //------------------------getOrderByCusId (status: pending, cancel, succeed for order tracking)----------------
@@ -403,17 +404,17 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "select order_id, store_id, total_price, date, status from [KFCStore].[dbo].[Order] where customer_id = ?";
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setInt(1, id);
-
+            
             ArrayList<Order> list = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -421,10 +422,10 @@ public class OrderDAO {
                 order.setTotalmoney(rs.getInt("total_price"));
                 order.setDate(rs.getString("date"));
                 order.setStatus(rs.getString("status"));
-
+                
                 list.add(order);
             }
-
+            
             return list;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -453,7 +454,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 //------------------ cancel order-----------------------------
@@ -463,18 +464,18 @@ public class OrderDAO {
         String sql = "SELECT SUM(total_price) as total_succeed_price\n"
                 + "FROM [KFCStore].[dbo].[Order]\n"
                 + "WHERE pStatus = 'Paid'";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql);  ResultSet resultSet = statement.executeQuery()) {
-
+            
             if (resultSet.next()) {
                 return resultSet.getInt("total_succeed_price");
             }
-
+            
         } catch (SQLException ex) {
             // Xử lý lỗi nếu cần
             ex.printStackTrace();
         }
-
+        
         return 0; // khong tim thay ket qua
     }
 //--------------------- total revenue by store-------------------
@@ -483,21 +484,21 @@ public class OrderDAO {
         String sql = "SELECT SUM(total_price) as total_succeed_price\n"
                 + "FROM [KFCStore].[dbo].[Order]\n"
                 + "WHERE pStatus = 'Paid' and store_id = ?";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            
             statement.setInt(1, store_id); // Gán tham số store_id
             try ( ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt("total_succeed_price");
                 }
             }
-
+            
         } catch (SQLException ex) {
             // Xử lý lỗi nếu cần
             ex.printStackTrace();
         }
-
+        
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
 
@@ -506,7 +507,7 @@ public class OrderDAO {
         String sql = "SELECT SUM(total_price) as total_succeed_price\n"
                 + "FROM [KFCStore].[dbo].[Order]\n"
                 + "WHERE status = ? and customer_id = ?";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, status);
             statement.setInt(2, customer_id); // Gán tham số store_id
@@ -515,12 +516,12 @@ public class OrderDAO {
                     return resultSet.getInt("total_succeed_price");
                 }
             }
-
+            
         } catch (SQLException ex) {
             // Xử lý lỗi nếu cần
             ex.printStackTrace();
         }
-
+        
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
 //---------------------------list succeed order by store (store statistic)-------------
@@ -529,7 +530,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "Select order_id, total_price, date, customer_id, store_id,"
                     + " status,  receiver_name, receiver_phone,receiver_address, pStatus"
@@ -537,11 +538,11 @@ public class OrderDAO {
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setInt(1, store_id);
-
+            
             ArrayList<Order> listDetail = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -553,11 +554,11 @@ public class OrderDAO {
                 order.setReceiver_name(rs.getString("receiver_name"));
                 order.setReceiver_address(rs.getString("receiver_address"));
                 order.setStatus(rs.getString("status"));
-
+                
                 order.setPaymentStatus(rs.getString("pStatus"));
                 listDetail.add(order);
             }
-
+            
             return listDetail;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -586,7 +587,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 
@@ -595,7 +596,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "Select order_id, total_price, date, customer_id, store_id,"
                     + " status, receiver_name, receiver_phone,receiver_address, pStatus"
@@ -605,9 +606,9 @@ public class OrderDAO {
             ps.setInt(1, store_id);
             ps.setString(2, status);
             ArrayList<Order> listDetail = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -622,7 +623,7 @@ public class OrderDAO {
                 order.setPaymentStatus(rs.getString("pStatus"));
                 listDetail.add(order);
             }
-
+            
             return listDetail;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -651,7 +652,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 
@@ -660,7 +661,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "SELECT order_id, customer_id, store_id, total_price, date, status "
                     + "FROM [KFCStore].[dbo].[Order] "
@@ -668,11 +669,11 @@ public class OrderDAO {
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setString(1, date);
-
+            
             ArrayList<Order> listOrder = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -681,10 +682,10 @@ public class OrderDAO {
                 order.setTotalmoney(rs.getInt("total_price"));
                 order.setDate(rs.getString("date"));
                 order.setStatus(rs.getString("status"));
-
+                
                 listOrder.add(order);
             }
-
+            
             return listOrder;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -713,7 +714,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 
@@ -722,7 +723,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "SELECT order_id, customer_id, store_id, total_price, date, status,"
                     + "pStatus "
@@ -732,11 +733,11 @@ public class OrderDAO {
             ps = connection.prepareStatement(sql);
             ps.setString(1, date);
             ps.setInt(2, store_id);
-
+            
             ArrayList<Order> listOrder = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -748,7 +749,7 @@ public class OrderDAO {
                 order.setPaymentStatus(rs.getString("pStatus"));
                 listOrder.add(order);
             }
-
+            
             return listOrder;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -777,7 +778,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 
@@ -786,7 +787,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "SELECT order_id,customer_id,store_id,total_price,date,status\n"
                     + "FROM [KFCStore].[dbo].[Order]\n"
@@ -796,9 +797,9 @@ public class OrderDAO {
             ps.setInt(1, year);
             ps.setInt(2, month);
             ArrayList<Order> listOrder = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -807,10 +808,10 @@ public class OrderDAO {
                 order.setTotalmoney(rs.getInt("total_price"));
                 order.setDate(rs.getString("date"));
                 order.setStatus(rs.getString("status"));
-
+                
                 listOrder.add(order);
             }
-
+            
             return listOrder;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -839,7 +840,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 
@@ -848,7 +849,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "SELECT order_id,customer_id,store_id,total_price,date,status,"
                     + "pStatus\n"
@@ -860,9 +861,9 @@ public class OrderDAO {
             ps.setInt(2, month);
             ps.setInt(3, store_id);
             ArrayList<Order> listOrder = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -872,10 +873,10 @@ public class OrderDAO {
                 order.setDate(rs.getString("date"));
                 order.setStatus(rs.getString("status"));
                 order.setPaymentStatus(rs.getString("pStatus"));
-
+                
                 listOrder.add(order);
             }
-
+            
             return listOrder;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -904,7 +905,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 //------------------ get order according to year------------------
@@ -913,7 +914,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "SELECT order_id,customer_id,store_id,total_price,date,status\n"
                     + "FROM [KFCStore].[dbo].[Order]\n"
@@ -921,11 +922,11 @@ public class OrderDAO {
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setInt(1, year);
-
+            
             ArrayList<Order> listOrder = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -934,10 +935,10 @@ public class OrderDAO {
                 order.setTotalmoney(rs.getInt("total_price"));
                 order.setDate(rs.getString("date"));
                 order.setStatus(rs.getString("status"));
-
+                
                 listOrder.add(order);
             }
-
+            
             return listOrder;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -966,7 +967,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 //----------------------------------------------------------
@@ -975,7 +976,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "SELECT order_id,customer_id,store_id,total_price,date,status,"
                     + "pStatus\n"
@@ -985,11 +986,11 @@ public class OrderDAO {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, year);
             ps.setInt(2, store_id);
-
+            
             ArrayList<Order> listOrder = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -1001,7 +1002,7 @@ public class OrderDAO {
                 order.setPaymentStatus(rs.getString("pStatus"));
                 listOrder.add(order);
             }
-
+            
             return listOrder;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -1030,7 +1031,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
     //---------------------- total revenue by date--------------------
@@ -1042,21 +1043,21 @@ public class OrderDAO {
                 + "FROM [KFCStore].[dbo].[Order]\n"
                 + "WHERE CONVERT(DATE, date) = ? \n"
                 + "AND status = 'Succeed'";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            
             statement.setString(1, date);
             try ( ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt("total_price");
                 }
             }
-
+            
         } catch (SQLException ex) {
             // Xử lý lỗi nếu cần
             ex.printStackTrace();
         }
-
+        
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
 
@@ -1069,9 +1070,9 @@ public class OrderDAO {
                 + "WHERE CONVERT(DATE, date) = ? \n"
                 + "AND status = 'succeed' "
                 + "AND store_id = ?";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            
             statement.setString(1, date);
             statement.setInt(2, store_id);
             try ( ResultSet resultSet = statement.executeQuery()) {
@@ -1079,12 +1080,12 @@ public class OrderDAO {
                     return resultSet.getInt("total_price");
                 }
             }
-
+            
         } catch (SQLException ex) {
             // Xử lý lỗi nếu cần
             ex.printStackTrace();
         }
-
+        
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
 
@@ -1096,9 +1097,9 @@ public class OrderDAO {
                 + "FROM [KFCStore].[dbo].[Order]\n"
                 + "WHERE YEAR(date) = ? AND MONTH(date) = ? \n"
                 + " AND status = 'succeed'";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            
             statement.setInt(1, year);
             statement.setInt(2, month);
             try ( ResultSet resultSet = statement.executeQuery()) {
@@ -1106,12 +1107,12 @@ public class OrderDAO {
                     return resultSet.getInt("total_price");
                 }
             }
-
+            
         } catch (SQLException ex) {
             // Xử lý lỗi nếu cần
             ex.printStackTrace();
         }
-
+        
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
 
@@ -1124,9 +1125,9 @@ public class OrderDAO {
                 + "WHERE YEAR(date) = ? AND MONTH(date) = ? \n"
                 + " AND status = 'Succeed'"
                 + "AND store_id = ?";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            
             statement.setInt(1, year);
             statement.setInt(2, month);
             statement.setInt(3, store_id);
@@ -1135,12 +1136,12 @@ public class OrderDAO {
                     return resultSet.getInt("total_price");
                 }
             }
-
+            
         } catch (SQLException ex) {
             // Xử lý lỗi nếu cần
             ex.printStackTrace();
         }
-
+        
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
 
@@ -1152,25 +1153,25 @@ public class OrderDAO {
                 + " FROM [KFCStore].[dbo].[Order]\n"
                 + " WHERE YEAR(date) = ? \n"
                 + "AND status = 'succeed'";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            
             statement.setInt(1, year);
-
+            
             try ( ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt("total_price");
                 }
             }
-
+            
         } catch (SQLException ex) {
             // Xử lý lỗi nếu cần
             ex.printStackTrace();
         }
-
+        
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
-
+    
     public int sumOrderOfStoreByYear(int year, int store_id) {
         String sql = "SELECT \n"
                 + "SUM(total_price) AS total_price,\n"
@@ -1179,23 +1180,23 @@ public class OrderDAO {
                 + " WHERE YEAR(date) = ? \n"
                 + "AND status = 'succeed'"
                 + "AND store_id = ?";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            
             statement.setInt(1, year);
             statement.setInt(2, store_id);
-
+            
             try ( ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt("total_price");
                 }
             }
-
+            
         } catch (SQLException ex) {
             // Xử lý lỗi nếu cần
             ex.printStackTrace();
         }
-
+        
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
 
@@ -1205,7 +1206,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "SELECT order_id, customer_id, store_id, total_price, date, status "
                     + "FROM [KFCStore].[dbo].[Order] "
@@ -1215,9 +1216,9 @@ public class OrderDAO {
             ps.setString(1, date);
             ps.setInt(2, customer_id);
             ArrayList<Order> listOrder = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -1226,10 +1227,10 @@ public class OrderDAO {
                 order.setTotalmoney(rs.getInt("total_price"));
                 order.setDate(rs.getString("date"));
                 order.setStatus(rs.getString("status"));
-
+                
                 listOrder.add(order);
             }
-
+            
             return listOrder;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -1258,7 +1259,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 
@@ -1267,7 +1268,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "SELECT order_id,customer_id,store_id,total_price,date,status\n"
                     + "FROM [KFCStore].[dbo].[Order]\n"
@@ -1278,9 +1279,9 @@ public class OrderDAO {
             ps.setInt(2, month);
             ps.setInt(3, customer_id);
             ArrayList<Order> listOrder = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -1289,10 +1290,10 @@ public class OrderDAO {
                 order.setTotalmoney(rs.getInt("total_price"));
                 order.setDate(rs.getString("date"));
                 order.setStatus(rs.getString("status"));
-
+                
                 listOrder.add(order);
             }
-
+            
             return listOrder;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -1321,7 +1322,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 //------------------ get order according to year------------------
@@ -1330,7 +1331,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = "SELECT order_id,customer_id,store_id,total_price,date,status\n"
                     + "FROM [KFCStore].[dbo].[Order]\n"
@@ -1338,11 +1339,11 @@ public class OrderDAO {
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setInt(1, year);
-
+            
             ArrayList<Order> listOrder = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -1351,10 +1352,10 @@ public class OrderDAO {
                 order.setTotalmoney(rs.getInt("total_price"));
                 order.setDate(rs.getString("date"));
                 order.setStatus(rs.getString("status"));
-
+                
                 listOrder.add(order);
             }
-
+            
             return listOrder;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -1383,7 +1384,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 
@@ -1395,9 +1396,9 @@ public class OrderDAO {
                 + "FROM [KFCStore].[dbo].[Order]\n"
                 + "WHERE CONVERT(DATE, date) = ? and customer_id = ? \n"
                 + "AND status = 'succeed'";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            
             statement.setString(1, date);
             statement.setInt(2, customer_id);
             try ( ResultSet resultSet = statement.executeQuery()) {
@@ -1405,12 +1406,12 @@ public class OrderDAO {
                     return resultSet.getInt("total_price");
                 }
             }
-
+            
         } catch (SQLException ex) {
             // Xử lý lỗi nếu cần
             ex.printStackTrace();
         }
-
+        
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
 
@@ -1422,9 +1423,9 @@ public class OrderDAO {
                 + "FROM [KFCStore].[dbo].[Order]\n"
                 + "WHERE YEAR(date) = ? AND MONTH(date) = ? AND customer_id = ?\n"
                 + " AND status = 'succeed'";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            
             statement.setInt(1, year);
             statement.setInt(2, month);
             statement.setInt(3, customer_id);
@@ -1433,12 +1434,12 @@ public class OrderDAO {
                     return resultSet.getInt("total_price");
                 }
             }
-
+            
         } catch (SQLException ex) {
             // Xử lý lỗi nếu cần
             ex.printStackTrace();
         }
-
+        
         return 0; // Trả về 0 nếu có lỗi hoặc không tìm thấy kết quả
     }
 
@@ -1450,23 +1451,23 @@ public class OrderDAO {
                 + " FROM [KFCStore].[dbo].[Order]\n"
                 + " WHERE YEAR(date) = ? \n"
                 + "AND status = 'succeed'";
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement statement = connection.prepareStatement(sql)) {
-
+            
             statement.setInt(1, year);
             statement.setInt(2, customer_id);
-
+            
             try ( ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt("total_price");
                 }
             }
-
+            
         } catch (SQLException ex) {
             // loi
             ex.printStackTrace();
         }
-
+        
         return 0;
     }
 //-------- check buy or not----
@@ -1477,11 +1478,11 @@ public class OrderDAO {
                 + "INNER JOIN [KFCStore].[dbo].[Order] o ON od.order_id = o.order_id "
                 + "WHERE o.customer_id = ? "
                 + "AND od.dish_id = ?";
-
+        
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             connection = db.getConnection();
             // Get your database connection here;
@@ -1521,13 +1522,13 @@ public class OrderDAO {
             }
         }
     }
-
+    
     public Order getOrderById(int order_id) {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         Order order = null;
-
+        
         try {
             String sql = "SELECT order_id, customer_id, store_id, total_price, date, status, pStatus, receiver_name,"
                     + "receiver_address, receiver_phone FROM [KFCStore].[dbo].[Order] WHERE order_id = ?";
@@ -1535,9 +1536,9 @@ public class OrderDAO {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, order_id);
             rs = ps.executeQuery();
-
+            
             if (rs.next()) {
-
+                
                 order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
                 order.setCustomer_id(rs.getInt("customer_id"));
@@ -1550,10 +1551,10 @@ public class OrderDAO {
                 order.setReceiver_phone(rs.getString("receiver_phone"));
             }
         } catch (SQLException ex) {
-
+            
             ex.printStackTrace();
         } finally {
-
+            
             if (rs != null) {
                 try {
                     rs.close();
@@ -1576,7 +1577,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return order;
     }
 
@@ -1585,7 +1586,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = " Select order_id, total_price, date, customer_id, store_id,\n"
                     + "                  status, receiver_name, receiver_phone,receiver_address, pStatus \n"
@@ -1595,11 +1596,11 @@ public class OrderDAO {
             ps = connection.prepareStatement(sql);
             ps.setInt(1, store_id);
             ps.setString(2, status);
-
+            
             ArrayList<Order> listDetail = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -1607,7 +1608,7 @@ public class OrderDAO {
                 order.setTotalmoney(rs.getInt("total_price"));
                 order.setDate(rs.getString("date"));
                 order.setStore_id(rs.getInt("store_id"));
-
+                
                 order.setStatus(rs.getString("status"));
                 order.setReceiver_phone(rs.getString("receiver_phone"));
                 order.setReceiver_name(rs.getString("receiver_name"));
@@ -1615,7 +1616,7 @@ public class OrderDAO {
                 order.setPaymentStatus(rs.getString("pStatus"));
                 listDetail.add(order);
             }
-
+            
             return listDetail;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -1644,7 +1645,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 
@@ -1652,7 +1653,7 @@ public class OrderDAO {
     public void resetStatusPaymentStatus(int order_id, String pStatus) {
         Connection connection = null;
         PreparedStatement ps = null;
-
+        
         try {
             String sql = "update [KFCStore].[dbo].[Order] set pStatus = ? where order_id = ?";
             connection = db.getConnection();
@@ -1694,10 +1695,10 @@ public class OrderDAO {
                 + "AND pStatus=?")) {
             ps.setInt(1, store_id);
             ps.setString(2, pStatus);
-
+            
             try ( ResultSet rs = ps.executeQuery()) {
                 List<Order> list = new ArrayList<>();
-
+                
                 while (rs.next()) {
                     Order order = new Order();
                     order.setOrder_id(rs.getInt("order_id"));
@@ -1712,13 +1713,13 @@ public class OrderDAO {
                     order.setPaymentStatus(rs.getString("pStatus"));
                     list.add(order);
                 }
-
+                
                 return list;
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         return null;
     }
 //--------------total revenue of store per day of system----------------
@@ -1761,16 +1762,16 @@ public class OrderDAO {
                 + "    am.[Month]\n"
                 + "ORDER BY\n"
                 + "    am.[Month];";
-
+        
         List<MonthlyTotal> monthlyTotalList = new ArrayList<>();
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, year);
-
+            
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            
             while (resultSet.next()) {
-
+                
                 int month = resultSet.getInt("Month");
                 int monthlyTotal = resultSet.getInt("MonthlyTotal");
                 MonthlyTotal monthlyTotalObj = new MonthlyTotal(month, year, monthlyTotal);
@@ -1780,7 +1781,7 @@ public class OrderDAO {
             // Handle database connection or query errors here
             e.printStackTrace();
         }
-
+        
         return monthlyTotalList;
     }
 
@@ -1823,16 +1824,16 @@ public class OrderDAO {
                 + "    am.[Month]\n"
                 + "ORDER BY\n"
                 + "    am.[Month];\n";
-
+        
         List<MonthlyTotal> monthlyTotalList = new ArrayList<>();
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, year);
             preparedStatement.setInt(2, store_id);
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            
             while (resultSet.next()) {
-
+                
                 int month = resultSet.getInt("Month");
                 int monthlyTotal = resultSet.getInt("MonthlyTotal");
                 MonthlyTotal monthlyTotalObj = new MonthlyTotal(month, year, monthlyTotal);
@@ -1842,7 +1843,7 @@ public class OrderDAO {
             // Handle database connection or query errors here
             e.printStackTrace();
         }
-
+        
         return monthlyTotalList;
     }
 
@@ -1904,17 +1905,17 @@ public class OrderDAO {
                 + "    ad.[Day]\n"
                 + "ORDER BY\n"
                 + "    ad.[Day];";
-
+        
         List<DailyTotal> dailyTotalList = new ArrayList<>();
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, year);
             preparedStatement.setInt(2, month);
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            
             while (resultSet.next()) {
                 int date = resultSet.getInt("Day");
-
+                
                 int dailyTotal = resultSet.getInt("DailyTotal");
                 DailyTotal dailyTotalObj = new DailyTotal(date, month, dailyTotal);
                 dailyTotalList.add(dailyTotalObj);
@@ -1923,7 +1924,7 @@ public class OrderDAO {
             // Handle database connection or query errors here
             e.printStackTrace();
         }
-
+        
         return dailyTotalList;
     }
 
@@ -1986,18 +1987,18 @@ public class OrderDAO {
                 + "    ad.[Day]\n"
                 + "ORDER BY\n"
                 + "    ad.[Day];";
-
+        
         List<DailyTotal> dailyTotalList = new ArrayList<>();
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, year);
             preparedStatement.setInt(2, month);
             preparedStatement.setInt(3, store_id);
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            
             while (resultSet.next()) {
                 int date = resultSet.getInt("Day");
-
+                
                 int dailyTotal = resultSet.getInt("DailyTotal");
                 DailyTotal dailyTotalObj = new DailyTotal(date, month, dailyTotal);
                 dailyTotalList.add(dailyTotalObj);
@@ -2006,7 +2007,7 @@ public class OrderDAO {
             // Handle database connection or query errors here
             e.printStackTrace();
         }
-
+        
         return dailyTotalList;
     }
 
@@ -2029,15 +2030,15 @@ public class OrderDAO {
                 + "                GROUP BY Months.MonthNumber\n"
                 + "                ORDER BY Months.MonthNumber;";
         List<YearCount> countList = new ArrayList<>();
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, year);
-
+            
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            
             while (resultSet.next()) {
                 int month = resultSet.getInt("MonthNumber");
-
+                
                 int count = resultSet.getInt("OrderCount");
                 YearCount countObj = new YearCount(month, year, count);
                 countList.add(countObj);
@@ -2046,7 +2047,7 @@ public class OrderDAO {
             // Handle database connection or query errors here
             e.printStackTrace();
         }
-
+        
         return countList;
     }
 
@@ -2070,16 +2071,16 @@ public class OrderDAO {
                 + "GROUP BY Months.MonthNumber\n"
                 + "ORDER BY Months.MonthNumber;";
         List<YearCount> countList = new ArrayList<>();
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, year);
             preparedStatement.setInt(2, store_id);
-
+            
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            
             while (resultSet.next()) {
                 int month = resultSet.getInt("MonthNumber");
-
+                
                 int count = resultSet.getInt("OrderCount");
                 YearCount countObj = new YearCount(month, year, count);
                 countList.add(countObj);
@@ -2088,7 +2089,7 @@ public class OrderDAO {
             // Handle database connection or query errors here
             e.printStackTrace();
         }
-
+        
         return countList;
     }
 
@@ -2112,15 +2113,15 @@ public class OrderDAO {
                 + "GROUP BY Days.DayNumber\n"
                 + "ORDER BY Days.DayNumber;";
         List<MonthCount> countList = new ArrayList<>();
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, month);
             preparedStatement.setInt(2, year);
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            
             while (resultSet.next()) {
                 int date = resultSet.getInt("DayNumber");
-
+                
                 int count = resultSet.getInt("OrderCount");
                 MonthCount countObj = new MonthCount(year, month, date, count);
                 countList.add(countObj);
@@ -2129,7 +2130,7 @@ public class OrderDAO {
             // Handle database connection or query errors here
             e.printStackTrace();
         }
-
+        
         return countList;
     }
 
@@ -2154,16 +2155,16 @@ public class OrderDAO {
                 + "GROUP BY Days.DayNumber\n"
                 + "ORDER BY Days.DayNumber;";
         List<MonthCount> countList = new ArrayList<>();
-
+        
         try ( Connection connection = db.getConnection();  PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, month);
             preparedStatement.setInt(2, year);
             preparedStatement.setInt(3, store_id);
             ResultSet resultSet = preparedStatement.executeQuery();
-
+            
             while (resultSet.next()) {
                 int date = resultSet.getInt("DayNumber");
-
+                
                 int count = resultSet.getInt("OrderCount");
                 MonthCount countObj = new MonthCount(year, month, date, count);
                 countList.add(countObj);
@@ -2172,7 +2173,7 @@ public class OrderDAO {
             // Handle database connection or query errors here
             e.printStackTrace();
         }
-
+        
         return countList;
     }
 
@@ -2183,10 +2184,10 @@ public class OrderDAO {
                 + " total_price, date, status FROM [KFCStore].[dbo].[Order] WHERE status=? or status= ?")) {
             ps.setString(1, status1);
             ps.setString(2, status2);
-
+            
             try ( ResultSet rs = ps.executeQuery()) {
                 List<Order> list = new ArrayList<>();
-
+                
                 while (rs.next()) {
                     Order order = new Order();
                     order.setOrder_id(rs.getInt("order_id"));
@@ -2201,13 +2202,13 @@ public class OrderDAO {
                     order.setStatus(rs.getString("status"));
                     list.add(order);
                 }
-
+                
                 return list;
             }
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         return null;
     }
 
@@ -2216,7 +2217,7 @@ public class OrderDAO {
         Connection connection = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-
+        
         try {
             String sql = " Select order_id, total_price, date, customer_id, store_id,\n"
                     + "status, receiver_name, receiver_phone,receiver_address, pStatus \n"
@@ -2224,11 +2225,11 @@ public class OrderDAO {
             connection = db.getConnection();
             ps = connection.prepareStatement(sql);
             ps.setInt(1, delivery_id);
-
+            
             ArrayList<Order> deliveredList = new ArrayList<>();
-
+            
             rs = ps.executeQuery();
-
+            
             while (rs.next()) {
                 Order order = new Order();
                 order.setOrder_id(rs.getInt("order_id"));
@@ -2243,7 +2244,7 @@ public class OrderDAO {
                 order.setPaymentStatus(rs.getString("pStatus"));
                 deliveredList.add(order);
             }
-
+            
             return deliveredList;
         } catch (SQLException ex) {
             Logger.getLogger(OrderDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -2272,7 +2273,7 @@ public class OrderDAO {
                 }
             }
         }
-
+        
         return null;
     }
 }

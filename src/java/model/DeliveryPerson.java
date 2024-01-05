@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author Asus
@@ -23,7 +25,7 @@ public class DeliveryPerson {
 
     public DeliveryPerson(int delivery_id, String name, String phonenNumber,
             String deliveryUnit, String username,
-             String password, String role) {
+            String password, String role) {
         this.delivery_id = delivery_id;
         this.name = name;
         this.phonenNumber = phonenNumber;
@@ -87,6 +89,17 @@ public class DeliveryPerson {
 
     public void setDeliveryUnit(String deliveryUnit) {
         this.deliveryUnit = deliveryUnit;
+    }
+
+    public String getNameById(List<DeliveryPerson> list, int id) {
+
+        String name = null;
+        for (DeliveryPerson d : list) {
+            if (d.getDelivery_id() == id) {
+                return d.getName();
+            }
+        }
+        return name;
     }
 
     @Override

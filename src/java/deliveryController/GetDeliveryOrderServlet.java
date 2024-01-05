@@ -68,6 +68,7 @@ public class GetDeliveryOrderServlet extends HttpServlet {
             response.setCharacterEncoding("UTF-8");
             OrderDAO orderDAO = new OrderDAO();
             DeliveryPerson d = (DeliveryPerson) session.getAttribute("deliveryPerson");
+   
             List<Order> listOrder = orderDAO.getOrderByStatusD("Delivering", "Waiting for delivery");
             request.setAttribute("listOrder", listOrder);
             request.setAttribute("deliveryPerson", d);

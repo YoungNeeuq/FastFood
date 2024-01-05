@@ -4,6 +4,7 @@
     Author     : Asus
 --%>
 
+<%@page import="dal.DeliveryPersonDAO"%>
 <%@page import="dal.StoreDAO"%>
 <%@page import="model.Customer"%>
 <%@page import="dal.CustomerDAO"%>
@@ -166,21 +167,35 @@
                         <th scope="col">Mã đơn hàng</th>
                         <th scope="col">Cửa hàng</th>
                         <th scope="col">Tổng tiền</th>
-                        <th scope="col">Ngày đặt hàng</th>                          
+                        <th scope="col">Ngày đặt hàng</th>     
+                        <th scope="col">Người giao hàng</th>
+                        <th scope="col">Số điện thoại</th>
                         <th scope="col">Trạng thái</th>
                         <th scope="col">Hoạt động</th>
 
                     </tr>
                 </thead>
                 <tbody>
+                    <%
+
+                        DeliveryPersonDAO d = new DeliveryPersonDAO();
+
+                    %>
                     <c:forEach var="order" items="<%= deliveringList%>">
                         <tr>
                             <td> ${order.getOrder_id()}</td>
 
                             <c:set var="store_id" value="${order.getStore_id()}"></c:set>
+                            <c:set var="name" value="${d.getNameById(2)}" />
+                            <c:set var="delivery_id" value="${order.getDelivery_id()}" />
+
                             <td><%= storeDAO.getStoreById((int) pageContext.getAttribute("store_id")).getStore_name()%></td>
                             <td> ${order.getTotalmoney()} đ</td>
                             <td> ${order.getDate()}</td>
+
+                            <td><%= d.getNameById((int) pageContext.getAttribute("delivery_id"))%></td>
+                            <td><%= d.getPhoneById((int) pageContext.getAttribute("delivery_id"))%></td>
+
                             <td> ${order.getStatus()}</td>
                             <td>
                                 <form action="DeliveringOrderServlet" method="POST">
@@ -192,9 +207,9 @@
                     </c:forEach>
                 </tbody>
             </table>
-<h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${sum} đ</h4>
+            <h4 style="text-align: end;  padding-right: 40px;">Tổng tiền: ${sum} đ</h4>
         </div>
-              
+
         <footer id="footer" class="footer">
 
             <div class="container">
